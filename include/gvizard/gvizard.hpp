@@ -1,0 +1,4 @@
+#ifndef GVIZARD_GVIZARD_HPP_
+#define GVIZARD_GVIZARD_HPP_
+
+#endif  // GVIZARD_GVIZARD_HPP_
