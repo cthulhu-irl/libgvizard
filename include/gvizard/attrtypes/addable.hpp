@@ -42,19 +42,34 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 };
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
-  AddDouble& operator+(const AddDouble& other)
-  {
-    value += other.value;
-    return *this;
-  };
+  AddDouble(double val) : AddibleBase(val) {}
+
+  operator double() const { return value; }
 
   AddDouble& operator+(double other)
   {
     value += other;
     return *this;
   };
-};
 
+  AddDouble& operator-(double other)
+  {
+    value -= other;
+    return *this;
+  };
+
+  AddDouble& operator*(double other)
+  {
+    value *= other;
+    return *this;
+  };
+
+  AddDouble& operator/(double other)
+  {
+    value /= other;
+    return *this;
+  };
+};
 
 }  // namespace gvizard::attrtypes
 
