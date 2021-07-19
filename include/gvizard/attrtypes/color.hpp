@@ -134,7 +134,11 @@ namespace color_convert {
   }
 
   template <typename From, typename To>
-  inline To convert(const From&) noexcept {}
+  inline To convert(const From&) noexcept
+  {
+    static_assert(sizeof(From) == 0,
+        "given color types for color conversion are not supported.");
+  }
 
   template <>
   inline HSV
