@@ -15,11 +15,11 @@ struct AddibleBase {
   T value{};
   AddibleSign addible = AddibleSign::neutral;
 
-  static Derived make(T value) {
+  constexpr static Derived make(T value) {
     return AddibleBase{ AddibleSign::addible, std::move(value) };
   }
 
-  static Derived make(AddibleSign addible, T value)
+  constexpr static Derived make(AddibleSign addible, T value)
   {
     return AddibleBase{ AddibleBase{ addible, std::move(value) } };
   }
@@ -32,27 +32,27 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 };
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
-  operator double() const { return value; }
+  constexpr operator double() const { return value; }
 
-  AddDouble& operator+(double other)
+  constexpr AddDouble& operator+(double other)
   {
     value += other;
     return *this;
   };
 
-  AddDouble& operator-(double other)
+  constexpr AddDouble& operator-(double other)
   {
     value -= other;
     return *this;
   };
 
-  AddDouble& operator*(double other)
+  constexpr AddDouble& operator*(double other)
   {
     value *= other;
     return *this;
   };
 
-  AddDouble& operator/(double other)
+  constexpr AddDouble& operator/(double other)
   {
     value /= other;
     return *this;
