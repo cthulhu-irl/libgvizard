@@ -155,15 +155,19 @@ namespace color_convert {
     if (s == 0.0)
       return detail::hsv_zero_default;
 
+    // NOTE this will underflow if b > g, but won't be negative,
+    //      not sure if abs would be better.
+    uint8_t gb_diff = rgb.g - rgb.b;
+
     double h;
     if (max == rgb.r)
-      h = double(  0 + 43 * (rgb.g - rgb.b) / (max - min)) / 255;
+      h = double(  0 + 43 * gb_diff / (max - min)) / 255;
 
     else if (max == rgb.g)
-      h = double( 83 + 43 * (rgb.g - rgb.b) / (max - min)) / 255;
+      h = double( 83 + 43 * gb_diff / (max - min)) / 255;
 
     else // max == rgb.b
-      h = double(171 + 43 * (rgb.g - rgb.b) / (max - min)) / 255;
+      h = double(171 + 43 * gb_diff / (max - min)) / 255;
 
     return HSV::make(h, s, v).value();
   }
