@@ -3,8 +3,15 @@
 
 #include <cstdint>
 #include <optional>
-#include <exception>
+#include <stdexcept>
 #include <variant>
+
+namespace gvizard::detail {
+  [[noreturn]] inline void invalid_argument(const char *reason)
+  {
+    throw std::invalid_argument(reason);
+  }
+}
 
 namespace gvizard::attrtypes {
 
@@ -84,9 +91,14 @@ struct HSV {
   HSV(octet_t hue, octet_t saturation, octet_t value)
     : h(hue), s(saturation), v(value)
   {
-    if (h < 0.0 || 1.0 < h) throw std::exception();
-    if (s < 0.0 || 1.0 < s) throw std::exception();
-    if (v < 0.0 || 1.0 < v) throw std::exception();
+    if (h < 0.0 || 1.0 < h)
+      detail::invalid_argument("hue must be within (0, 1) range");
+
+    if (s < 0.0 || 1.0 < s)
+      detail::invalid_argument("saturation must be within (0, 1) range");
+
+    if (v < 0.0 || 1.0 < v)
+      detail::invalid_argument("value must be within (0, 1) range");
   }
 
   static std::optional<HSV> make(octet_t h, octet_t s, octet_t v) noexcept
