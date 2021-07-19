@@ -134,7 +134,7 @@ namespace color_convert {
     constexpr inline const HSV hsv_zero_default{0., 0., 0.};
   }
 
-  template <typename From, typename To>
+  template <typename To, typename From>
   constexpr inline To convert(const From&) noexcept
   {
     static_assert(sizeof(From) == 0,
@@ -143,7 +143,7 @@ namespace color_convert {
 
   template <>
   constexpr inline HSV
-  convert<RGB, HSV>(const RGB& rgb) noexcept
+  convert<HSV, RGB>(const RGB& rgb) noexcept
   {
     uint8_t min = rgb.min(), max = rgb.max();
 
@@ -175,7 +175,7 @@ namespace color_convert {
 
   template <>
   constexpr inline RGB
-  convert<HSV, RGB>(const HSV& hsv) noexcept
+  convert<RGB, HSV>(const HSV& hsv) noexcept
   {
     if (hsv.saturation() == 0.)
       return RGB{0, 0, 0};
@@ -204,30 +204,30 @@ namespace color_convert {
 
   template <>
   constexpr inline RGBA
-  convert<RGB, RGBA>(const RGB& color) noexcept
+  convert<RGBA, RGB>(const RGB& color) noexcept
   {
     return { color.r, color.g, color.b };
   }
 
   template <>
   constexpr inline RGB
-  convert<RGBA, RGB>(const RGBA& color) noexcept
+  convert<RGB, RGBA>(const RGBA& color) noexcept
   {
     return { color.r, color.g, color.b };
   }
 
   template <>
   constexpr inline HSV
-  convert<RGBA, HSV>(const RGBA& color) noexcept
+  convert<HSV, RGBA>(const RGBA& color) noexcept
   {
-    return convert<RGB, HSV>( convert<RGBA, RGB>(color) );
+    return convert<HSV, RGB>( convert<RGB, RGBA>(color) );
   }
 
   template <>
   constexpr inline RGBA
-  convert<HSV, RGBA>(const HSV& color) noexcept
+  convert<RGBA, HSV>(const HSV& color) noexcept
   {
-    return convert<RGB, RGBA>( convert<HSV, RGB>(color) );
+    return convert<RGBA, RGB>( convert<RGB, HSV>(color) );
   }
 
   // std::is_same_v<From, To> == true
@@ -246,13 +246,13 @@ namespace color_convert {
   template <typename To>
   struct visitor final {
     constexpr To operator()(const HSV& color) const
-    { return convert<HSV, To>(color); }
+    { return convert<To, HSV>(color); }
 
     constexpr To operator()(const RGB& color) const
-    { return convert<RGB, To>(color); }
+    { return convert<To, RGB>(color); }
 
     constexpr To operator()(const RGBA& color) const
-    { return convert<RGBA, To>(color); }
+    { return convert<To, RGBA>(color); }
   };
 }  // namespace color_convert
 
