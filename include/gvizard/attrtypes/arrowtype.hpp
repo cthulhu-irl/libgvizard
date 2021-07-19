@@ -116,6 +116,192 @@ struct ArrowType {
   }
 };
 
+struct arrowshapes {
+
+  // static struct
+  arrowshapes() = delete;
+
+  // -- none
+  constexpr static inline const ArrowShape none = {
+    ArrowPrimaryShape::none
+  };
+
+  // -- normal
+  constexpr static inline const ArrowShape normal = {
+    ArrowPrimaryShape::normal
+  };
+
+  constexpr static inline const ArrowShape lnormal = {
+    ArrowPrimaryShape::normal, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rnormal = {
+    ArrowPrimaryShape::normal, { ArrowSide::right }
+  };
+
+  constexpr static inline const ArrowShape onormal = {
+    ArrowPrimaryShape::normal, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape olnormal = {
+    ArrowPrimaryShape::normal, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape ornormal = {
+    ArrowPrimaryShape::normal, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  // -- box
+  constexpr static inline const ArrowShape box = {
+    ArrowPrimaryShape::box
+  };
+
+  constexpr static inline const ArrowShape lbox = {
+    ArrowPrimaryShape::box, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rbox = {
+    ArrowPrimaryShape::box, { ArrowSide::right }
+  };
+
+  constexpr static inline const ArrowShape obox = {
+    ArrowPrimaryShape::box, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape olbox = {
+    ArrowPrimaryShape::box, { ArrowSide::left, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape orbox = {
+    ArrowPrimaryShape::box, { ArrowSide::right, ArrowOpen::open }
+  };
+
+  // -- crow
+  constexpr static inline const ArrowShape crow = {
+    ArrowPrimaryShape::crow
+  };
+
+  constexpr static inline const ArrowShape lcrow = {
+    ArrowPrimaryShape::crow, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rcrow = {
+    ArrowPrimaryShape::crow, { ArrowSide::right }
+  };
+
+  // -- diamond
+  constexpr static inline const ArrowShape diamond = {
+    ArrowPrimaryShape::diamond
+  };
+
+  constexpr static inline const ArrowShape ldiamond = {
+    ArrowPrimaryShape::diamond, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rdiamond = {
+    ArrowPrimaryShape::diamond, { ArrowSide::right }
+  };
+
+  constexpr static inline const ArrowShape odiamond = {
+    ArrowPrimaryShape::diamond, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape oldiamond = {
+    ArrowPrimaryShape::diamond, { ArrowSide::left, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape ordiamond = {
+    ArrowPrimaryShape::diamond, { ArrowSide::right, ArrowOpen::open }
+  };
+
+  // -- dot
+  constexpr static inline const ArrowShape dot = {
+    ArrowPrimaryShape::dot
+  };
+
+  constexpr static inline const ArrowShape odot = {
+    ArrowPrimaryShape::dot, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  // -- inv
+  constexpr static inline const ArrowShape inv = {
+    ArrowPrimaryShape::inv
+  };
+
+  constexpr static inline const ArrowShape linv = {
+    ArrowPrimaryShape::inv, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rinv = {
+    ArrowPrimaryShape::inv, { ArrowSide::right }
+  };
+
+  constexpr static inline const ArrowShape oinv = {
+    ArrowPrimaryShape::inv, { ArrowSide::none, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape olinv = {
+    ArrowPrimaryShape::inv, { ArrowSide::left, ArrowOpen::open }
+  };
+
+  constexpr static inline const ArrowShape orinv = {
+    ArrowPrimaryShape::inv, { ArrowSide::right, ArrowOpen::open }
+  };
+
+  // -- tee
+  constexpr static inline const ArrowShape tee = {
+    ArrowPrimaryShape::tee
+  };
+
+  constexpr static inline const ArrowShape ltee = {
+    ArrowPrimaryShape::tee, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rtee = {
+    ArrowPrimaryShape::tee, { ArrowSide::right }
+  };
+
+  // -- vee
+  constexpr static inline const ArrowShape vee = {
+    ArrowPrimaryShape::vee
+  };
+
+  constexpr static inline const ArrowShape lvee = {
+    ArrowPrimaryShape::vee, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rvee = {
+    ArrowPrimaryShape::vee, { ArrowSide::right }
+  };
+
+  // -- curve
+  constexpr static inline const ArrowShape curve = {
+    ArrowPrimaryShape::curve
+  };
+
+  constexpr static inline const ArrowShape lcurve = {
+    ArrowPrimaryShape::curve, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape rcurve = {
+    ArrowPrimaryShape::curve, { ArrowSide::right }
+  };
+
+  // -- icurve
+  constexpr static inline const ArrowShape icurve = {
+    ArrowPrimaryShape::icurve
+  };
+
+  constexpr static inline const ArrowShape licurve = {
+    ArrowPrimaryShape::icurve, { ArrowSide::left }
+  };
+
+  constexpr static inline const ArrowShape ricurve = {
+    ArrowPrimaryShape::icurve, { ArrowSide::right }
+  };
+
+};  // static struct arrowshapes
+
 }  // namespace gvizard::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_ARROWTYPE_HPP_
