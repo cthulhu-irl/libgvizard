@@ -12,18 +12,8 @@ enum class AddibleSign : bool {
 
 template <typename Derived, typename T>
 struct AddibleBase {
+  T value{};
   AddibleSign addible = AddibleSign::neutral;
-  T value;
-
-  AddibleBase(T val)
-    : addible(AddibleSign::neutral)
-    , value(val)
-  {}
-
-  AddibleBase(AddibleSign addsign, T val)
-    : addible(addsign)
-    , value(val)
-  {}
 
   static Derived make(T value) {
     return AddibleBase{ AddibleSign::addible, std::move(value) };
@@ -42,7 +32,7 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 };
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
-  AddDouble(double val) : AddibleBase(val) {}
+  AddDouble(double val) : AddibleBase{val} {}
 
   operator double() const { return value; }
 
