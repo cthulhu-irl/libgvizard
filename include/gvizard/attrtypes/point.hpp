@@ -11,14 +11,14 @@ struct Point2D {
   T x;
   T y;
 
-  Point2D() : x{}, y{} {}
-  Point2D(T x, T y)
+  constexpr Point2D() : x{}, y{} {}
+  constexpr Point2D(T x, T y)
     : x(std::move(x))
     , y(std::move(y))
   {}
 
   template <typename U>
-  Point2D& operator+(const Point2D<U>& other)
+  constexpr Point2D& operator+(const Point2D<U>& other)
   {
     x += other.x;
     y += other.y;
@@ -27,7 +27,7 @@ struct Point2D {
   }
 
   template <typename U>
-  Point2D& operator-(const Point2D<U>& other)
+  constexpr Point2D& operator-(const Point2D<U>& other)
   {
     x -= other.x;
     y -= other.y;
@@ -42,15 +42,15 @@ struct Point3D {
   T y;
   T z;
 
-  Point3D() : x{}, y{}, z{} {}
-  Point3D(T x, T y, T z)
+  constexpr Point3D() : x{}, y{}, z{} {}
+  constexpr Point3D(T x, T y, T z)
     : x(std::move(x))
     , y(std::move(y))
     , z(std::move(z))
   {}
 
   template <typename U>
-  Point3D& operator+(const Point3D<U>& other)
+  constexpr Point3D& operator+(const Point3D<U>& other)
   {
     x += other.x;
     y += other.y;
@@ -60,7 +60,7 @@ struct Point3D {
   }
 
   template <typename U>
-  Point3D& operator-(const Point3D<U>& other)
+  constexpr Point3D& operator-(const Point3D<U>& other)
   {
     x -= other.x;
     y -= other.y;
