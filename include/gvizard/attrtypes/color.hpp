@@ -81,10 +81,6 @@ struct RGBA {
 struct HSV {
   using octet_t = double;
 
-  octet_t h;
-  octet_t s;
-  octet_t v;
-
   HSV(octet_t hue, octet_t saturation, octet_t value)
     : h(hue), s(saturation), v(value)
   {
@@ -108,8 +104,16 @@ struct HSV {
     return hsv;
   }
 
+  octet_t hue() const noexcept { return h; }
+  octet_t saturation() const noexcept { return s; }
+  octet_t value() const noexcept { return v; }
+
  private:
   HSV() noexcept {}
+
+  octet_t h;
+  octet_t s;
+  octet_t v;
 };
 
 namespace color_convert {
@@ -144,20 +148,19 @@ namespace color_convert {
     else // max == rgb.b
       h = double(171 + 43 * (rgb.g - rgb.b) / (max - min)) / 255;
 
-    auto hsv = detail::hsv_zero_default;
-    hsv.h = h;
-    hsv.s = s;
-    hsv.v = v;
-    return hsv;
+    return HSV::make(h, s, v).value();
   }
 
   template <>
   RGB convert<HSV, RGB>(const HSV& hsv) noexcept
   {
-    if (hsv.s == 0.0)
+    if (hsv.saturation() == 0.0)
       return RGB{0, 0, 0};
 
-    uint8_t h = hsv.h * 255, s = hsv.s * 255, v = hsv.v * 255;
+    uint8_t h = hsv.hue() * 255;
+    uint8_t s = hsv.saturation() * 255;
+    uint8_t v = hsv.value() * 255;
+
     uint8_t region, remainder, p, q, t;
 
     region = h / 43;
