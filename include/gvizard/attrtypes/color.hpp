@@ -134,10 +134,11 @@ namespace color_convert {
   }
 
   template <typename From, typename To>
-  static To convert(const From&) noexcept {}
+  inline To convert(const From&) noexcept {}
 
   template <>
-  HSV convert<RGB, HSV>(const RGB& rgb) noexcept
+  inline HSV
+  convert<RGB, HSV>(const RGB& rgb) noexcept
   {
     uint8_t min = rgb.min(), max = rgb.max();
 
@@ -164,7 +165,8 @@ namespace color_convert {
   }
 
   template <>
-  RGB convert<HSV, RGB>(const HSV& hsv) noexcept
+  inline RGB
+  convert<HSV, RGB>(const HSV& hsv) noexcept
   {
     if (hsv.saturation() == 0.0)
       return RGB{0, 0, 0};
@@ -194,38 +196,45 @@ namespace color_convert {
   }
 
   template <>
-  RGBA convert<RGB, RGBA>(const RGB& color) noexcept
+  inline RGBA
+  convert<RGB, RGBA>(const RGB& color) noexcept
   {
     return { color.r, color.g, color.b };
   }
 
   template <>
-  RGB convert<RGBA, RGB>(const RGBA& color) noexcept
+  inline RGB
+  convert<RGBA, RGB>(const RGBA& color) noexcept
   {
     return { color.r, color.g, color.b };
   }
 
   template <>
-  HSV convert<RGBA, HSV>(const RGBA& color) noexcept
+  inline HSV
+  convert<RGBA, HSV>(const RGBA& color) noexcept
   {
     return convert<RGB, HSV>( convert<RGBA, RGB>(color) );
   }
 
   template <>
-  RGBA convert<HSV, RGBA>(const HSV& color) noexcept
+  inline RGBA
+  convert<HSV, RGBA>(const HSV& color) noexcept
   {
     return convert<RGB, RGBA>( convert<HSV, RGB>(color) );
   }
 
   // std::is_same_v<From, To> == true
   template <>
-  RGB convert<RGB, RGB>(const RGB& color) noexcept { return color; }
+  inline RGB
+  convert<RGB, RGB>(const RGB& color) noexcept { return color; }
 
   template <>
-  RGBA convert<RGBA, RGBA>(const RGBA& color) noexcept { return color; }
+  inline RGBA
+  convert<RGBA, RGBA>(const RGBA& color) noexcept { return color; }
 
   template <>
-  HSV convert<HSV, HSV>(const HSV& color) noexcept { return color; }
+  inline HSV
+  convert<HSV, HSV>(const HSV& color) noexcept { return color; }
 
   template <typename To>
   struct visitor final {
