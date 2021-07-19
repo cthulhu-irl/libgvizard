@@ -5,7 +5,7 @@
 
 namespace gvizard::attrtypes {
 
-enum class AddibleSign {
+enum class AddibleSign : bool {
   neutral = false,
   addible = true
 };
