@@ -10,7 +10,7 @@ enum class AddibleSign {
   addible = true
 };
 
-template <typename Base, typename T>
+template <typename Derived, typename T>
 struct AddibleBase {
   AddibleSign addible = AddibleSign::neutral;
   T value;
@@ -25,13 +25,13 @@ struct AddibleBase {
     , value(val)
   {}
 
-  static Base make(T value) {
-    return { AddibleSign::addible, std::move(value) };
+  static Derived make(T value) {
+    return AddibleBase{ AddibleSign::addible, std::move(value) };
   }
 
-  static Base make(AddibleSign addible, T value)
+  static Derived make(AddibleSign addible, T value)
   {
-    return { AddibleBase{ addible, std::move(value) } };
+    return AddibleBase{ AddibleBase{ addible, std::move(value) } };
   }
 };
 
