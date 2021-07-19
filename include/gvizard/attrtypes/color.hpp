@@ -270,20 +270,23 @@ struct Color {
   Color(HSV clr) : color(std::move(clr)) {}
 
   static std::optional<Color>
-  make(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
+  make_rgb(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
   {
     return Color{ RGB{ r, g, b } };
   }
 
   static std::optional<Color>
-  make(RGBA::octet_t r, RGBA::octet_t g, RGBA::octet_t b, RGBA::octet_t a)
-  noexcept
+  make_rgba(
+    RGBA::octet_t r,
+    RGBA::octet_t g,
+    RGBA::octet_t b,
+    RGBA::octet_t a) noexcept
   {
     return Color{ RGBA{ r, g, b, a } };
   }
 
   static std::optional<Color>
-  make(HSV::octet_t h, HSV::octet_t s, HSV::octet_t v) noexcept
+  make_hsv(HSV::octet_t h, HSV::octet_t s, HSV::octet_t v) noexcept
   {
     auto hsv = HSV::make(h, s, v);
     if (!hsv.has_value())
