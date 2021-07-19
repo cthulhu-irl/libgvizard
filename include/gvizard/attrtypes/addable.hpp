@@ -33,6 +33,7 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
   AddDouble(double val) : AddibleBase{val} {}
+  AddDouble(double val, AddibleSign sign) : AddibleBase{val, sign} {}
 
   operator double() const { return value; }
 
