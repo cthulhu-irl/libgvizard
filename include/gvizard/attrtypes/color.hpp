@@ -11,18 +11,14 @@ namespace gvizard::attrtypes {
 struct RGB {
   using octet_t = uint8_t;
 
-  octet_t r;
-  octet_t g;
-  octet_t b;
-
-  RGB(octet_t red, octet_t green, octet_t blue) noexcept
-    : r(red), g(green), b(blue)
-  {}
+  octet_t r = 0;
+  octet_t g = 0;
+  octet_t b = 0;
 
   static std::optional<RGB>
   make(octet_t red, octet_t green, octet_t blue) noexcept
   {
-    return RGB(red, green, blue);
+    return RGB{ red, green, blue };
   }
 
   octet_t min() const noexcept
@@ -46,29 +42,21 @@ struct RGB {
 struct RGBA {
   using octet_t = uint8_t;
 
-  octet_t r;
-  octet_t g;
-  octet_t b;
+  octet_t r = 0;
+  octet_t g = 0;
+  octet_t b = 0;
   octet_t a = 255;
-
-  RGBA(octet_t red, octet_t green, octet_t blue) noexcept
-    : r(red), g(green), b(blue), a(255)
-  {}
-
-  RGBA(octet_t red, octet_t green, octet_t blue, octet_t alpha) noexcept
-    : r(red), g(green), b(blue), a(alpha)
-  {}
 
   static std::optional<RGBA>
   make(octet_t red, octet_t green, octet_t blue) noexcept
   {
-    return RGBA(red, green, blue);
+    return RGBA{ red, green, blue };
   }
 
   static std::optional<RGBA>
   make(octet_t red, octet_t green, octet_t blue, octet_t alpha) noexcept
   {
-    return RGBA(red, green, blue, alpha);
+    return RGBA{ red, green, blue, alpha };
   }
 
   octet_t min() const noexcept
@@ -181,12 +169,12 @@ namespace color_convert {
 
     switch (region)
     {
-      case 0:  return RGB( v, t, p );
-      case 1:  return RGB( q, v, p );
-      case 2:  return RGB( p, v, t );
-      case 3:  return RGB( p, q, v );
-      case 4:  return RGB( t, p, v );
-      default: return RGB( v, p, q );
+      case 0:  return RGB{ v, t, p };
+      case 1:  return RGB{ q, v, p };
+      case 2:  return RGB{ p, v, t };
+      case 3:  return RGB{ p, q, v };
+      case 4:  return RGB{ t, p, v };
+      default: return RGB{ v, p, q };
     }
   }
 
@@ -252,14 +240,14 @@ struct Color {
   static std::optional<Color>
   make(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
   {
-    return Color{ RGB(r, g, b) };
+    return Color{ RGB{ r, g, b } };
   }
 
   static std::optional<Color>
   make(RGBA::octet_t r, RGBA::octet_t g, RGBA::octet_t b, RGBA::octet_t a)
   noexcept
   {
-    return Color{ RGBA(r, g, b, a) };
+    return Color{ RGBA{ r, g, b, a } };
   }
 
   static std::optional<Color>
