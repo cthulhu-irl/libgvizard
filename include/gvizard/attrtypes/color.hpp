@@ -262,11 +262,10 @@ struct Color {
   color_variant_t color;
 
   constexpr Color(const color_variant_t& clr) : color(clr) {}
-  constexpr Color(color_variant_t&& clr) : color(std::move(clr)) {}
 
-  constexpr Color(RGB clr) : color(std::move(clr)) {}
-  constexpr Color(RGBA clr) : color(std::move(clr)) {}
-  constexpr Color(HSV clr) : color(std::move(clr)) {}
+  constexpr Color(const RGB& clr) : color(clr) {}
+  constexpr Color(const RGBA& clr) : color(clr) {}
+  constexpr Color(const HSV& clr) : color(clr) {}
 
   constexpr static std::optional<Color>
   make_rgb(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
