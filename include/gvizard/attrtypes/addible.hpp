@@ -31,24 +31,28 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 struct AddDouble : public AddibleBase<AddDouble, double> {
   constexpr operator double() const { return value; }
 
-  friend constexpr AddDouble operator+(const AddDouble& lhs, double rhs)
+  friend constexpr AddDouble
+  operator+(const AddDouble& lhs, const AddDouble& rhs)
   {
-    return make( lhs.value + rhs, lhs.addible );
+    return make( lhs.value + rhs.value, lhs.addible );
   }
 
-  friend constexpr AddDouble operator-(const AddDouble& lhs, double rhs)
+  friend constexpr AddDouble
+  operator-(const AddDouble& lhs, const AddDouble& rhs)
   {
-    return make( lhs.value - rhs, lhs.addible );
+    return make( lhs.value - rhs.value, lhs.addible );
   }
 
-  friend constexpr AddDouble operator*(const AddDouble& lhs, double rhs)
+  friend constexpr AddDouble
+  operator*(const AddDouble& lhs, const AddDouble& rhs)
   {
-    return make( lhs.value * rhs, lhs.addible );
+    return make( lhs.value * rhs.value, lhs.addible );
   }
 
-  friend constexpr AddDouble operator/(const AddDouble& lhs, double rhs)
+  friend constexpr AddDouble
+  operator/(const AddDouble& lhs, const AddDouble& rhs)
   {
-    return make( lhs.value / rhs, lhs.addible );
+    return make( lhs.value / rhs.value, lhs.addible );
   }
 };
 
