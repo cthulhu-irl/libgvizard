@@ -15,13 +15,10 @@ struct AddibleBase {
   T value{};
   AddibleSign addible = AddibleSign::neutral;
 
-  constexpr static Derived make(T value) {
-    return AddibleBase{ AddibleSign::addible, std::move(value) };
-  }
-
-  constexpr static Derived make(AddibleSign addible, T value)
+  constexpr static Derived
+  make(T value, AddibleSign sign = AddibleSign::neutral)
   {
-    return AddibleBase{ AddibleBase{ addible, std::move(value) } };
+    return AddibleBase{ std::move(value), sign };
   }
 };
 
