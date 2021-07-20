@@ -20,6 +20,16 @@ struct AddibleBase {
   {
     return { { std::move(value), sign } };
   }
+
+  friend constexpr Derived operator+(const Derived& obj)
+  {
+    return make( obj.value, AddibleSign::addible );
+  }
+
+  friend constexpr Derived operator+(Derived&& obj)
+  {
+    return make( std::move(obj.value), AddibleSign::addible );
+  }
 };
 
 // for arbitrary types from user
