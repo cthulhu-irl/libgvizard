@@ -30,6 +30,30 @@ struct AddibleBase {
   {
     return make( std::move(obj.value), AddibleSign::addible );
   }
+
+  friend constexpr Derived
+  operator+(const Derived& lhs, const Derived& rhs)
+  {
+    return make( lhs.value + rhs.value, lhs.addible );
+  }
+
+  friend constexpr Derived
+  operator+(const Derived& lhs, Derived&& rhs)
+  {
+    return make( lhs.value + std::move(rhs.value), lhs.addible );
+  }
+
+  friend constexpr Derived
+  operator+(Derived&& lhs, const Derived& rhs)
+  {
+    return make( std::move(lhs.value) + rhs.value, lhs.addible );
+  }
+
+  friend constexpr Derived
+  operator+(Derived&& lhs, Derived&& rhs)
+  {
+    return make( std::move(lhs.value) + std::move(rhs.value), lhs.addible );
+  }
 };
 
 // for arbitrary types from user
@@ -40,12 +64,6 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
   constexpr operator double() const { return value; }
-
-  friend constexpr AddDouble
-  operator+(const AddDouble& lhs, const AddDouble& rhs)
-  {
-    return make( lhs.value + rhs.value, lhs.addible );
-  }
 
   friend constexpr AddDouble
   operator-(const AddDouble& lhs, const AddDouble& rhs)
