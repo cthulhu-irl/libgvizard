@@ -18,7 +18,7 @@ struct AddibleBase {
   constexpr static Derived
   make(T value, AddibleSign sign = AddibleSign::neutral)
   {
-    return AddibleBase{ std::move(value), sign };
+    return { { std::move(value), sign } };
   }
 };
 
@@ -31,29 +31,25 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 struct AddDouble : public AddibleBase<AddDouble, double> {
   constexpr operator double() const { return value; }
 
-  constexpr AddDouble& operator+(double other)
+  friend constexpr AddDouble operator+(const AddDouble& lhs, double rhs)
   {
-    value += other;
-    return *this;
-  };
+    return make( lhs.value + rhs, lhs.addible );
+  }
 
-  constexpr AddDouble& operator-(double other)
+  friend constexpr AddDouble operator-(const AddDouble& lhs, double rhs)
   {
-    value -= other;
-    return *this;
-  };
+    return make( lhs.value - rhs, lhs.addible );
+  }
 
-  constexpr AddDouble& operator*(double other)
+  friend constexpr AddDouble operator*(const AddDouble& lhs, double rhs)
   {
-    value *= other;
-    return *this;
-  };
+    return make( lhs.value * rhs, lhs.addible );
+  }
 
-  constexpr AddDouble& operator/(double other)
+  friend constexpr AddDouble operator/(const AddDouble& lhs, double rhs)
   {
-    value /= other;
-    return *this;
-  };
+    return make( lhs.value / rhs, lhs.addible );
+  }
 };
 
 }  // namespace gvizard::attrtypes
