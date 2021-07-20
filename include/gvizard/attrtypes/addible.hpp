@@ -12,6 +12,8 @@ enum class AddibleSign : bool {
 
 template <typename Derived, typename T>
 struct AddibleBase {
+  using value_type = T;
+
   T value{};
   AddibleSign addible = AddibleSign::neutral;
 
@@ -20,6 +22,8 @@ struct AddibleBase {
   {
     return { { std::move(value), sign } };
   }
+
+  constexpr operator value_type() const { return value; }
 
   friend constexpr Derived operator+(const Derived& obj)
   {
@@ -63,8 +67,6 @@ struct Addible : public AddibleBase<Addible<T>, T> {
 };
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
-  constexpr operator double() const { return value; }
-
   friend constexpr AddDouble
   operator-(const AddDouble& lhs, const AddDouble& rhs)
   {
