@@ -20,7 +20,7 @@ struct AddibleBase {
   constexpr static Derived
   make(T value, AddibleSign sign = AddibleSign::neutral)
   {
-    return { { std::move(value), sign } };
+    return Derived{ std::move(value), sign };
   }
 
   constexpr operator value_type() const { return value; }
