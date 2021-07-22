@@ -53,6 +53,12 @@ struct EnumHelper final {
   }
 };
 
+template<class... Ts>
+struct LambdaVisitor final : Ts... { using Ts::operator()...; };
+
+template<class... Ts>
+LambdaVisitor(Ts...) -> LambdaVisitor<Ts...>;
+
 }  // namespace utils
 }  // namespace gvizard
 
