@@ -18,21 +18,17 @@ struct Point2D {
   {}
 
   template <typename U>
-  constexpr Point2D& operator+(const Point2D<U>& other)
+  friend constexpr Point2D
+  operator+(const Point2D& lhs, const Point2D<U>& rhs)
   {
-    x += other.x;
-    y += other.y;
-
-    return *this;
+    return Point2D{ lhs.x + rhs.x, lhs.y + rhs.y };
   }
 
   template <typename U>
-  constexpr Point2D& operator-(const Point2D<U>& other)
+  friend constexpr Point2D
+  operator-(const Point2D& lhs, const Point2D<U>& rhs)
   {
-    x -= other.x;
-    y -= other.y;
-
-    return *this;
+    return Point2D{ lhs.x - rhs.x, lhs.y - rhs.y };
   }
 };
 
@@ -50,23 +46,17 @@ struct Point3D {
   {}
 
   template <typename U>
-  constexpr Point3D& operator+(const Point3D<U>& other)
+  friend constexpr Point3D
+  operator+(const Point3D& lhs, const Point3D<U>& rhs)
   {
-    x += other.x;
-    y += other.y;
-    z += other.z;
-
-    return *this;
+    return Point3D{ lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
   }
 
   template <typename U>
-  constexpr Point3D& operator-(const Point3D<U>& other)
+  friend constexpr Point3D
+  operator-(const Point3D& lhs, const Point3D<U>& rhs)
   {
-    x -= other.x;
-    y -= other.y;
-    z -= other.z;
-
-    return *this;
+    return Point3D{ lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z };
   }
 };
 
