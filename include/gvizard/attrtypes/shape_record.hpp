@@ -10,9 +10,6 @@ struct RecordFieldId final {
   std::string port{};
 };
 
-template <typename First, typename ...Rest>
-using first_parameter_pack_t = First;
-
 struct RecordShape final {
   using fieldid_list_type = std::vector<RecordFieldId>;
   using field_type = std::variant<RecordFieldId, fieldid_list_type>;
