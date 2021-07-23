@@ -5,6 +5,7 @@
 #include <optional>
 #include <stdexcept>
 #include <variant>
+#include <vector>
 
 namespace gvizard::detail {
   [[noreturn]] inline void invalid_argument(const char *reason)
@@ -257,6 +258,8 @@ namespace color_convert {
 }  // namespace color_convert
 
 struct Color {
+  using list_type = std::vector<std::tuple<Color, double>>;
+
   using color_variant_t = std::variant<RGB, RGBA, HSV>;
 
   color_variant_t color;
