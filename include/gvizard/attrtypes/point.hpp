@@ -3,11 +3,14 @@
 
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 namespace gvizard::attrtypes {
 
 template <typename T>
 struct Point2D {
+  using list_type = std::vector<Point2D<T>>;
+
   T x;
   T y;
 
@@ -34,6 +37,8 @@ struct Point2D {
 
 template <typename T>
 struct Point3D {
+  using list_type = std::vector<Point3D<T>>;
+
   T x;
   T y;
   T z;
