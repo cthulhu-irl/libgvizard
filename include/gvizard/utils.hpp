@@ -10,6 +10,17 @@
 namespace gvizard {
 namespace utils {
 
+template <typename T, typename U>
+struct Converter final {
+  static_assert(
+    std::is_constructible_v<T, U>,
+    "given types to converter aren't trivially convertible by constructor."
+  );
+
+  constexpr static T convert(const U& obj) { return T(obj); }
+  constexpr static T convert(U&& obj) { return T(std::move(obj)); }
+};
+
 template <typename T,
           typename U = std::size_t,
           std::enable_if_t<std::is_enum_v<T>, bool> = true>
