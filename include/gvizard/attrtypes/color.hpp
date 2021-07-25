@@ -7,6 +7,8 @@
 #include <variant>
 #include <vector>
 
+#include "gvizard/utils.hpp"
+
 namespace gvizard::detail {
   [[noreturn]] inline void invalid_argument(const char *reason)
   {
@@ -304,5 +306,36 @@ struct Color {
 };
 
 }  // namespace gvizard::attrtypes
+
+namespace gvizard::utils {
+
+template <typename T>
+struct Converter<T, attrtypes::Color> {
+  constexpr static T
+  convert(const attrtypes::Color& color) { return color.as<T>(); }
+};
+
+template <typename T>
+struct Converter<T, attrtypes::HSV> {
+  constexpr static T
+  convert(const attrtypes::HSV& hsv)
+  { return attrtypes::color_convert::convert<T, attrtypes::HSV>(hsv); }
+};
+
+template <typename T>
+struct Converter<T, attrtypes::RGBA> {
+  constexpr static T
+  convert(const attrtypes::RGBA& rgba)
+  { return attrtypes::color_convert::convert<T, attrtypes::RGBA>(rgba); }
+};
+
+template <typename T>
+struct Converter<T, attrtypes::RGB> {
+  constexpr static T
+  convert(const attrtypes::RGB& rgb)
+  { return attrtypes::color_convert::convert<T, attrtypes::RGB>(rgb); }
+};
+
+}  // namespace gvizard::utils
 
 #endif  // GVIZARD_ATTRTYPES_COLOR_HPP_
