@@ -123,11 +123,11 @@ struct HSV {
   constexpr octet_t value() const noexcept { return v; }
 
  private:
-  HSV() noexcept {}
+  constexpr HSV() noexcept {}
 
-  octet_t h;
-  octet_t s;
-  octet_t v;
+  octet_t h{};
+  octet_t s{};
+  octet_t v{};
 };
 
 namespace color_convert {
