@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <string_view>
 #include <optional>
+#include <stdexcept>
 
 #include <magic_enum.hpp>
 
@@ -19,6 +20,66 @@ struct Converter final {
 
   constexpr static T convert(const U& obj) { return T(obj); }
   constexpr static T convert(U&& obj) { return T(std::move(obj)); }
+};
+
+template <typename T, auto ...constraints>
+class Contract {
+  static_assert(
+    (std::is_same_v<
+        std::invoke_result_t<decltype(constraints), const T&>, bool>
+      && ... && true),
+    "given constraints as template parameter must be callable"
+    "by given value type and return bool."
+  );
+
+ protected:
+  T value_;
+
+  constexpr static void throw_if_invalid(const T& value)
+  {
+    if (!check(value))
+      throw std::invalid_argument("given value didn't pass all constraints");
+  }
+
+ public:
+  constexpr Contract() : value_{} { throw_if_invalid(value_); }
+  constexpr Contract(const T& v) : value_{v} { throw_if_invalid(value_); }
+  constexpr Contract(T&& v) : value_{std::move(v)} { throw_if_invalid(value_); }
+
+  constexpr T value() const { return value_; }
+
+  constexpr operator T() const { return value_; }
+
+  constexpr bool assign(const T& value)
+  {
+    if (!check(value)) return false;
+    value_ = value;
+    return true;
+  }
+
+  constexpr bool assign(T&& value)
+  {
+    if (!check(value)) return false;
+    value_ = std::move(value);
+    return true;
+  }
+
+  constexpr static bool check(const T& value)
+  {
+    return (constraints(value) && ... && true);
+  }
+
+  constexpr static std::optional<T> constrain(const T& value)
+  {
+    if (!check(value)) return std::nullopt;
+    return value;
+  }
+
+  constexpr static std::optional<T> constrain(T&& value)
+  {
+    if (!check(value)) return std::nullopt;
+    return std::move(value);
+  }
 };
 
 template <typename T,
