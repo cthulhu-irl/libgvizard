@@ -41,6 +41,15 @@ struct RGB {
     return (r > g) ? ((r > b) ? r : b) : ((g > b) ? g : b);
   }
 
+  constexpr static RGB from_binary(uint32_t value) noexcept
+  {
+    return RGB{
+      octet_t((value >> 16) & 0xff),
+      octet_t((value >>  8) & 0xff),
+      octet_t((value >>  0) & 0xff)
+    };
+  }
+
   constexpr uint32_t to_binary() const noexcept
   {
     return (r << 16) |
@@ -77,6 +86,16 @@ struct RGBA {
   constexpr octet_t max() const noexcept
   {
     return (r > g) ? ((r > b) ? r : b) : ((g > b) ? g : b);
+  }
+
+  constexpr static RGBA from_binary(uint32_t value) noexcept
+  {
+    return RGBA{
+      octet_t((value >> 24) & 0xff),
+      octet_t((value >> 16) & 0xff),
+      octet_t((value >>  8) & 0xff),
+      octet_t((value >>  0) & 0xff)
+    };
   }
 
   constexpr uint32_t to_binary() const noexcept
