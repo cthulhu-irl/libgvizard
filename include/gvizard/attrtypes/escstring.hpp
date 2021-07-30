@@ -43,6 +43,9 @@ class EscString final {
       = count_occurences(std::cbegin(format_), std::cend(format_));
   }
 
+  constexpr StringT        get_format()     const { return format_; }
+  constexpr const StringT& get_format_ref() const { return format_; }
+
   constexpr Occurences
   get_occurences() const noexcept { return occurences; }
 
