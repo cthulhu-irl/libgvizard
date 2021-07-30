@@ -6,10 +6,38 @@
 
 namespace gvizard::attrtypes {
 
+struct EscNameSetRef final {
+  const std::string_view& graph="";
+  const std::string_view& node="";
+  const std::string_view& edge="";
+  const std::string_view& label="";
+  const std::string_view& head="";
+  const std::string_view& tail="";
+};
+
 template <typename StringT = std::string>
 class EscString final {
   using iterator = typename StringT::iterator;
   using const_iterator = typename StringT::const_iterator;
+
+  constexpr static auto backslash_char_sv = std::string_view("\\", 1);
+
+  template <typename StrT = std::string>
+  constexpr static std::decay_t<StrT(std::size_t)> default_outstring_init =
+    +[](std::size_t size) -> StrT
+    {
+      auto ret = StrT{};
+      ret.reserve(size);
+      return ret;
+    };
+
+  template <typename StrT = std::string>
+  constexpr static std::decay_t<void(StrT&, const std::string_view&)>
+  default_outstring_append =
+    +[](StrT& lhs, const std::string_view& rhs)
+    {
+      lhs += rhs;
+    };
 
   struct Occurences final {
     std::size_t graph = 0;
@@ -49,36 +77,54 @@ class EscString final {
   constexpr Occurences
   get_occurences() const noexcept { return occurences; }
 
-  constexpr std::size_t apply_size(
-      const std::string_view& graph_name="",
-      const std::string_view& node_name="",
-      const std::string_view& edge_name="",
-      const std::string_view& label_name="",
-      const std::string_view& head_name="",
-      const std::string_view& tail_name="") const
+  constexpr std::size_t apply_size(const EscNameSetRef& nameset) const
   {
     return format_.size() - occurences.sum() * 2
-           + graph_name.size() * occurences.graph
-           + node_name.size()  * occurences.node
-           + edge_name.size()  * occurences.edge
-           + label_name.size() * occurences.label;
+           + nameset.graph.size() * occurences.graph
+           + nameset.node.size()  * occurences.node
+           + nameset.edge.size()  * occurences.edge
+           + nameset.label.size() * occurences.label
+           + nameset.head.size()  * occurences.head
+           + nameset.tail.size()  * occurences.tail;
   }
 
-  template <typename OutStringT = std::string>
-  constexpr OutStringT apply(
-      const std::string_view& graph_name="",
-      const std::string_view& node_name="",
-      const std::string_view& edge_name="",
-      const std::string_view& label_name="",
-      const std::string_view& head_name="",
-      const std::string_view& tail_name="") const
+  template <typename Iterator>
+  constexpr std::size_t apply(
+      const EscNameSetRef& nameset,
+      Iterator dstbegin, Iterator dstend) const
   {
-    OutStringT output{};
+    std::size_t idx = 0;
+    auto iterator_appender =
+      [&dstbegin, &dstend, &idx](const std::string_view& rhs) mutable
+      {
+        auto src = std::begin(rhs);
+        auto dst = dstbegin + idx;
+        auto end = dstend - 1; // NUL-termination
+        for (; src != std::cend(rhs) && dst != end; ++src, ++dst, ++idx)
+          *dst = *src;
+      };
 
-    const auto outsize = apply_size(graph_name, node_name, edge_name,
-                                    label_name, head_name, tail_name);
+    apply<char>(
+      nameset,
+      [](std::size_t) -> char { return 0; }, // dummy/unused...
+      [&iterator_appender](auto, auto str)
+        mutable { iterator_appender(str); }
+    );
 
-    output.reserve(outsize);
+    return idx;
+  }
+
+  template <typename OutStringT = std::string,
+            typename Finit = decltype(default_outstring_init<OutStringT>),
+            typename Fappend = decltype(default_outstring_append<OutStringT>)>
+  constexpr OutStringT apply(
+      const EscNameSetRef& nameset,
+      Finit init = default_outstring_init<OutStringT>,
+      Fappend append = default_outstring_append<OutStringT>) const
+  {
+    const auto outsize = apply_size(nameset);
+
+    auto output = init(outsize);
 
     auto str = std::cbegin(format_);
     auto end = std::cend(format_);
@@ -86,22 +132,22 @@ class EscString final {
     for (; str != end; ++str)
     {
       if (*str != '\\') {
-        output += *str;
+        append(output, std::string_view(str, 1));
         continue;
       }
 
       switch (*++str)
       {
-        case 'G':  output += graph_name; break;
-        case 'N':  output += node_name;  break;
-        case 'E':  output += edge_name;  break;
-        case 'L':  output += label_name; break;
-        case 'H':  output += head_name;  break;
-        case 'T':  output += tail_name;  break;
-        case '\\': output += '\\';       break;
+        case 'G':  append(output, nameset.graph);     break;
+        case 'N':  append(output, nameset.node);      break;
+        case 'E':  append(output, nameset.edge);      break;
+        case 'L':  append(output, nameset.label);     break;
+        case 'H':  append(output, nameset.head);      break;
+        case 'T':  append(output, nameset.tail);      break;
+        case '\\': append(output, backslash_char_sv); break;
         default:
-          output += '\\';
-          output += *str;
+          append(output, backslash_char_sv);
+          append(output, std::string_view(str, 1));
       }
     }
 
