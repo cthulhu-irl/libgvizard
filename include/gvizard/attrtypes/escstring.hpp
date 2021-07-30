@@ -16,9 +16,14 @@ class EscString final {
     std::size_t node = 0;
     std::size_t edge = 0;
     std::size_t label = 0;
+    std::size_t head = 0;
+    std::size_t tail = 0;
 
-    constexpr std::size_t
-    sum() const noexcept { return graph + node + edge + label; }
+    /* requires too much memory to overflow */
+    constexpr std::size_t sum() const noexcept
+    {
+      return graph + node + edge + label + head + tail;
+    }
   };
  
   Occurences occurences{};
@@ -41,20 +46,32 @@ class EscString final {
   constexpr Occurences
   get_occurences() const noexcept { return occurences; }
 
-  std::string apply(const std::string_view& graph_name="",
-                    const std::string_view& node_name="",
-                    const std::string_view& edge_name="",
-                    const std::string_view& label_name="") const
+  constexpr std::size_t apply_size(
+      const std::string_view& graph_name="",
+      const std::string_view& node_name="",
+      const std::string_view& edge_name="",
+      const std::string_view& label_name="") const
   {
-    std::string output{};
+    return format_.size() - occurences.sum() * 2
+           + graph_name.size() * occurences.graph
+           + node_name.size()  * occurences.node
+           + edge_name.size()  * occurences.edge
+           + label_name.size() * occurences.label;
+  }
 
-    output.reserve(
-      format_.size() - occurences.sum() * 2
-      + graph_name.size() * occurences.graph
-      + node_name.size()  * occurences.node
-      + edge_name.size()  * occurences.edge
-      + label_name.size() * occurences.label
-    );
+  template <typename OutStringT = std::string>
+  constexpr OutStringT apply(
+      const std::string_view& graph_name="",
+      const std::string_view& node_name="",
+      const std::string_view& edge_name="",
+      const std::string_view& label_name="") const
+  {
+    OutStringT output{};
+
+    const auto outsize =
+      apply_size(graph_name, node_name, edge_name, label_name);
+
+    output.reserve(outsize);
 
     auto str = std::cbegin(format_);
     auto end = std::cend(format_);
