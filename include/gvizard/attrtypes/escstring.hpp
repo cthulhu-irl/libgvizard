@@ -115,6 +115,20 @@ class EscString final {
   }
 
   template <typename OutStringT = std::string,
+            typename Fappend = decltype(default_outstring_append<OutStringT>)>
+  constexpr OutStringT apply_into(
+      const EscNameSetRef& nameset,
+      OutStringT output,
+      Fappend append = default_outstring_append<OutStringT>) const
+  {
+    return apply<OutStringT>(
+        nameset,
+        [&]() -> OutStringT { return output; },
+        append
+    );
+  }
+
+  template <typename OutStringT = std::string,
             typename Finit = decltype(default_outstring_init<OutStringT>),
             typename Fappend = decltype(default_outstring_append<OutStringT>)>
   constexpr OutStringT apply(
