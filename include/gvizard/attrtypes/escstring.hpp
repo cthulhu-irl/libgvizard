@@ -50,7 +50,9 @@ class EscString final {
       const std::string_view& graph_name="",
       const std::string_view& node_name="",
       const std::string_view& edge_name="",
-      const std::string_view& label_name="") const
+      const std::string_view& label_name="",
+      const std::string_view& head_name="",
+      const std::string_view& tail_name="") const
   {
     return format_.size() - occurences.sum() * 2
            + graph_name.size() * occurences.graph
@@ -64,12 +66,14 @@ class EscString final {
       const std::string_view& graph_name="",
       const std::string_view& node_name="",
       const std::string_view& edge_name="",
-      const std::string_view& label_name="") const
+      const std::string_view& label_name="",
+      const std::string_view& head_name="",
+      const std::string_view& tail_name="") const
   {
     OutStringT output{};
 
-    const auto outsize =
-      apply_size(graph_name, node_name, edge_name, label_name);
+    const auto outsize = apply_size(graph_name, node_name, edge_name,
+                                    label_name, head_name, tail_name);
 
     output.reserve(outsize);
 
@@ -89,6 +93,8 @@ class EscString final {
         case 'N':  output += node_name;  break;
         case 'E':  output += edge_name;  break;
         case 'L':  output += label_name; break;
+        case 'H':  output += head_name;  break;
+        case 'T':  output += tail_name;  break;
         case '\\': output += '\\';       break;
         default:
           output += '\\';
@@ -115,6 +121,8 @@ class EscString final {
         case 'N': ++ret.node;  break;
         case 'E': ++ret.edge;  break;
         case 'L': ++ret.label; break;
+        case 'H': ++ret.head;  break;
+        case 'T': ++ret.tail;  break;
       }
     }
 
