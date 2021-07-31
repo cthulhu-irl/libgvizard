@@ -151,12 +151,18 @@ struct HSV {
   octet_t v{};
 };
 
+enum class SchemeEnum : uint8_t {
+  X11,
+  SVG
+};
+
 template <typename ColorT>
-struct NamedColor final {
+struct SchemeColor final {
   using color_type = ColorT;
 
-  const char *name = nullptr;
+  const char *name   = nullptr;
   color_type  color{};
+  SchemeEnum  scheme = SchemeEnum::X11;
 
   constexpr operator color_type() const
     noexcept(noexcept(color_type(color)))
@@ -204,7 +210,7 @@ class WeightedColor final {
 };
 
 namespace color_convert {
-  // NOTE NamedColor doesn't need convert specialization
+  // NOTE SchemeColor doesn't need convert specialization
   //      as it is implicitly convertible to its inner color_type.
 
   namespace detail {
@@ -332,7 +338,7 @@ namespace color_convert {
     { return convert<To, RGBA>(color); }
 
     template <typename From>
-    constexpr To operator()(const NamedColor<From>& color) const
+    constexpr To operator()(const SchemeColor<From>& color) const
     { return convert<To, From>(color.color); }
   };
 }  // namespace color_convert
@@ -343,7 +349,7 @@ struct Color {
   using color_variant_t =
     std::variant<
       RGB, RGBA, HSV,
-      NamedColor<RGB>, NamedColor<RGBA>, NamedColor<HSV>
+      SchemeColor<RGB>, SchemeColor<RGBA>, SchemeColor<HSV>
     >;
 
   color_variant_t color;
@@ -354,9 +360,9 @@ struct Color {
   constexpr Color(const RGBA& clr) : color(clr) {}
   constexpr Color(const HSV& clr) : color(clr) {}
 
-  constexpr Color(const NamedColor<RGB>& clr) : color(clr) {}
-  constexpr Color(const NamedColor<RGBA>& clr) : color(clr) {}
-  constexpr Color(const NamedColor<HSV>& clr) : color(clr) {}
+  constexpr Color(const SchemeColor<RGB>& clr) : color(clr) {}
+  constexpr Color(const SchemeColor<RGBA>& clr) : color(clr) {}
+  constexpr Color(const SchemeColor<HSV>& clr) : color(clr) {}
 
   constexpr static std::optional<Color>
   make_rgb(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
@@ -423,11 +429,11 @@ struct Converter<T, attrtypes::RGB> {
 };
 
 template <typename T, typename U>
-struct Converter<T, attrtypes::NamedColor<U>> {
-  constexpr static T convert(const attrtypes::NamedColor<U>& clr)
+struct Converter<T, attrtypes::SchemeColor<U>> {
+  constexpr static T convert(const attrtypes::SchemeColor<U>& clr)
   {
     return
-      attrtypes::color_convert::convert<T, attrtypes::NamedColor<U>>(clr);
+      attrtypes::color_convert::convert<T, attrtypes::SchemeColor<U>>(clr);
   }
 };
 
