@@ -151,7 +151,24 @@ struct HSV {
   octet_t v{};
 };
 
+template <typename ColorT>
+struct NamedColor final {
+  using color_type = ColorT;
+
+  const char *name = nullptr;
+  color_type  color{};
+
+  constexpr operator color_type() const
+    noexcept(noexcept(color_type(color)))
+  {
+    return color;
+  }
+};
+
 namespace color_convert {
+  // NOTE NamedColor doesn't need convert specialization
+  //      as it is implicitly convertible to its inner color_type.
+
   namespace detail {
     constexpr inline const HSV hsv_zero_default{0., 0., 0.};
   }
@@ -275,13 +292,21 @@ namespace color_convert {
 
     constexpr To operator()(const RGBA& color) const
     { return convert<To, RGBA>(color); }
+
+    template <typename From>
+    constexpr To operator()(const NamedColor<From>& color) const
+    { return convert<To, From>(color.color); }
   };
 }  // namespace color_convert
 
 struct Color {
   using list_type = std::vector<std::tuple<Color, double>>;
 
-  using color_variant_t = std::variant<RGB, RGBA, HSV>;
+  using color_variant_t =
+    std::variant<
+      RGB, RGBA, HSV,
+      NamedColor<RGB>, NamedColor<RGBA>, NamedColor<HSV>
+    >;
 
   color_variant_t color;
 
@@ -290,6 +315,10 @@ struct Color {
   constexpr Color(const RGB& clr) : color(clr) {}
   constexpr Color(const RGBA& clr) : color(clr) {}
   constexpr Color(const HSV& clr) : color(clr) {}
+
+  constexpr Color(const NamedColor<RGB>& clr) : color(clr) {}
+  constexpr Color(const NamedColor<RGBA>& clr) : color(clr) {}
+  constexpr Color(const NamedColor<HSV>& clr) : color(clr) {}
 
   constexpr static std::optional<Color>
   make_rgb(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
@@ -353,6 +382,15 @@ struct Converter<T, attrtypes::RGB> {
   constexpr static T
   convert(const attrtypes::RGB& rgb)
   { return attrtypes::color_convert::convert<T, attrtypes::RGB>(rgb); }
+};
+
+template <typename T, typename U>
+struct Converter<T, attrtypes::NamedColor<U>> {
+  constexpr static T convert(const attrtypes::NamedColor<U>& clr)
+  {
+    return
+      attrtypes::color_convert::convert<T, attrtypes::NamedColor<U>>(clr);
+  }
 };
 
 }  // namespace gvizard::utils
