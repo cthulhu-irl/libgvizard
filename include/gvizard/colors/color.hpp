@@ -16,25 +16,17 @@
 namespace gvizard::colors {
 
 struct Color {
-  using list_type = std::vector<std::tuple<Color, double>>;
-
   using color_variant_t =
     std::variant<
-      RGB, RGBA, HSV,
-      SchemeColor<RGB>, SchemeColor<RGBA>, SchemeColor<HSV>
+      RGB, RGBA, HSV, X11Color, SVGColor, X11ColorEnum, SVGColorEnum,
+      SchemeColor<RGB>, SchemeColor<RGBA>, SchemeColor<HSV>,
+      SchemeColor<X11Color>, SchemeColor<SVGColor>,
+      SchemeColor<X11ColorEnum>, SchemeColor<SVGColorEnum>
     >;
 
   color_variant_t color;
 
   constexpr Color(const color_variant_t& clr) : color(clr) {}
-
-  constexpr Color(const RGB& clr) : color(clr) {}
-  constexpr Color(const RGBA& clr) : color(clr) {}
-  constexpr Color(const HSV& clr) : color(clr) {}
-
-  constexpr Color(const SchemeColor<RGB>& clr) : color(clr) {}
-  constexpr Color(const SchemeColor<RGBA>& clr) : color(clr) {}
-  constexpr Color(const SchemeColor<HSV>& clr) : color(clr) {}
 
   constexpr static std::optional<Color>
   make_rgb(RGB::octet_t r, RGB::octet_t g, RGB::octet_t b) noexcept
