@@ -7,9 +7,10 @@ namespace gvizard::attrtypes {
 
 using ColorType = colors::Color;
 
-template <template <typename, typename...> typename Vec = std::vector,
+template <typename ColorT = colors::RGB,
+          template <typename, typename...> typename Vec = std::vector,
           typename ...VecArgs>
-using ColorList = Vec<WeightedColor>;
+using ColorList = Vec<colors::WeightedColor<ColorT>>;
 
 }  // namespace gvizard::attrtypes
 
