@@ -65,7 +65,7 @@ struct Color {
   template <typename T>
   constexpr T as() const noexcept
   {
-    return std::visit(color_convert::visitor<T>{}, color);
+    return std::visit(ColorConverterCallable<T>{}, color);
   }
 };
 

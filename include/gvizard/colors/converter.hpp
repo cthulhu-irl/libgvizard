@@ -1,40 +1,38 @@
 #ifndef GVIZARD_COLORS_CONVERTER_HPP_
 #define GVIZARD_COLORS_CONVERTER_HPP_
 
+#include "gvizard/utils.hpp"
+
 #include "gvizard/colors/rgb.hpp"
 #include "gvizard/colors/rgba.hpp"
 #include "gvizard/colors/hsv.hpp"
 
 #include "gvizard/colors/general.hpp"
 
-namespace gvizard::colors {
+using gvizard::colors::HSV;
+using gvizard::colors::RGB;
+using gvizard::colors::RGBA;
+using gvizard::colors::SchemeColor;
 
-namespace color_convert {
-  namespace detail {
-    constexpr inline const HSV hsv_zero_default{0., 0., 0.};
-  }
+namespace gvizard {
+namespace utils {
 
-  template <typename To, typename From>
-  constexpr inline To convert(const From&) noexcept
-  {
-    static_assert(sizeof(From) == 0,
-        "given color types for color conversion are not supported.");
-  }
+constexpr static inline const HSV hsv_zero_default{0., 0., 0.};
 
-  template <>
-  constexpr inline HSV
-  convert<HSV, RGB>(const RGB& rgb) noexcept
+template <>
+struct Converter<HSV, RGB> final {
+  constexpr static HSV convert(const RGB& rgb) noexcept
   {
     uint8_t min = rgb.min(), max = rgb.max();
 
     if (max == 0)
-      return detail::hsv_zero_default;
+      return hsv_zero_default;
 
     double v = double(max) / 255;
 
     double s = long(max - min) / max;
     if (s == 0.)
-      return detail::hsv_zero_default;
+      return hsv_zero_default;
 
     // NOTE this will underflow if b > g, but won't be negative,
     //      not sure if abs would be better.
@@ -52,10 +50,11 @@ namespace color_convert {
 
     return HSV::make(h, s, v).value();
   }
+};
 
-  template <>
-  constexpr inline RGB
-  convert<RGB, HSV>(const HSV& hsv) noexcept
+template <>
+struct Converter<RGB, HSV> final {
+  constexpr static RGB convert(const HSV& hsv) noexcept
   {
     if (hsv.saturation() == 0.)
       return RGB{0, 0, 0};
@@ -81,65 +80,76 @@ namespace color_convert {
       default: return RGB{ v, p, q };
     }
   }
+};
 
-  template <>
-  constexpr inline RGBA
-  convert<RGBA, RGB>(const RGB& color) noexcept
+template <>
+struct Converter<RGBA, RGB> final {
+  constexpr static RGBA convert(const RGB& color) noexcept
   {
     return { color.r, color.g, color.b };
   }
+};
 
-  template <>
-  constexpr inline RGB
-  convert<RGB, RGBA>(const RGBA& color) noexcept
+template <>
+struct Converter<RGB, RGBA> final {
+  constexpr static RGB convert(const RGBA& color) noexcept
   {
-    return { color.r, color.g, color.b };
+    return RGB{ color.r, color.g, color.b };
+  }
+};
+
+template <>
+struct Converter<HSV, RGBA> final {
+  constexpr static HSV convert(const RGBA& color) noexcept
+  {
+    return Converter<HSV, RGB>::convert(
+        Converter<RGB, RGBA>::convert(color)
+    );
+  }
+};
+
+template <>
+struct Converter<RGBA, HSV> final {
+  constexpr static RGBA convert(const HSV& color) noexcept
+  {
+    return Converter<RGBA, RGB>::convert(
+        Converter<RGB, HSV>::convert(color)
+    );
+  }
+};
+
+}  // namespace utils
+
+namespace colors {
+
+template <typename To, typename From>
+using Converter = gvizard::utils::Converter<To, From>;
+
+template <typename To>
+struct ColorConverterCallable final {
+  constexpr To operator()(const HSV& color) const
+  {
+    return Converter<To, HSV>::convert(color);
   }
 
-  template <>
-  constexpr inline HSV
-  convert<HSV, RGBA>(const RGBA& color) noexcept
+  constexpr To operator()(const RGB& color) const
   {
-    return convert<HSV, RGB>( convert<RGB, RGBA>(color) );
+    return Converter<To, RGB>::convert(color);
   }
 
-  template <>
-  constexpr inline RGBA
-  convert<RGBA, HSV>(const HSV& color) noexcept
+  constexpr To operator()(const RGBA& color) const
   {
-    return convert<RGBA, RGB>( convert<RGB, HSV>(color) );
+    return Converter<To, RGBA>::convert(color);
   }
 
-  // std::is_same_v<From, To> == true
-  template <>
-  constexpr inline RGB
-  convert<RGB, RGB>(const RGB& color) noexcept { return color; }
+  template <typename From>
+  constexpr To operator()(const SchemeColor<From>& color) const
+  {
+    return Converter<To, From>::convert(color.color);
+  }
+};
 
-  template <>
-  constexpr inline RGBA
-  convert<RGBA, RGBA>(const RGBA& color) noexcept { return color; }
-
-  template <>
-  constexpr inline HSV
-  convert<HSV, HSV>(const HSV& color) noexcept { return color; }
-
-  template <typename To>
-  struct visitor final {
-    constexpr To operator()(const HSV& color) const
-    { return convert<To, HSV>(color); }
-
-    constexpr To operator()(const RGB& color) const
-    { return convert<To, RGB>(color); }
-
-    constexpr To operator()(const RGBA& color) const
-    { return convert<To, RGBA>(color); }
-
-    template <typename From>
-    constexpr To operator()(const SchemeColor<From>& color) const
-    { return convert<To, From>(color.color); }
-  };
-}  // namespace color_convert
-
-}  // namespace gvizard::colors
+}  // namespace colors
+}  // namespace gvizard
 
 #endif  // GVIZARD_COLORS_CONVERTER_HPP_
