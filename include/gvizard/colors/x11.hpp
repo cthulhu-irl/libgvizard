@@ -7,7 +7,6 @@
 
 #include "gvizard/colors/general.hpp"
 #include "gvizard/colors/rgb.hpp"
-#include "gvizard/colors/converter.hpp"
 
 namespace gvizard::colors {
 
@@ -1349,20 +1348,5 @@ class X11Color final {
 };  // struct X11Color
 
 }  // namespace gvizard::colors
-
-namespace gvizard::utils {
-
-template <typename T>
-struct Converter<colors::SchemeColor<T>, colors::X11ColorEnum> final {
-  constexpr static colors::SchemeColor<T>
-  convert(colors::X11ColorEnum color)
-  {
-    return Converter<T, colors::RGB>::convert(
-        colors::X11Color::list[uint16_t(color)]
-    );
-  }
-};
-
-}  // namespace gvizard::utils
 
 #endif  // GVIZARD_COLORS_X11_HPP_

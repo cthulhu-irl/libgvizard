@@ -325,16 +325,4 @@ class SVGColor final {
 
 }  // namespace gvizard::colors
 
-namespace gvizard::utils {
-
-template <typename T>
-struct Converter<colors::SchemeColor<T>, colors::SVGColorEnum> final {
-  constexpr static colors::SchemeColor<T> convert(colors::SVGColorEnum color)
-  {
-    return colors::SVGColor::list[uint16_t(color)];
-  }
-};
-
-}  // namespace utils
-
 #endif  // GVIZARD_COLORS_SVG_HPP_
