@@ -11,6 +11,12 @@
 namespace gvizard {
 namespace utils {
 
+/**
+ * @brief base conversion template to be specialized for custom types.
+ *
+ * @tparam T the output type
+ * @tparam U the input type
+ */
 template <typename T, typename U>
 struct Converter final {
   static_assert(
