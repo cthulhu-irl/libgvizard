@@ -126,10 +126,10 @@ struct EnumHelper final {
   }
 };
 
-template<class... Ts>
+template <typename ...Ts>
 struct LambdaVisitor final : Ts... { using Ts::operator()...; };
 
-template<class... Ts>
+template <typename ...Ts>
 LambdaVisitor(Ts...) -> LambdaVisitor<Ts...>;
 
 }  // namespace utils
