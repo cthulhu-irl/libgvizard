@@ -36,12 +36,12 @@ struct ArrowModifier {
   ArrowSide side = ArrowSide::none;
   ArrowOpen open = ArrowOpen::none;
 
-  constexpr bool operator==(const ArrowModifier& other) noexcept
+  constexpr bool operator==(const ArrowModifier& other) const noexcept
   {
     return side == other.side && open == other.open;
   }
 
-  constexpr bool operator!=(const ArrowModifier& other) noexcept
+  constexpr bool operator!=(const ArrowModifier& other) const noexcept
   {
     return side != other.side || open != other.open;
   }
@@ -51,22 +51,22 @@ struct ArrowShape final {
   ArrowPrimaryShape shape = ArrowPrimaryShape::none;
   ArrowModifier modifier = {};
 
-  constexpr bool operator==(const ArrowShape& other) noexcept
+  constexpr bool operator==(const ArrowShape& other) const noexcept
   {
     return shape == other.shape && modifier == other.modifier;
   }
 
-  constexpr bool operator!=(const ArrowShape& other) noexcept
+  constexpr bool operator!=(const ArrowShape& other) const noexcept
   {
     return shape != other.shape || modifier != other.modifier;
   }
 
-  constexpr bool operator==(const ArrowPrimaryShape& other) noexcept
+  constexpr bool operator==(const ArrowPrimaryShape& other) const noexcept
   {
     return shape == other && modifier == ArrowModifier{};
   }
 
-  constexpr bool operator!=(const ArrowPrimaryShape& other) noexcept
+  constexpr bool operator!=(const ArrowPrimaryShape& other) const noexcept
   {
     return shape != other || modifier != ArrowModifier{};
   }
@@ -114,7 +114,7 @@ struct ArrowType {
   alignas(4) ArrowShape shape3{};
   alignas(4) ArrowShape shape4{};
 
-  constexpr bool operator==(const ArrowType& other) noexcept
+  constexpr bool operator==(const ArrowType& other) const noexcept
   {
     return shape1 == other.shape1
         && shape2 == other.shape2
@@ -122,7 +122,7 @@ struct ArrowType {
         && shape4 == other.shape4;
   }
 
-  constexpr bool operator!=(const ArrowType& other) noexcept
+  constexpr bool operator!=(const ArrowType& other) const noexcept
   {
     return shape1 != other.shape1
         || shape2 != other.shape2
@@ -130,7 +130,7 @@ struct ArrowType {
         || shape4 != other.shape4;
   }
 
-  constexpr bool operator==(const ArrowShape& other) noexcept
+  constexpr bool operator==(const ArrowShape& other) const noexcept
   {
     return shape1 == other
         && shape2 == ArrowPrimaryShape::none
@@ -138,7 +138,7 @@ struct ArrowType {
         && shape4 == ArrowPrimaryShape::none;
   }
 
-  constexpr bool operator!=(const ArrowShape& other) noexcept
+  constexpr bool operator!=(const ArrowShape& other) const noexcept
   {
     return shape1 != other
         || shape2 != ArrowPrimaryShape::none
