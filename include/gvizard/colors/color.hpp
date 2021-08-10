@@ -13,7 +13,9 @@
 #include "gvizard/colors/general.hpp"
 #include "gvizard/colors/converter.hpp"
 
-namespace gvizard::colors {
+namespace gvizard {
+
+namespace colors {
 
 struct Color {
   using color_variant_t =
@@ -61,6 +63,20 @@ struct Color {
   }
 };
 
-}  // namespace gvizard::colors
+}  // namespace colors
+
+namespace utils {
+
+template <typename T>
+struct Converter<T, colors::Color> final {
+  constexpr static T convert(const colors::Color& color)
+  {
+    return color.as<T>();
+  }
+};
+
+}  // namespace utils
+
+}  // namespace gvizard
 
 #endif  // GVIZARD_COLORS_COLOR_HPP_
