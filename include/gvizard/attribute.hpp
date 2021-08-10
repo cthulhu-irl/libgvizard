@@ -19,8 +19,10 @@ class AttributeBase : public IAttribute {
   using value_type = Value;
 
  public:
-  AttributeBase() : value_(Derived::get_default_value()) {}
-  AttributeBase(value_type value) : value_(Derived::get_default_value()) {
+  constexpr AttributeBase() : value_(Derived::get_default_value()) {}
+  constexpr AttributeBase(value_type value)
+    : value_(Derived::get_default_value())
+  {
     if (!Derived::constraint(value))
       throw std::runtime_error("attribute constraint unmet");
 
