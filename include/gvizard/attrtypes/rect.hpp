@@ -68,6 +68,18 @@ class Rect final {
     };
   }
 
+  constexpr bool operator==(const Rect& other) const
+  {
+    return llx_ == other.llx_ && lly_ == other.lly_
+        && urx_ == other.urx_ && ury_ == other.ury_;
+  }
+
+  constexpr bool operator!=(const Rect& other) const
+  {
+    return llx_ != other.llx_ || lly_ != other.lly_
+        || urx_ != other.urx_ || ury_ != other.ury_;
+  }
+
  private:
   Rect() {}
 
