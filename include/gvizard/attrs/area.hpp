@@ -13,9 +13,11 @@ struct Area final : public AttributeBase<Area, double> {
   Area() : AttributeBase(get_default_value()) {}
   Area(value_type value) : AttributeBase(value) {}
 
-  constexpr static bool constraint(value_type value) { return value > 0; }
-
   constexpr static value_type get_default_value() { return 1.0; }
+
+  constexpr static bool is_default(value_type value) { return value == 1.0; }
+
+  constexpr static bool constraint(value_type value) { return value > 0; }
 };
 
 }  // namespace gvizard::attrs
