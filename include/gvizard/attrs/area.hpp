@@ -5,7 +5,7 @@
 
 namespace gvizard::attrs {
 
-struct Area : public AttributeBase<Area, double> {
+struct Area final : public AttributeBase<Area, double> {
   using value_type = double;
 
   constexpr static const char * const name = "area";
