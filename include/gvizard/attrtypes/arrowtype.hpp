@@ -61,6 +61,16 @@ struct ArrowShape final {
     return shape != other.shape || modifier != other.modifier;
   }
 
+  constexpr bool operator==(const ArrowPrimaryShape& other) noexcept
+  {
+    return shape == other && modifier == ArrowModifier{};
+  }
+
+  constexpr bool operator!=(const ArrowPrimaryShape& other) noexcept
+  {
+    return shape != other || modifier != ArrowModifier{};
+  }
+
   constexpr ArrowShape& normalize() noexcept
   {
     modifier = normalized_modifier();
@@ -118,6 +128,22 @@ struct ArrowType {
         || shape2 != other.shape2
         || shape3 != other.shape3
         || shape4 != other.shape4;
+  }
+
+  constexpr bool operator==(const ArrowShape& other) noexcept
+  {
+    return shape1 == other
+        && shape2 == ArrowPrimaryShape::none
+        && shape3 == ArrowPrimaryShape::none
+        && shape4 == ArrowPrimaryShape::none;
+  }
+
+  constexpr bool operator!=(const ArrowShape& other) noexcept
+  {
+    return shape1 != other
+        || shape2 != ArrowPrimaryShape::none
+        || shape3 != ArrowPrimaryShape::none
+        || shape4 != ArrowPrimaryShape::none;
   }
 
   constexpr ArrowType& normalize() noexcept
