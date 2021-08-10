@@ -35,11 +35,31 @@ enum class ArrowSide : uint8_t {
 struct ArrowModifier {
   ArrowSide side = ArrowSide::none;
   ArrowOpen open = ArrowOpen::none;
+
+  constexpr bool operator==(const ArrowModifier& other) noexcept
+  {
+    return side == other.side && open == other.open;
+  }
+
+  constexpr bool operator!=(const ArrowModifier& other) noexcept
+  {
+    return side != other.side || open != other.open;
+  }
 };
 
 struct ArrowShape final {
   ArrowPrimaryShape shape = ArrowPrimaryShape::none;
   ArrowModifier modifier = {};
+
+  constexpr bool operator==(const ArrowShape& other) noexcept
+  {
+    return shape == other.shape && modifier == other.modifier;
+  }
+
+  constexpr bool operator!=(const ArrowShape& other) noexcept
+  {
+    return shape != other.shape || modifier != other.modifier;
+  }
 
   constexpr ArrowShape& normalize() noexcept
   {
@@ -83,6 +103,22 @@ struct ArrowType {
   alignas(4) ArrowShape shape2{};
   alignas(4) ArrowShape shape3{};
   alignas(4) ArrowShape shape4{};
+
+  constexpr bool operator==(const ArrowType& other) noexcept
+  {
+    return shape1 == other.shape1
+        && shape2 == other.shape2
+        && shape3 == other.shape3
+        && shape4 == other.shape4;
+  }
+
+  constexpr bool operator!=(const ArrowType& other) noexcept
+  {
+    return shape1 != other.shape1
+        || shape2 != other.shape2
+        || shape3 != other.shape3
+        || shape4 != other.shape4;
+  }
 
   constexpr ArrowType& normalize() noexcept
   {
