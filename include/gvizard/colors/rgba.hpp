@@ -53,6 +53,22 @@ struct RGBA {
            (b <<  8) |
            (a <<  0);
   }
+
+  constexpr bool operator==(const RGBA& other) const noexcept
+  {
+    if (a == 0 && other.a == 0)
+      return true; // both are transparent, thus rgb don't apply
+
+    return r == other.r && g == other.g && b == other.b && a == other.a;
+  }
+
+  constexpr bool operator!=(const RGBA& other) const noexcept
+  {
+    if (a == 0 && other.a == 0)
+      return false; // both are transparent, thus rgb don't apply
+
+    return r != other.r || g != other.g || b != other.b || a != other.a;
+  }
 };
 
 }  // namespace gvizard::colors

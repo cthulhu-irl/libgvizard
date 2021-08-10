@@ -685,6 +685,16 @@ class X11Color final {
 
   constexpr operator SchemeColor<RGB>() const noexcept { return color_; }
 
+  constexpr bool operator==(const X11Color& other) const noexcept
+  {
+    return get_enum() == other.get_enum();
+  }
+
+  constexpr bool operator!=(const X11Color& other) const noexcept
+  {
+    return get_enum() != other.get_enum();
+  }
+
   constexpr static SchemeColor<RGB> list[] = {
     { "aliceblue"            , RGB{ 240, 248, 255 }, SchemeEnum::X11 },
     { "antiquewhite"         , RGB{ 250, 235, 215 }, SchemeEnum::X11 },

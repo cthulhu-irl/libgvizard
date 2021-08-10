@@ -44,6 +44,16 @@ struct RGB {
            (g <<  8) |
            (b <<  0);
   }
+
+  constexpr bool operator==(const RGB& other) const noexcept
+  {
+    return r == other.r && g == other.g && b == other.b;
+  }
+
+  constexpr bool operator!=(const RGB& other) const noexcept
+  {
+    return r != other.r || g != other.g || b != other.b;
+  }
 };
 
 }  // namespace gvizard::colors

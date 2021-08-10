@@ -61,6 +61,16 @@ struct Color {
   {
     return std::visit(ColorConverterCallable<T>{}, color);
   }
+
+  constexpr bool operator==(const Color& other) const
+  {
+    return as<HSV>() == other.as<HSV>();
+  }
+
+  constexpr bool operator!=(const Color& other) const
+  {
+    return as<HSV>() != other.as<HSV>();
+  }
 };
 
 }  // namespace colors

@@ -171,6 +171,16 @@ class SVGColor final {
   constexpr SchemeColor<RGB> get_color() const noexcept { return color_; }
 
   constexpr operator SchemeColor<RGB>() const noexcept { return color_; }
+
+  constexpr bool operator==(const SVGColor& other) const noexcept
+  {
+    return get_enum() == other.get_enum();
+  }
+
+  constexpr bool operator!=(const SVGColor& other) const noexcept
+  {
+    return get_enum() != other.get_enum();
+  }
                              
   constexpr static SchemeColor<RGB> list[] = {                      
     { "aliceblue"            , RGB{ 240,248,255 }, SchemeEnum::SVG },

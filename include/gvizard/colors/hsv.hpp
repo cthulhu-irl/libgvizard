@@ -49,6 +49,16 @@ struct HSV {
   constexpr octet_t saturation() const noexcept { return s; }
   constexpr octet_t value() const noexcept { return v; }
 
+  constexpr bool operator==(const HSV& other) const noexcept
+  {
+    return h == other.h && s == other.s && v == other.v;
+  }
+
+  constexpr bool operator!=(const HSV& other) const noexcept
+  {
+    return h != other.h || s != other.s || v != other.v;
+  }
+
  private:
   constexpr HSV() noexcept {}
 

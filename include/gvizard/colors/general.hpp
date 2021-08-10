@@ -2,6 +2,7 @@
 #define GVIZARD_COLORS_GENERAL_HPP_
 
 #include <cstdint>
+#include <cstring>
 #include <stdexcept>
 
 namespace gvizard::colors {
@@ -23,6 +24,16 @@ struct SchemeColor final {
     noexcept(noexcept(color_type(color)))
   {
     return color;
+  }
+
+  constexpr bool operator==(const SchemeColor& other) const
+  {
+    return color == other.color && scheme == other.scheme;
+  }
+
+  constexpr bool operator!=(const SchemeColor& other) const
+  {
+    return color != other.color || scheme != other.scheme;
   }
 };
 
@@ -61,6 +72,16 @@ class WeightedColor final {
       throw std::invalid_argument("given weight is out of range. (0, 1)");
 
     weight_ = weight;
+  }
+
+  constexpr bool operator==(const WeightedColor& other) const noexcept
+  {
+    return color_ == other.color_ && weight_ == other.weight_;
+  }
+
+  constexpr bool operator!=(const WeightedColor& other) const
+  {
+    return color_ != other.color_ || weight_ != other.weight_;
   }
 };
 
