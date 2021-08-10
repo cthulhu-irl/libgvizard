@@ -10,8 +10,8 @@ struct Center : public AttributeBase<Center, bool> {
 
   constexpr static const char * const name = "center";
 
-  constexpr Center() : AttributeBase(get_default_value()) {}
-  constexpr Center(value_type value) : AttributeBase(value) {}
+  constexpr explicit Center() : AttributeBase(get_default_value()) {}
+  constexpr explicit Center(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }
 
