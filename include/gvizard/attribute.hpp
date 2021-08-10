@@ -44,7 +44,7 @@ class AttributeBase : public IAttribute {
 
   bool is_default() const override
   {
-    return value_ == get_default();
+    return Derived::is_default(value_);
   }
 
   void reset() override
