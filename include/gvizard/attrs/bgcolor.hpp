@@ -2,6 +2,7 @@
 #define GVIZARD_ATTRS_BGCOLOR_HPP_
 
 #include <optional>
+#include <variant>
 
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/color.hpp"

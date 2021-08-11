@@ -7,7 +7,7 @@
 
 namespace gvizard::attrs {
 
-struct Clazz : public AttributeBase<Clazz, std::string> {
+struct Clazz final : public AttributeBase<Clazz, std::string> {
   using value_type = std::string;
 
   constexpr static const char * const name = "class";

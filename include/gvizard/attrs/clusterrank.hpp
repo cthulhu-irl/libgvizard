@@ -6,7 +6,7 @@
 
 namespace gvizard::attrs {
 
-struct ClusterRank
+struct ClusterRank final
   : public AttributeBase<ClusterRank, attrtypes::ClusterMode>
 {
   using value_type = attrtypes::ClusterMode;

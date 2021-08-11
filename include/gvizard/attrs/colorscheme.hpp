@@ -10,7 +10,9 @@
 
 namespace gvizard::attrs {
 
-struct ColorScheme : public AttributeBase<ColorScheme, colors::SchemeEnum> {
+struct ColorScheme final
+  : public AttributeBase<ColorScheme, colors::SchemeEnum>
+{
   using value_type = colors::SchemeEnum;
 
   constexpr static const char * const name = "colorscheme";

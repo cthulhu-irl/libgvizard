@@ -7,7 +7,7 @@
 
 namespace gvizard::attrs {
 
-struct Charset : public AttributeBase<Charset, std::string> {
+struct Charset final : public AttributeBase<Charset, std::string> {
   using value_type = std::string;
 
   constexpr static const char * const name = "charset";

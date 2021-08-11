@@ -5,7 +5,7 @@
 
 namespace gvizard::attrs {
 
-struct Center : public AttributeBase<Center, bool> {
+struct Center final : public AttributeBase<Center, bool> {
   using value_type = bool;
 
   constexpr static const char * const name = "center";
