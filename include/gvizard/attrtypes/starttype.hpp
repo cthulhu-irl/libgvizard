@@ -15,6 +15,16 @@ enum class StartTypeStyle : uint8_t {
 struct StartType final {
   StartTypeStyle style = StartTypeStyle::none;
   std::size_t seed = 0;
+
+  constexpr bool operator==(StartType other) const
+  {
+    return style == other.style && seed == other.seed;
+  }
+
+  constexpr bool operator!=(StartType other) const
+  {
+    return style != other.style || seed != other.seed;
+  }
 };
 
 }  // namespace gvizard::attrtypes
