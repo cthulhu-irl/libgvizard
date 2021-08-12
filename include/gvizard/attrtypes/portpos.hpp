@@ -23,6 +23,16 @@ enum class CompassPoint : uint8_t {
 struct PortPos final {
   std::optional<std::string> port = std::nullopt;
   CompassPoint compass = CompassPoint::_default;
+
+  constexpr bool operator==(const PortPos& other) const
+  {
+    return compass == other.compass && port == other.port;
+  }
+
+  constexpr bool operator!=(const PortPos& other) const
+  {
+    return compass != other.compass || port != other.port;
+  }
 };
 
 }  // namespace gvizard::attrtypes
