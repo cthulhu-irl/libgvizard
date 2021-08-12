@@ -52,6 +52,20 @@ class EscString final {
     {
       return graph + node + edge + label + head + tail;
     }
+
+    constexpr bool operator==(const Occurences& other) const
+    {
+      return graph == other.graph && node  == other.node
+          && edge  == other.edge  && label == other.label
+          && head  == other.head  && tail  == other.tail;
+    }
+
+    constexpr bool operator!=(const Occurences& other) const
+    {
+      return graph != other.graph || node  != other.node
+          || edge  != other.edge  || label != other.label
+          || head  != other.head  || tail  != other.tail;
+    }
   };
  
   Occurences occurences{};
@@ -76,6 +90,16 @@ class EscString final {
 
   constexpr Occurences
   get_occurences() const noexcept { return occurences; }
+
+  constexpr bool operator==(const EscString& other) const
+  {
+    return occurences == other.occurences && format_ == other.format_;
+  }
+
+  constexpr bool operator!=(const EscString& other) const
+  {
+    return occurences != other.occurences || format_ != other.format_;
+  }
 
   constexpr std::size_t apply_size(const EscNameSetRef& nameset) const
   {
