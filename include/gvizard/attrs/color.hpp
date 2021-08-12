@@ -35,13 +35,7 @@ struct Color final
 
   static bool is_default(const value_type& value)
   {
-    auto pval = std::get_if<attrtypes::ColorType>(&value);
-    if (!pval) return false;
-
-    // NOTE inaccurate a bit when given HSV
-    auto rgba = std::get<attrtypes::ColorType>(value).as<colors::RGBA>();
-
-    return rgba == get_default_color().as<colors::RGBA>();
+    return value == get_default_value();
   }
 
   static bool constraint(const value_type& value) { return true; }
