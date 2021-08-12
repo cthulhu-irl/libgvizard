@@ -41,6 +41,16 @@ struct PackMode final {
   {
     return (mode == PackModeEnum::array) ? *this : PackMode{ mode };
   }
+
+  constexpr bool operator==(PackMode other) const
+  {
+    return mode == other.mode && flag == other.flag;
+  }
+
+  constexpr bool operator!=(PackMode other) const
+  {
+    return mode != other.mode || flag != other.flag;
+  }
 };
 
 }  // namespace gvizard::attrtypes
