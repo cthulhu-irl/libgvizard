@@ -46,6 +46,16 @@ enum class ClusterStyleOnly : uint8_t {
 struct StyleItem final {
   std::string name;
   std::vector<std::string> args;
+
+  bool operator==(const StyleItem& other) const
+  {
+    return name == other.name && args == other.args;
+  }
+
+  bool operator!=(const StyleItem& other) const
+  {
+    return name != other.name || args != other.args;
+  }
 };
 
 struct BuiltinStyleItem final {
@@ -53,6 +63,16 @@ struct BuiltinStyleItem final {
                                         EdgeStyleOnly, ClusterStyleOnly>;
   builtin_style_type name;
   std::vector<std::string> args;
+
+  bool operator==(const BuiltinStyleItem& other) const
+  {
+    return name == other.name && args == other.args;
+  }
+
+  bool operator!=(const BuiltinStyleItem& other) const
+  {
+    return name != other.name || args != other.args;
+  }
 
   StyleItem to_style_item() const
   {
@@ -80,15 +100,24 @@ struct Style final {
     {
       return std::visit(
         utils::LambdaVisitor{
-          [](const StyleItem& arg) { return arg; },
-          [](const BuiltinStyleItem& arg)
-            { return arg.to_style_item(); }
+          [](const StyleItem& arg)        { return arg;                 },
+          [](const BuiltinStyleItem& arg) { return arg.to_style_item(); }
         },
         item
       );
     };
 
   std::vector<item_type> items;
+
+  bool operator==(const Style& other) const
+  {
+    return items == other.items;
+  }
+
+  bool operator!=(const Style& other) const
+  {
+    return items != other.items;
+  }
 
   Style& all_style_items()
   {
