@@ -24,6 +24,22 @@ struct Spline final {
 
   Vec<spline_triple_type, VecArgs...> triples{};
 
+  constexpr bool operator==(const Spline& other) const
+  {
+    return point   == other.point
+        && endp    == other.endp
+        && startp  == other.startp
+        && triples == other.triples;
+  }
+
+  constexpr bool operator!=(const Spline& other) const
+  {
+    return point   != other.point
+        || endp    != other.endp
+        || startp  != other.startp
+        || triples != other.triples;
+  }
+
   constexpr Spline& set_point(const spline_point_type& newpoint)
   {
     point = newpoint;
@@ -57,6 +73,16 @@ struct SplineType final {
   using spline_type = SplineT;
 
   Vec<spline_type, VecArgs...> splines{};
+
+  constexpr bool operator==(const SplineType& other) const
+  {
+    return splines == other.splines;
+  }
+
+  constexpr bool operator!=(const SplineType& other) const
+  {
+    return splines != other.splines;
+  }
 
   constexpr SplineType& add_spline(const spline_type& spline)
   {
