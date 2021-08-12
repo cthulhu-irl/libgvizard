@@ -21,14 +21,14 @@ struct Point2D {
   {}
 
   template <typename U>
-  friend constexpr Point2D
+  friend constexpr bool
   operator==(const Point2D& lhs, const Point2D<U>& rhs)
   {
     return lhs.x == rhs.x && lhs.y == rhs.y;
   }
 
   template <typename U>
-  friend constexpr Point2D
+  friend constexpr bool
   operator!=(const Point2D& lhs, const Point2D<U>& rhs)
   {
     return lhs.x != rhs.x || lhs.y != rhs.y;
@@ -65,14 +65,14 @@ struct Point3D {
   {}
 
   template <typename U>
-  friend constexpr Point3D
+  friend constexpr bool
   operator==(const Point3D& lhs, const Point3D<U>& rhs)
   {
     return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
   }
 
   template <typename U>
-  friend constexpr Point3D
+  friend constexpr bool
   operator!=(const Point3D& lhs, const Point3D<U>& rhs)
   {
     return lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z;
