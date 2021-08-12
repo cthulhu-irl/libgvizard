@@ -7,10 +7,10 @@
 namespace gvizard::attrtypes {
 
 class Rect final {
-  double llx_;
-  double lly_;
-  double urx_;
-  double ury_;
+  double llx_{};
+  double lly_{};
+  double urx_{};
+  double ury_{};
 
  public:
   constexpr Rect(double llx, double lly, double urx, double ury)
@@ -68,20 +68,20 @@ class Rect final {
     };
   }
 
-  constexpr bool operator==(const Rect& other) const
+  constexpr bool operator==(const Rect& other) const noexcept
   {
     return llx_ == other.llx_ && lly_ == other.lly_
         && urx_ == other.urx_ && ury_ == other.ury_;
   }
 
-  constexpr bool operator!=(const Rect& other) const
+  constexpr bool operator!=(const Rect& other) const noexcept
   {
     return llx_ != other.llx_ || lly_ != other.lly_
         || urx_ != other.urx_ || ury_ != other.ury_;
   }
 
  private:
-  Rect() {}
+  constexpr Rect() {}
 
   constexpr Rect& safe_set(double& dest, double value)
   {
