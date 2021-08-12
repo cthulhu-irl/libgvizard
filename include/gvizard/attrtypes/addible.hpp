@@ -25,6 +25,26 @@ struct AddibleBase {
 
   constexpr operator value_type() const { return value; }
 
+  constexpr bool operator==(const AddibleBase& other) const
+  {
+    return addible == other.addible && value == other.value;
+  }
+
+  constexpr bool operator!=(const AddibleBase& other) const
+  {
+    return addible != other.addible || value != other.value;
+  }
+
+  constexpr bool operator==(const value_type& other) const
+  {
+    return addible == AddibleSign::neutral && value == other;
+  }
+
+  constexpr bool operator!=(const value_type& other) const
+  {
+    return addible != AddibleSign::neutral || value != other;
+  }
+
   friend constexpr Derived operator+(const Derived& obj)
   {
     return make( obj.value, AddibleSign::addible );
