@@ -20,8 +20,11 @@ enum class CompassPoint : uint8_t {
   south_west,
 };
 
+template <typename StrT = std::string>
 struct PortPos final {
-  std::optional<std::string> port = std::nullopt;
+  using str_type = std::string;
+
+  std::optional<str_type> port = std::nullopt;
   CompassPoint compass = CompassPoint::_default;
 
   constexpr bool operator==(const PortPos& other) const
