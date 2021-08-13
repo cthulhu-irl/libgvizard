@@ -7,12 +7,12 @@
 namespace gvizard::attrtypes {
 
 struct EscNameSetRef final {
-  const std::string_view& graph="";
-  const std::string_view& node="";
-  const std::string_view& edge="";
-  const std::string_view& label="";
-  const std::string_view& head="";
-  const std::string_view& tail="";
+  const std::string_view graph="";
+  const std::string_view node="";
+  const std::string_view edge="";
+  const std::string_view label="";
+  const std::string_view head="";
+  const std::string_view tail="";
 };
 
 template <typename StringT = std::string>
