@@ -217,11 +217,11 @@ class EscString final {
   }
 };
 
+}  // namespace gvizard::attrtypes
+
 constexpr auto operator "" _escstr(const char *str, std::size_t size)
 {
-  return EscString<std::string_view>(str, size);
+  return gvizard::attrtypes::EscString<std::string_view>(str, size);
 }
-
-}  // namespace gvizard::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_ESCSTRING_HPP_
