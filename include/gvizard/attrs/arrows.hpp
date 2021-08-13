@@ -71,8 +71,8 @@ struct ArrowSize final : public AttributeBase<ArrowSize, double> {
 
   constexpr static const char * const name = "arrowsize";
 
-  constexpr ArrowSize() : AttributeBase(get_default_value()) {}
-  constexpr ArrowSize(value_type value) : AttributeBase(value) {}
+  constexpr explicit ArrowSize() : AttributeBase(get_default_value()) {}
+  constexpr explicit ArrowSize(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
   {
