@@ -5,6 +5,7 @@
 #include <string_view>
 #include <optional>
 #include <stdexcept>
+#include <variant>
 
 #include <magic_enum.hpp>
 
@@ -131,6 +132,12 @@ struct LambdaVisitor final : Ts... { using Ts::operator()...; };
 
 template <typename ...Ts>
 LambdaVisitor(Ts...) -> LambdaVisitor<Ts...>;
+
+template <typename T, typename ...Fs>
+constexpr auto LambdaVisit(const T& arg, Fs... fs)
+{
+  return std::visit(LambdaVisitor{fs...}, arg);
+}
 
 }  // namespace utils
 }  // namespace gvizard
