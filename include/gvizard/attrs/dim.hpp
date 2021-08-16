@@ -25,7 +25,7 @@ struct Dim final : public AttributeBase<Dim, int> {
 
   constexpr static bool constraint(value_type value) noexcept
   {
-    return value >= get_default_value();
+    return 10 >= value && value >= 2;
   }
 };
 
