@@ -5,6 +5,7 @@
 #include <string>
 
 #include <gvizard/attribute.hpp>
+#include <gvizard/attrtypes/escstring.hpp>
 
 namespace gvizard::attrs {
 
@@ -28,6 +29,28 @@ struct DirEdgeConstraints final
   }
 
   static bool constraint(value_type) noexcept { return true; }
+};
+
+
+struct EdgeHref final
+  : public AttributeBase<EdgeHref, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "edgehref";
+
+  EdgeHref() : AttributeBase() {}
+  EdgeHref(const value_type& value) : AttributeBase(value) {}
+  EdgeHref(value_type&& value) : AttributeBase(std::move(value)) {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  static bool is_default(const value_type& value)
+  {
+    return value.get_format_ref().empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
