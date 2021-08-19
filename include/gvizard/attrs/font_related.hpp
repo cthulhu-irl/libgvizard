@@ -57,6 +57,28 @@ struct FontName final : public AttributeBase<FontName, std::string> {
   static bool constraint(const value_type&) noexcept { return false; }
 };
 
+
+struct FontNames final : public AttributeBase<FontNames, std::string> {
+  using value_type = std::string;
+
+  constexpr static const char * const name = "fontnames";
+
+  explicit FontNames() : AttributeBase() {}
+  explicit FontNames(const value_type& value) : AttributeBase(value) {}
+  explicit FontNames(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return ""; }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_FONT_RELATED_HPP_
