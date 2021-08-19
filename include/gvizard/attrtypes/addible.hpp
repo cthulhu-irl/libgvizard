@@ -20,7 +20,7 @@ struct AddibleBase {
   constexpr static Derived
   make(T value, AddibleSign sign = AddibleSign::neutral)
   {
-    return Derived{ std::move(value), sign };
+    return Derived(std::move(value), sign);
   }
 
   constexpr operator value_type() const { return value; }
@@ -83,10 +83,23 @@ struct AddibleBase {
 // for arbitrary types from user
 template <typename T>
 struct Addible : public AddibleBase<Addible<T>, T> {
-  /* nothing here */
+  constexpr explicit
+  Addible(const T& value, AddibleSign sign = AddibleSign::neutral)
+    : AddibleBase<Addible<T>, T>{value, sign}
+  {}
+
+  constexpr explicit
+  Addible(T&& value, AddibleSign sign = AddibleSign::neutral)
+    : AddibleBase<Addible<T>, T>{std::move(value), sign}
+  {}
 };
 
 struct AddDouble : public AddibleBase<AddDouble, double> {
+  constexpr explicit
+  AddDouble(double value, AddibleSign sign = AddibleSign::neutral)
+    : AddibleBase{value, sign}
+  {}
+
   friend constexpr AddDouble
   operator-(const AddDouble& lhs, const AddDouble& rhs)
   {
