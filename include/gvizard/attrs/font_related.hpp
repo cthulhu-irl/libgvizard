@@ -16,7 +16,7 @@ struct FontColor final
 
   constexpr static const char * const name = "fontcolor";
 
-  constexpr explicit FontColor() : AttributeBase() {}
+  constexpr explicit FontColor() : AttributeBase(get_default_value()) {}
   constexpr explicit FontColor(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -41,7 +41,7 @@ struct FontName final : public AttributeBase<FontName, std::string> {
 
   constexpr static const char * const name = "fontname";
 
-  explicit FontName() : AttributeBase() {}
+  explicit FontName() : AttributeBase(get_default_value()) {}
   explicit FontName(const value_type& value) : AttributeBase(value) {}
   explicit FontName(value_type&& value)
     : AttributeBase(std::move(value))
@@ -63,7 +63,7 @@ struct FontNames final : public AttributeBase<FontNames, std::string> {
 
   constexpr static const char * const name = "fontnames";
 
-  explicit FontNames() : AttributeBase() {}
+  explicit FontNames() : AttributeBase(get_default_value()) {}
   explicit FontNames(const value_type& value) : AttributeBase(value) {}
   explicit FontNames(value_type&& value)
     : AttributeBase(std::move(value))
@@ -85,7 +85,7 @@ struct FontPath final : public AttributeBase<FontPath, std::string> {
 
   constexpr static const char * const name = "fontpath";
 
-  explicit FontPath() : AttributeBase() {}
+  explicit FontPath() : AttributeBase(get_default_value()) {}
   explicit FontPath(const value_type& value) : AttributeBase(value) {}
   explicit FontPath(value_type&& value)
     : AttributeBase(std::move(value))
@@ -99,6 +99,28 @@ struct FontPath final : public AttributeBase<FontPath, std::string> {
   }
 
   static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
+struct FontSize final : public AttributeBase<FontSize, double> {
+  using value_type = double;
+
+  constexpr static const char * const name = "fontsize";
+
+  constexpr explicit FontSize() : AttributeBase(get_default_value()) {}
+  constexpr explicit FontSize(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept { return 14.0; };
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return value >= 1.0;
+  }
 };
 
 }  // namespace gvizard::attrs
