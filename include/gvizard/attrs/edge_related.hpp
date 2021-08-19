@@ -1,8 +1,9 @@
 #ifndef GVIZARD_ATTRS_EDGE_RELATED_HPP_
 #define GVIZARD_ATTRS_EDGE_RELATED_HPP_
 
-#include <variant>
 #include <string>
+#include <variant>
+#include <optional>
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/escstring.hpp>
@@ -49,6 +50,30 @@ struct EdgeHref final
   {
     return value.get_format_ref().empty();
   }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
+using EdgeTargetType = std::optional<attrtypes::EscString<std::string>>;
+
+struct EdgeTarget final
+  : public AttributeBase<EdgeTarget, EdgeTargetType>
+{
+  using value_type = EdgeTargetType;
+
+  constexpr static const char * const name = "edgetarget";
+
+  EdgeTarget() : AttributeBase() {}
+  EdgeTarget(const value_type& value) : AttributeBase(value) {}
+  EdgeTarget(value_type&& value) : AttributeBase(std::move(value)) {}
+
+  static value_type get_default_value()
+  {
+    return std::nullopt;
+  }
+
+  static bool is_default(const value_type& value) { return !value; }
 
   static bool constraint(const value_type&) noexcept { return true; }
 };
