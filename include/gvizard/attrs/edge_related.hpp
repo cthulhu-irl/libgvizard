@@ -82,11 +82,33 @@ struct EdgeTooltip final
 {
   using value_type = attrtypes::EscString<std::string>;
 
-  constexpr static const char * const name = "edgehref";
+  constexpr static const char * const name = "edgetooltip";
 
   EdgeTooltip() : AttributeBase() {}
   EdgeTooltip(const value_type& value) : AttributeBase(value) {}
   EdgeTooltip(value_type&& value) : AttributeBase(std::move(value)) {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.get_format_ref().empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
+struct EdgeURL final
+  : public AttributeBase<EdgeURL, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "edgeurl";
+
+  EdgeURL() : AttributeBase() {}
+  EdgeURL(const value_type& value) : AttributeBase(value) {}
+  EdgeURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() { return value_type(""); }
 
