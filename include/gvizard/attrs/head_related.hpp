@@ -152,6 +152,30 @@ struct HeadTarget final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
+
+struct HeadTooltip final
+  : public AttributeBase<HeadTooltip, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "headtooltip";
+
+  explicit HeadTooltip() : AttributeBase() {}
+  explicit HeadTooltip(const value_type& value) : AttributeBase(value) {}
+  explicit HeadTooltip(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.get_format_ref().empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_HEAD_RELATED_HPP_
