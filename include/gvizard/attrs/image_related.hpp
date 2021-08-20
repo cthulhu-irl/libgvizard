@@ -2,6 +2,7 @@
 #define GVIZARD_ATTRS_IMAGE_RELATED_HPP_
 
 #include <string>
+#include <variant>
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/imagepos.hpp>
@@ -71,6 +72,31 @@ struct ImagePos final
   }
 
   constexpr static bool constraint(value_type) noexcept { return true; }
+};
+
+
+using ImageScaleType = std::variant<bool, std::string>;
+
+struct ImageScale final : public AttributeBase<ImageScale, ImageScaleType>
+{
+  using value_type = ImageScaleType;
+
+  constexpr static const char * const name = "imagescale";
+
+  explicit ImageScale() : AttributeBase(get_default_value()) {}
+  explicit ImageScale(const value_type& value) : AttributeBase(value) {}
+  explicit ImageScale(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return false; }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
