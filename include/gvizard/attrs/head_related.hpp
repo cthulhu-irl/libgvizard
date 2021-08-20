@@ -6,6 +6,7 @@
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/point.hpp>
 #include <gvizard/attrtypes/escstring.hpp>
+#include <gvizard/attrtypes/label.hpp>
 
 namespace gvizard::attrs {
 
@@ -76,6 +77,30 @@ struct HeadHref final
   }
 
   static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
+struct HeadLabel final
+  : public AttributeBase<HeadLabel, attrtypes::Label<std::string>>
+{
+  using value_type = attrtypes::Label<std::string>;
+
+  constexpr static const char * const name = "headlabel";
+
+  explicit HeadLabel() : AttributeBase(get_default_value()) {}
+  explicit HeadLabel(const value_type& value) : AttributeBase(value) {}
+  explicit HeadLabel(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  static bool is_default(const value_type& value)
+  {
+    return value.empty();
+  }
+
+  static bool constraint(const value_type& value) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
