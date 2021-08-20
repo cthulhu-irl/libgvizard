@@ -4,6 +4,7 @@
 #include <string>
 
 #include <gvizard/attribute.hpp>
+#include <gvizard/attrtypes/imagepos.hpp>
 
 namespace gvizard::attrs {
 
@@ -30,7 +31,7 @@ struct Image final : public AttributeBase<Image, std::string> {
 struct ImagePath final : public AttributeBase<ImagePath, std::string> {
   using value_type = std::string;
 
-  constexpr static const char * const name = "image";
+  constexpr static const char * const name = "imagepath";
 
   explicit ImagePath() : AttributeBase(get_default_value()) {}
   explicit ImagePath(const value_type& value) : AttributeBase(value) {}
@@ -46,6 +47,30 @@ struct ImagePath final : public AttributeBase<ImagePath, std::string> {
   }
 
   static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
+struct ImagePos final
+  : public AttributeBase<ImagePos, attrtypes::ImagePosEnum>
+{
+  using value_type = attrtypes::ImagePosEnum;
+
+  constexpr static const char * const name = "imagepos";
+
+  constexpr explicit ImagePos() : AttributeBase(get_default_value()) {}
+  constexpr explicit ImagePos(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept
+  {
+    return attrtypes::ImagePosEnum::mc;
+  }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
