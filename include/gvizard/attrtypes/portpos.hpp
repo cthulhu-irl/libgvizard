@@ -22,7 +22,7 @@ enum class CompassPoint : uint8_t {
 
 template <typename StrT = std::string>
 struct PortPos final {
-  using str_type = std::string;
+  using str_type = StrT;
 
   std::optional<str_type> port = std::nullopt;
   CompassPoint compass = CompassPoint::_default;

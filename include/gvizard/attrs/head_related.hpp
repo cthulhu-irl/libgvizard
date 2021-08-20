@@ -7,6 +7,7 @@
 #include <gvizard/attrtypes/point.hpp>
 #include <gvizard/attrtypes/escstring.hpp>
 #include <gvizard/attrtypes/label.hpp>
+#include <gvizard/attrtypes/portpos.hpp>
 
 namespace gvizard::attrs {
 
@@ -101,6 +102,30 @@ struct HeadLabel final
   }
 
   static bool constraint(const value_type& value) noexcept { return true; }
+};
+
+
+struct HeadPort final
+  : AttributeBase<HeadPort, attrtypes::PortPos<std::string>>
+{
+  using value_type = attrtypes::PortPos<std::string>;
+
+  constexpr static const char * const name = "headport";
+
+  explicit HeadPort() : AttributeBase(get_default_value()) {}
+  explicit HeadPort(const value_type& value) : AttributeBase(value) {}
+  explicit HeadPort(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return {}; }
+
+  static bool is_default(const value_type& value)
+  {
+    return value == get_default_value();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
