@@ -78,7 +78,7 @@ struct LabelDistance final : public AttributeBase<LabelDistance, double>
 {
   using value_type = double;
 
-  constexpr static const char * const name = "labelangle";
+  constexpr static const char * const name = "labeldistance";
 
   constexpr explicit LabelDistance() : AttributeBase() {}
   constexpr explicit LabelDistance(value_type value)
@@ -95,6 +95,28 @@ struct LabelDistance final : public AttributeBase<LabelDistance, double>
   constexpr static bool constraint(value_type value) noexcept
   {
     return value >= 0.;
+  }
+};
+
+
+struct LabelFloat final : public AttributeBase<LabelFloat, double> {
+  using value_type = double;
+
+  constexpr static const char * const name = "labelfloat";
+
+  constexpr explicit LabelFloat() : AttributeBase() {}
+  constexpr explicit LabelFloat(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept { return false; }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return true;
   }
 };
 
