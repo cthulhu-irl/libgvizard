@@ -29,6 +29,28 @@ struct Label final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
+
+struct LabelScheme final : public AttributeBase<LabelScheme, int> {
+  using value_type = int;
+
+  constexpr static const char * const name = "label_scheme";
+
+  constexpr explicit LabelScheme() : AttributeBase(get_default_value()) {}
+  constexpr explicit LabelScheme(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept { return 0; }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return value >= 0;
+  }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
