@@ -176,6 +176,31 @@ struct LabelFontName final
   static bool constraint(const value_type&) noexcept { return false; }
 };
 
+
+struct LabelFontSize final : public AttributeBase<LabelFontSize, double>
+{
+  using value_type = double;
+
+  constexpr static const char * const name = "labelfontsize";
+
+  constexpr explicit LabelFontSize() : AttributeBase() {}
+  constexpr explicit LabelFontSize(value_type value)
+    : AttributeBase(value)  
+  {}  
+  
+  constexpr static value_type get_default_value() noexcept { return 14.; }
+  
+  constexpr static bool is_default(value_type value) noexcept
+  {  
+    return value == get_default_value();
+  }  
+
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return value >= 1.;
+  }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
