@@ -250,6 +250,54 @@ struct LabelJust final : public AttributeBase<LabelJust, LabelJustEnum> {
   operator std::string() { return std::string(std::string_view(*this)); }
 };
 
+
+enum class LabelLocEnum { _default = 0, top, bottom, center };
+
+struct LabelLoc final : public AttributeBase<LabelLoc, LabelLocEnum> {
+  using value_type = LabelLocEnum;
+
+  constexpr static const char * const name = "labelloc";
+
+  constexpr LabelLoc() : AttributeBase() {}
+  constexpr LabelLoc(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept
+  {
+    return LabelLocEnum::_default;
+  }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type) noexcept { return true; }
+
+  operator char()
+  {
+    switch (get_value()) {
+      case LabelLocEnum::center: return 'c';
+      case LabelLocEnum::top:    return 't';
+      case LabelLocEnum::bottom: return 'b';
+      default:
+        return ' ';
+    }
+  }
+
+  operator std::string_view()
+  {
+    switch (get_value()) {
+      case LabelLocEnum::center: return "c";
+      case LabelLocEnum::top:    return "t";
+      case LabelLocEnum::bottom: return "b";
+      default:
+        return "";
+    }
+  }
+
+  operator std::string() { return std::string(std::string_view(*this)); }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
