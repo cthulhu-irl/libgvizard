@@ -3,10 +3,12 @@
 
 #include <string>
 
+#include <gvizard/attrtypes/escstring.hpp>
+
 namespace gvizard::attrtypes {
 
 template <typename Str = std::string>
-using Label = Str;
+using Label = EscString<Str>;
 
 }  // namespace gvizard::attrtypes
 
