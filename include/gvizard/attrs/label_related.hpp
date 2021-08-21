@@ -152,6 +152,30 @@ struct LabelFontColor final
   }
 };
 
+
+struct LabelFontName final
+  : public AttributeBase<LabelFontName, std::string>
+{
+  using value_type = std::string;
+
+  constexpr static const char * const name = "labelfontname";
+
+  explicit LabelFontName() : AttributeBase() {}
+  explicit LabelFontName(const value_type& value) : AttributeBase(value) {}
+  explicit LabelFontName(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return "Times-Roman"; }
+
+  static bool is_default(const value_type& value)
+  {
+    return value == get_default_value();
+  }
+
+  static bool constraint(const value_type&) noexcept { return false; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
