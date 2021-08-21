@@ -2,6 +2,7 @@
 #define GVIZARD_ATTRS_LABEL_RELATED_HPP_
 
 #include <string>
+#include <string_view>
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/label.hpp>
@@ -199,6 +200,54 @@ struct LabelFontSize final : public AttributeBase<LabelFontSize, double>
   {
     return value >= 1.;
   }
+};
+
+
+enum class LabelJustEnum { center = 0, left, right };
+
+struct LabelJust final : public AttributeBase<LabelJust, LabelJustEnum> {
+  using value_type = LabelJustEnum;
+
+  constexpr static const char * const name = "labeljust";
+
+  constexpr LabelJust() : AttributeBase() {}
+  constexpr LabelJust(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept
+  {
+    return LabelJustEnum::center;
+  }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type) noexcept { return true; }
+
+  operator char()
+  {
+    switch (get_value()) {
+      case LabelJustEnum::center: return 'c';
+      case LabelJustEnum::left:   return 'l';
+      case LabelJustEnum::right:  return 'r';
+      default:
+        return 'c';
+    }
+  }
+
+  operator std::string_view()
+  {
+    switch (get_value()) {
+      case LabelJustEnum::center: return "c";
+      case LabelJustEnum::left:   return "l";
+      case LabelJustEnum::right:  return "r";
+      default:
+        return "c";
+    }
+  }
+
+  operator std::string() { return std::string(std::string_view(*this)); }
 };
 
 }  // namespace gvizard::attrs
