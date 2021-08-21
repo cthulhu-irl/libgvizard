@@ -20,8 +20,13 @@ struct BGColor final
 
   constexpr static const char * const name = "bb";
 
-  constexpr BGColor() : AttributeBase() {}
-  constexpr BGColor(const value_type& value) : AttributeBase(value) {}
+  constexpr explicit BGColor() : AttributeBase() {}
+  constexpr explicit BGColor(const value_type& value)
+    : AttributeBase(value)
+  {}
+  constexpr explicit BGColor(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
 
   constexpr static value_type get_default_value() noexcept
   {

@@ -17,8 +17,8 @@ struct ColorScheme final
 
   constexpr static const char * const name = "colorscheme";
 
-  constexpr ColorScheme() : AttributeBase() {}
-  constexpr ColorScheme(value_type value) : AttributeBase(value) {}
+  constexpr explicit ColorScheme() : AttributeBase() {}
+  constexpr explicit ColorScheme(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
   {

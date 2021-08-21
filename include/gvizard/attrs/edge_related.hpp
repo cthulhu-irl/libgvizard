@@ -19,8 +19,8 @@ struct DirEdgeConstraints final
 
   constexpr static const char * const name = "diredgeconstraints";
 
-  DirEdgeConstraints() : AttributeBase() {}
-  DirEdgeConstraints(value_type value) : AttributeBase(value) {}
+  explicit DirEdgeConstraints() : AttributeBase() {}
+  explicit DirEdgeConstraints(value_type value) : AttributeBase(value) {}
 
   static value_type get_default_value() noexcept { return false; }
 
@@ -40,9 +40,9 @@ struct EdgeHref final
 
   constexpr static const char * const name = "edgehref";
 
-  EdgeHref() : AttributeBase() {}
-  EdgeHref(const value_type& value) : AttributeBase(value) {}
-  EdgeHref(value_type&& value) : AttributeBase(std::move(value)) {}
+  explicit EdgeHref() : AttributeBase() {}
+  explicit EdgeHref(const value_type& value) : AttributeBase(value) {}
+  explicit EdgeHref(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() { return value_type(""); }
 
@@ -62,9 +62,11 @@ struct EdgeTarget final
 
   constexpr static const char * const name = "edgetarget";
 
-  EdgeTarget() : AttributeBase() {}
-  EdgeTarget(const value_type& value) : AttributeBase(value) {}
-  EdgeTarget(value_type&& value) : AttributeBase(std::move(value)) {}
+  explicit EdgeTarget() : AttributeBase() {}
+  explicit EdgeTarget(const value_type& value) : AttributeBase(value) {}
+  explicit EdgeTarget(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
 
   static value_type get_default_value() noexcept { return value_type(""); }
 
@@ -84,9 +86,11 @@ struct EdgeTooltip final
 
   constexpr static const char * const name = "edgetooltip";
 
-  EdgeTooltip() : AttributeBase() {}
-  EdgeTooltip(const value_type& value) : AttributeBase(value) {}
-  EdgeTooltip(value_type&& value) : AttributeBase(std::move(value)) {}
+  explicit EdgeTooltip() : AttributeBase() {}
+  explicit EdgeTooltip(const value_type& value) : AttributeBase(value) {}
+  explicit EdgeTooltip(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
 
   static value_type get_default_value() { return value_type(""); }
 
@@ -106,9 +110,9 @@ struct EdgeURL final
 
   constexpr static const char * const name = "edgeurl";
 
-  EdgeURL() : AttributeBase() {}
-  EdgeURL(const value_type& value) : AttributeBase(value) {}
-  EdgeURL(value_type&& value) : AttributeBase(std::move(value)) {}
+  explicit EdgeURL() : AttributeBase() {}
+  explicit EdgeURL(const value_type& value) : AttributeBase(value) {}
+  explicit EdgeURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() { return value_type(""); }
 
