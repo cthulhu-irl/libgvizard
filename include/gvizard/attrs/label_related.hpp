@@ -51,6 +51,28 @@ struct LabelScheme final : public AttributeBase<LabelScheme, int> {
   }
 };
 
+
+struct LabelAngle final : public AttributeBase<LabelAngle, double> {
+  using value_type = double;
+
+  constexpr static const char * const name = "labelangle";
+
+  constexpr explicit LabelAngle() : AttributeBase() {}
+  constexpr explicit LabelAngle(value_type value) : AttributeBase(value) {}
+
+  constexpr static value_type get_default_value() noexcept { return -25.; }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return value >= -180.;
+  }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
