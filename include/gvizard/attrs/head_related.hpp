@@ -98,7 +98,7 @@ struct HeadLabel final
 
   static bool is_default(const value_type& value)
   {
-    return value.empty();
+    return value.get_format_ref().empty();
   }
 
   static bool constraint(const value_type& value) noexcept { return true; }
