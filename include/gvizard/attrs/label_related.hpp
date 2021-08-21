@@ -5,6 +5,9 @@
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/label.hpp>
+#include <gvizard/attrtypes/color.hpp>
+
+#include <gvizard/colors/x11.hpp>
 
 namespace gvizard::attrs {
 
@@ -115,6 +118,35 @@ struct LabelFloat final : public AttributeBase<LabelFloat, double> {
   }
 
   constexpr static bool constraint(value_type value) noexcept
+  {
+    return true;
+  }
+};
+
+
+struct LabelFontColor final
+  : public AttributeBase<LabelFontColor, attrtypes::ColorType>
+{
+  using value_type = attrtypes::ColorType;
+
+  constexpr static const char * const name = "labelfontcolor";
+
+  constexpr explicit LabelFontColor() : AttributeBase() {}
+  constexpr explicit LabelFontColor(const value_type& value)
+    : AttributeBase(value)
+  {}
+
+  constexpr static value_type get_default_value() noexcept
+  {
+    return { colors::X11ColorEnum::black };
+  }
+
+  constexpr static bool is_default(const value_type& value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(const value_type&) noexcept
   {
     return true;
   }
