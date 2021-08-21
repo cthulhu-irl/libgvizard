@@ -10,7 +10,7 @@ struct Concentrate final : public AttributeBase<Concentrate, bool> {
 
   constexpr static const char * const name = "concentrate";
 
-  constexpr explicit Concentrate() : AttributeBase(get_default_value()) {}
+  constexpr explicit Concentrate() : AttributeBase() {}
   constexpr explicit Concentrate(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

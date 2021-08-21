@@ -10,7 +10,7 @@ struct Dim final : public AttributeBase<Dim, int> {
 
   constexpr static const char * const name = "dim";
 
-  constexpr explicit Dim() : AttributeBase(get_default_value()) {}
+  constexpr explicit Dim() : AttributeBase() {}
   constexpr explicit Dim(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

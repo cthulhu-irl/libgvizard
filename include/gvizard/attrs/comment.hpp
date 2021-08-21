@@ -12,7 +12,7 @@ struct Comment final : public AttributeBase<Comment, std::string> {
 
   constexpr static const char * const name = "comment";
 
-  explicit Comment() : AttributeBase(get_default_value()) {}
+  explicit Comment() : AttributeBase() {}
   explicit Comment(const value_type& value) : AttributeBase(value) {}
   explicit Comment(value_type&& value)
     : AttributeBase(std::move(value))

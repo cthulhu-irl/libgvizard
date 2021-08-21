@@ -10,7 +10,7 @@ struct Height final : public AttributeBase<Height, double> {
 
   constexpr static const char * const name = "height";
 
-  constexpr explicit Height() : AttributeBase(get_default_value()) {}
+  constexpr explicit Height() : AttributeBase() {}
   constexpr explicit Height(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

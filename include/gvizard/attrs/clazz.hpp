@@ -12,7 +12,7 @@ struct Clazz final : public AttributeBase<Clazz, std::string> {
 
   constexpr static const char * const name = "class";
 
-  explicit Clazz() : AttributeBase(get_default_value()) {}
+  explicit Clazz() : AttributeBase() {}
   explicit Clazz(const value_type& value) : AttributeBase(value) {}
   explicit Clazz(value_type&& value) : AttributeBase(std::move(value)) {}
 

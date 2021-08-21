@@ -10,7 +10,7 @@ struct Area final : public AttributeBase<Area, double> {
 
   constexpr static const char * const name = "area";
 
-  constexpr Area() : AttributeBase(get_default_value()) {}
+  constexpr Area() : AttributeBase() {}
   constexpr Area(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() { return 1.0; }

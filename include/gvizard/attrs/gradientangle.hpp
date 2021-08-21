@@ -10,10 +10,7 @@ struct GradientAngle final : public AttributeBase<GradientAngle, int> {
 
   constexpr static const char * const name = "gradientangle";
 
-  constexpr explicit GradientAngle()
-    : AttributeBase(get_default_value())
-  {}
-
+  constexpr explicit GradientAngle() : AttributeBase() {}
   constexpr explicit GradientAngle(value_type value)
     : AttributeBase(value)
   {}

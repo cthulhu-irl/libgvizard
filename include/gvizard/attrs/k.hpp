@@ -10,7 +10,7 @@ struct Kvalue final : public AttributeBase<Kvalue, double> {
 
   constexpr static const char * const name = "K";
 
-  constexpr explicit Kvalue() : AttributeBase(get_default_value()) {}
+  constexpr explicit Kvalue() : AttributeBase() {}
   constexpr explicit Kvalue(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.3; }

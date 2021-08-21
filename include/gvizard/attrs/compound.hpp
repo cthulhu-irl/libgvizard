@@ -10,7 +10,7 @@ struct Compound final : public AttributeBase<Compound, bool> {
 
   constexpr static const char * const name = "compound";
 
-  constexpr explicit Compound() : AttributeBase(get_default_value()) {}
+  constexpr explicit Compound() : AttributeBase() {}
   constexpr explicit Compound(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

@@ -14,7 +14,7 @@ struct Image final : public AttributeBase<Image, std::string> {
 
   constexpr static const char * const name = "image";
 
-  explicit Image() : AttributeBase(get_default_value()) {}
+  explicit Image() : AttributeBase() {}
   explicit Image(const value_type& value) : AttributeBase(value) {}
   explicit Image(value_type&& value) : AttributeBase(std::move(value)) {}
 
@@ -34,7 +34,7 @@ struct ImagePath final : public AttributeBase<ImagePath, std::string> {
 
   constexpr static const char * const name = "imagepath";
 
-  explicit ImagePath() : AttributeBase(get_default_value()) {}
+  explicit ImagePath() : AttributeBase() {}
   explicit ImagePath(const value_type& value) : AttributeBase(value) {}
   explicit ImagePath(value_type&& value)
     : AttributeBase(std::move(value))
@@ -58,7 +58,7 @@ struct ImagePos final
 
   constexpr static const char * const name = "imagepos";
 
-  constexpr explicit ImagePos() : AttributeBase(get_default_value()) {}
+  constexpr explicit ImagePos() : AttributeBase() {}
   constexpr explicit ImagePos(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -83,7 +83,7 @@ struct ImageScale final : public AttributeBase<ImageScale, ImageScaleType>
 
   constexpr static const char * const name = "imagescale";
 
-  explicit ImageScale() : AttributeBase(get_default_value()) {}
+  explicit ImageScale() : AttributeBase() {}
   explicit ImageScale(const value_type& value) : AttributeBase(value) {}
   explicit ImageScale(value_type&& value)
     : AttributeBase(std::move(value))

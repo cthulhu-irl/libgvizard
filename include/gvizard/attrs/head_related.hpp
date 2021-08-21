@@ -18,7 +18,7 @@ struct HeadLP final
 
   constexpr static const char * const name = "head_lp";
 
-  constexpr explicit HeadLP() : AttributeBase(get_default_value()) {}
+  constexpr explicit HeadLP() : AttributeBase() {}
   constexpr explicit HeadLP(const value_type& value)
     : AttributeBase(value)
   {}
@@ -45,7 +45,7 @@ struct HeadClip final : public AttributeBase<HeadClip, bool> {
 
   constexpr static const char * const name = "headclip";
 
-  constexpr explicit HeadClip() : AttributeBase(get_default_value()) {}
+  constexpr explicit HeadClip() : AttributeBase() {}
   constexpr explicit HeadClip(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return true; }
@@ -66,7 +66,7 @@ struct HeadHref final
 
   constexpr static const char * const name = "headhref";
 
-  explicit HeadHref() : AttributeBase(get_default_value()) {}
+  explicit HeadHref() : AttributeBase() {}
   explicit HeadHref(const value_type& value) : AttributeBase(value) {}
   explicit HeadHref(value_type&& value) : AttributeBase(std::move(value)) {}
 
@@ -88,7 +88,7 @@ struct HeadLabel final
 
   constexpr static const char * const name = "headlabel";
 
-  explicit HeadLabel() : AttributeBase(get_default_value()) {}
+  explicit HeadLabel() : AttributeBase() {}
   explicit HeadLabel(const value_type& value) : AttributeBase(value) {}
   explicit HeadLabel(value_type&& value)
     : AttributeBase(std::move(value))
@@ -112,7 +112,7 @@ struct HeadPort final
 
   constexpr static const char * const name = "headport";
 
-  explicit HeadPort() : AttributeBase(get_default_value()) {}
+  explicit HeadPort() : AttributeBase() {}
   explicit HeadPort(const value_type& value) : AttributeBase(value) {}
   explicit HeadPort(value_type&& value)
     : AttributeBase(std::move(value))

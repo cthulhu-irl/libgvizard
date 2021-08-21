@@ -19,7 +19,7 @@ struct DirEdgeConstraints final
 
   constexpr static const char * const name = "diredgeconstraints";
 
-  DirEdgeConstraints() : AttributeBase(get_default_value()) {}
+  DirEdgeConstraints() : AttributeBase() {}
   DirEdgeConstraints(value_type value) : AttributeBase(value) {}
 
   static value_type get_default_value() noexcept { return false; }

@@ -10,7 +10,7 @@ struct Constraint final : public AttributeBase<Constraint, bool> {
 
   constexpr static const char * const name = "constraint";
 
-  constexpr explicit Constraint() : AttributeBase(get_default_value()) {}
+  constexpr explicit Constraint() : AttributeBase() {}
   constexpr explicit Constraint(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return true; }

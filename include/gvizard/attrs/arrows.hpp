@@ -15,7 +15,7 @@ struct ArrowHead final
 
   constexpr static const char * const name = "arrowhead";
 
-  constexpr ArrowHead() : AttributeBase(get_default_value()) {}
+  constexpr ArrowHead() : AttributeBase() {}
   constexpr ArrowHead(value_type arrow)
     : AttributeBase(std::move(arrow))
   {}
@@ -44,7 +44,7 @@ struct ArrowTail final
 
   constexpr static const char * const name = "arrowtail";
 
-  constexpr ArrowTail() : AttributeBase(get_default_value()) {}
+  constexpr ArrowTail() : AttributeBase() {}
   constexpr ArrowTail(value_type arrow)
     : AttributeBase(std::move(arrow))
   {}
@@ -71,7 +71,7 @@ struct ArrowSize final : public AttributeBase<ArrowSize, double> {
 
   constexpr static const char * const name = "arrowsize";
 
-  constexpr explicit ArrowSize() : AttributeBase(get_default_value()) {}
+  constexpr explicit ArrowSize() : AttributeBase() {}
   constexpr explicit ArrowSize(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

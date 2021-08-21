@@ -12,7 +12,7 @@ struct Charset final : public AttributeBase<Charset, std::string> {
 
   constexpr static const char * const name = "charset";
 
-  explicit Charset() : AttributeBase(get_default_value()) {}
+  explicit Charset() : AttributeBase() {}
   explicit Charset(const value_type& value) : AttributeBase(value) {}
   explicit Charset(value_type&& value)
     : AttributeBase(std::move(value))

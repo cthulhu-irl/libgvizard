@@ -12,7 +12,7 @@ struct Group final : public AttributeBase<Group, std::string> {
 
   constexpr static const char * const name = "group";
 
-  explicit Group() : AttributeBase(get_default_value()) {}
+  explicit Group() : AttributeBase() {}
   explicit Group(const value_type& value) : AttributeBase(value) {}
   explicit Group(value_type&& value) : AttributeBase(std::move(value)) {}
 

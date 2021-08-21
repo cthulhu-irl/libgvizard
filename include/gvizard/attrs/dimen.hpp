@@ -10,7 +10,7 @@ struct Dimen final : public AttributeBase<Dimen, int> {
 
   constexpr static const char * const name = "dim";
 
-  constexpr explicit Dimen() : AttributeBase(get_default_value()) {}
+  constexpr explicit Dimen() : AttributeBase() {}
   constexpr explicit Dimen(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

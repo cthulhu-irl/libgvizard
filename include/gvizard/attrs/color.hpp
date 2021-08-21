@@ -24,7 +24,7 @@ struct Color final
 
   constexpr static const char * const name = "color";
 
-  Color() : AttributeBase(get_default_value()) {}
+  Color() : AttributeBase() {}
   Color(const value_type& value) : AttributeBase(value) {}
   Color(value_type&& value) : AttributeBase(std::move(value)) {}
 

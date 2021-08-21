@@ -15,7 +15,7 @@ struct Id final
 
   constexpr static const char * const name = "id";
 
-  explicit Id() : AttributeBase(get_default_value()) {}
+  explicit Id() : AttributeBase() {}
   explicit Id(const value_type& value) : AttributeBase(value) {}
   explicit Id(value_type&& value) : AttributeBase(std::move(value)) {}
 

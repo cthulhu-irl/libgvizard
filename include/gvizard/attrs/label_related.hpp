@@ -15,7 +15,7 @@ struct Label final
 
   constexpr static const char * const name = "label";
 
-  explicit Label() : AttributeBase(get_default_value()) {}
+  explicit Label() : AttributeBase() {}
   explicit Label(const value_type& value) : AttributeBase(value) {}
   explicit Label(value_type&& value) : AttributeBase(std::move(value)) {}
 
@@ -35,7 +35,7 @@ struct LabelScheme final : public AttributeBase<LabelScheme, int> {
 
   constexpr static const char * const name = "label_scheme";
 
-  constexpr explicit LabelScheme() : AttributeBase(get_default_value()) {}
+  constexpr explicit LabelScheme() : AttributeBase() {}
   constexpr explicit LabelScheme(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0; }
