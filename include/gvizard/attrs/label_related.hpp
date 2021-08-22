@@ -322,6 +322,30 @@ struct LabelTarget final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
+
+struct LabelTooltip final
+  : public AttributeBase<LabelTooltip, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "labeltooltip";
+
+  explicit LabelTooltip() : AttributeBase() {}
+  explicit LabelTooltip(const value_type& value) : AttributeBase(value) {}
+  explicit LabelTooltip(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.get_format_ref().empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_
