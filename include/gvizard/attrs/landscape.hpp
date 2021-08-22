@@ -20,10 +20,7 @@ struct Landscape final : public AttributeBase<Landscape, bool> {
     return value == get_default_value();
   }
 
-  constexpr static bool constraint(value_type value) noexcept
-  {
-    return true;
-  }
+  constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
 }  // namespace gvizard::attrs
