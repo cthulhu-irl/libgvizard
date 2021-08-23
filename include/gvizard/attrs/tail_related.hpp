@@ -140,6 +140,33 @@ struct TailPort final
   }
 };
 
+
+struct TailTarget final
+  : public AttributeBase<TailTarget, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "tailtarget";
+
+  explicit TailTarget() : AttributeBase() {}
+  explicit TailTarget(const value_type& value) : AttributeBase(value) {}
+  explicit TailTarget(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  constexpr static bool is_default(const value_type& value) noexcept
+  {
+    return value.get_format_ref().empty();
+  }
+
+  constexpr static bool constraint(const value_type&) noexcept
+  {
+    return true;
+  }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_TAIL_RELATED_HPP_
