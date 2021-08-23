@@ -54,6 +54,27 @@ struct OverlapScaling final : public AttributeBase<OverlapScaling, double>
   }
 };
 
+
+struct OverlapShrink final : public AttributeBase<OverlapShrink, double> {
+  using value_type = double;
+
+  constexpr static const char * const name = "overlap_shrink";
+
+  constexpr explicit OverlapShrink() : AttributeBase() {}
+  constexpr explicit OverlapShrink(value_type value)
+    : AttributeBase(value)
+  {}
+
+  constexpr static value_type get_default_value() noexcept { return true; }
+
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  constexpr static bool constraint(value_type) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_OVERLAP_RELATED_HPP_
