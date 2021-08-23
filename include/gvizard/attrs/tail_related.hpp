@@ -6,7 +6,7 @@
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/point.hpp>
-#include <gvizard/attrtypes/label.hpp>
+#include <gvizard/attrtypes/escstring.hpp>
 
 namespace gvizard::attrs {
 
@@ -59,9 +59,9 @@ struct TailClip final : public AttributeBase<TailClip, bool> {
 
 
 struct TailHref final
-  : public AttributeBase<TailHref, attrtypes::Label<std::string>>
+  : public AttributeBase<TailHref, attrtypes::EscString<std::string>>
 {
-  using value_type = attrtypes::Label<std::string>;
+  using value_type = attrtypes::EscString<std::string>;
 
   constexpr static const char * const name = "tailhref";
 
