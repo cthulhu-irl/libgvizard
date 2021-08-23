@@ -8,6 +8,7 @@
 #include <gvizard/attrtypes/point.hpp>
 #include <gvizard/attrtypes/escstring.hpp>
 #include <gvizard/attrtypes/label.hpp>
+#include <gvizard/attrtypes/portpos.hpp>
 
 namespace gvizard::attrs {
 
@@ -104,6 +105,33 @@ struct TailLabel final
   constexpr static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
+  }
+
+  constexpr static bool constraint(const value_type&) noexcept
+  {
+    return true;
+  }
+};
+
+
+struct TailPort final
+  : public AttributeBase<TailPort, attrtypes::PortPos<std::string>>
+{
+  using value_type = attrtypes::PortPos<std::string>;
+
+  constexpr static const char * const name = "tailport";
+
+  explicit TailPort() : AttributeBase() {}
+  explicit TailPort(const value_type& value) : AttributeBase(value) {}
+  explicit TailPort(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return {}; }
+
+  constexpr static bool is_default(const value_type& value) noexcept
+  {
+    return value == get_default_value();
   }
 
   constexpr static bool constraint(const value_type&) noexcept
