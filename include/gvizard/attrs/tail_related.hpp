@@ -167,6 +167,33 @@ struct TailTarget final
   }
 };
 
+
+struct TailTooltip final
+  : public AttributeBase<TailTooltip, attrtypes::EscString<std::string>>
+{
+  using value_type = attrtypes::EscString<std::string>;
+
+  constexpr static const char * const name = "tailtooltip";
+
+  explicit TailTooltip() : AttributeBase() {}
+  explicit TailTooltip(const value_type& value) : AttributeBase(value) {}
+  explicit TailTooltip(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return value_type(""); }
+
+  constexpr static bool is_default(const value_type& value) noexcept
+  {
+    return value.get_format_ref().empty();
+  }
+
+  constexpr static bool constraint(const value_type&) noexcept
+  {
+    return true;
+  }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_TAIL_RELATED_HPP_
