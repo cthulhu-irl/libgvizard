@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <variant>
+#include <optional>
 
 #include <gvizard/attribute.hpp>
 #include <gvizard/attrtypes/point.hpp>
