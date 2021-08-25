@@ -7,8 +7,6 @@
 
 #include <gvizard/attribute.hpp>
 
-#include <gvizard/utils.hpp>
-
 namespace gvizard::attrs {
 
 using RatioType = std::optional<std::variant<double, std::string>>;
