@@ -28,4 +28,4 @@ struct Mode final : public AttributeBase<Mode, std::string> {
 
 }  // namespace gvizard::attrs
 
-#endif  // GVIZARD_ATTRS_CHARSET_HPP_
+#endif  // GVIZARD_ATTRS_MODE_HPP_
