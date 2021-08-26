@@ -8,7 +8,7 @@ namespace gvizard::attrs {
 struct Dimen final : public AttributeBase<Dimen, int> {
   using value_type = int;
 
-  constexpr static const char * const name = "dim";
+  constexpr static const char * const name = "dimen";
 
   constexpr explicit Dimen() : AttributeBase() {}
   constexpr explicit Dimen(value_type value) : AttributeBase(value) {}
