@@ -18,7 +18,7 @@ struct BGColor final
 {
   using value_type = BGColorValueType<attrtypes::ColorType>;
 
-  constexpr static const char * const name = "bb";
+  constexpr static const char * const name = "bgcolor";
 
   constexpr explicit BGColor() : AttributeBase() {}
   constexpr explicit BGColor(const value_type& value)
