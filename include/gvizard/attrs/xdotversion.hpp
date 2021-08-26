@@ -22,7 +22,7 @@ struct XDotVersion final : public AttributeBase<XDotVersion, std::string> {
 
   static bool is_default(const value_type& value) noexcept
   {
-    return value == get_default_value();
+    return value.empty();
   }
 
   static bool constraint(const value_type&) noexcept

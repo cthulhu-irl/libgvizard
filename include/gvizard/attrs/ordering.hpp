@@ -20,7 +20,7 @@ struct Ordering final : public AttributeBase<Ordering, std::string> {
 
   static bool is_default(const value_type& value) noexcept
   {
-    return value == get_default_value();
+    return value.empty();
   }
 
   static bool constraint(const value_type&) noexcept { return true; }

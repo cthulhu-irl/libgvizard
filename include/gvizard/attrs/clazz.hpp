@@ -19,7 +19,7 @@ struct Clazz final : public AttributeBase<Clazz, std::string> {
   static value_type get_default_value() noexcept { return {}; }
   static bool is_default(const value_type& value) noexcept
   {
-    return value == get_default_value();
+    return value.empty();
   }
 
   static bool constraint(const value_type& value) noexcept { return true; }
