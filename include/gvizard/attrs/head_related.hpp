@@ -66,11 +66,11 @@ struct HeadHref final
 
   constexpr static const char * const name = "headhref";
 
-  explicit HeadHref() : AttributeBase() {}
+  explicit HeadHref() noexcept : AttributeBase() {}
   explicit HeadHref(const value_type& value) : AttributeBase(value) {}
   explicit HeadHref(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -88,13 +88,13 @@ struct HeadLabel final
 
   constexpr static const char * const name = "headlabel";
 
-  explicit HeadLabel() : AttributeBase() {}
+  explicit HeadLabel() noexcept : AttributeBase() {}
   explicit HeadLabel(const value_type& value) : AttributeBase(value) {}
   explicit HeadLabel(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -112,13 +112,13 @@ struct HeadPort final
 
   constexpr static const char * const name = "headport";
 
-  explicit HeadPort() : AttributeBase() {}
+  explicit HeadPort() noexcept : AttributeBase() {}
   explicit HeadPort(const value_type& value) : AttributeBase(value) {}
   explicit HeadPort(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return {}; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -136,13 +136,13 @@ struct HeadTarget final
 
   constexpr static const char * const name = "headtarget";
 
-  explicit HeadTarget() : AttributeBase() {}
+  explicit HeadTarget() noexcept : AttributeBase() {}
   explicit HeadTarget(const value_type& value) : AttributeBase(value) {}
   explicit HeadTarget(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -160,13 +160,13 @@ struct HeadTooltip final
 
   constexpr static const char * const name = "headtooltip";
 
-  explicit HeadTooltip() : AttributeBase() {}
+  explicit HeadTooltip() noexcept : AttributeBase() {}
   explicit HeadTooltip(const value_type& value) : AttributeBase(value) {}
   explicit HeadTooltip(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -184,13 +184,13 @@ struct HeadURL final
 
   constexpr static const char * const name = "headURL";
 
-  explicit HeadURL() : AttributeBase() {}
+  explicit HeadURL() noexcept : AttributeBase() {}
   explicit HeadURL(const value_type& value) : AttributeBase(value) {}
   explicit HeadURL(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {

@@ -12,11 +12,11 @@ struct SameTail final : public AttributeBase<SameTail, std::string> {
 
   constexpr static const char * const name = "sametail";
 
-  explicit SameTail() : AttributeBase() {}
+  explicit SameTail() noexcept : AttributeBase() {}
   explicit SameTail(const value_type& value) : AttributeBase(value) {}
   explicit SameTail(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

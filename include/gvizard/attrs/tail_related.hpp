@@ -67,13 +67,11 @@ struct TailHref final
 
   constexpr static const char * const name = "tailhref";
 
-  explicit TailHref() : AttributeBase() {}
+  explicit TailHref() noexcept : AttributeBase() {}
   explicit TailHref(const value_type& value) : AttributeBase(value) {}
-  explicit TailHref(value_type&& value)
-    : AttributeBase(std::move(value))
-  {}
+  explicit TailHref(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {
@@ -94,13 +92,13 @@ struct TailLabel final
 
   constexpr static const char * const name = "taillabel";
 
-  explicit TailLabel() : AttributeBase() {}
+  explicit TailLabel() noexcept : AttributeBase() {}
   explicit TailLabel(const value_type& value) : AttributeBase(value) {}
   explicit TailLabel(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {
@@ -121,13 +119,13 @@ struct TailPort final
 
   constexpr static const char * const name = "tailport";
 
-  explicit TailPort() : AttributeBase() {}
+  explicit TailPort() noexcept : AttributeBase() {}
   explicit TailPort(const value_type& value) : AttributeBase(value) {}
   explicit TailPort(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return {}; }
+  static value_type get_default_value() noexcept { return {}; }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {
@@ -148,13 +146,13 @@ struct TailTarget final
 
   constexpr static const char * const name = "tailtarget";
 
-  explicit TailTarget() : AttributeBase() {}
+  explicit TailTarget() noexcept : AttributeBase() {}
   explicit TailTarget(const value_type& value) : AttributeBase(value) {}
   explicit TailTarget(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {
@@ -175,13 +173,13 @@ struct TailTooltip final
 
   constexpr static const char * const name = "tailtooltip";
 
-  explicit TailTooltip() : AttributeBase() {}
+  explicit TailTooltip() noexcept : AttributeBase() {}
   explicit TailTooltip(const value_type& value) : AttributeBase(value) {}
   explicit TailTooltip(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {
@@ -202,13 +200,11 @@ struct TailURL final
 
   constexpr static const char * const name = "tailURL";
 
-  explicit TailURL() : AttributeBase() {}
+  explicit TailURL() noexcept : AttributeBase() {}
   explicit TailURL(const value_type& value) : AttributeBase(value) {}
-  explicit TailURL(value_type&& value)
-    : AttributeBase(std::move(value))
-  {}
+  explicit TailURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {

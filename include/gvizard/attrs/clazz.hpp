@@ -12,11 +12,11 @@ struct Clazz final : public AttributeBase<Clazz, std::string> {
 
   constexpr static const char * const name = "class";
 
-  explicit Clazz() : AttributeBase() {}
+  explicit Clazz() noexcept : AttributeBase() {}
   explicit Clazz(const value_type& value) : AttributeBase(value) {}
   explicit Clazz(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
   static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();

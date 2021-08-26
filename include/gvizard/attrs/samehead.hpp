@@ -12,11 +12,11 @@ struct SameHead final : public AttributeBase<SameHead, std::string> {
 
   constexpr static const char * const name = "samehead";
 
-  explicit SameHead() : AttributeBase() {}
+  explicit SameHead() noexcept : AttributeBase() {}
   explicit SameHead(const value_type& value) : AttributeBase(value) {}
   explicit SameHead(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

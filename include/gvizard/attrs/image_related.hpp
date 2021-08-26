@@ -14,11 +14,11 @@ struct Image final : public AttributeBase<Image, std::string> {
 
   constexpr static const char * const name = "image";
 
-  explicit Image() : AttributeBase() {}
+  explicit Image() noexcept : AttributeBase() {}
   explicit Image(const value_type& value) : AttributeBase(value) {}
   explicit Image(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -34,13 +34,13 @@ struct ImagePath final : public AttributeBase<ImagePath, std::string> {
 
   constexpr static const char * const name = "imagepath";
 
-  explicit ImagePath() : AttributeBase() {}
+  explicit ImagePath() noexcept : AttributeBase() {}
   explicit ImagePath(const value_type& value) : AttributeBase(value) {}
   explicit ImagePath(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

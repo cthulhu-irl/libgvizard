@@ -15,13 +15,11 @@ struct Target final
 
   constexpr static const char * const name = "target";
 
-  explicit Target() : AttributeBase() {}
+  explicit Target() noexcept : AttributeBase() {}
   explicit Target(const value_type& value) : AttributeBase(value) {}
-  explicit Target(value_type&& value)
-    : AttributeBase(std::move(value))
-  {}
+  explicit Target(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {

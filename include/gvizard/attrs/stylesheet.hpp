@@ -12,13 +12,13 @@ struct StyleSheet final : public AttributeBase<StyleSheet, std::string> {
 
   constexpr static const char * const name = "stylesheet";
 
-  explicit StyleSheet() : AttributeBase() {}
+  explicit StyleSheet() noexcept : AttributeBase() {}
   explicit StyleSheet(const value_type& value) : AttributeBase(value) {}
   explicit StyleSheet(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

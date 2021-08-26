@@ -15,11 +15,11 @@ struct URL final
 
   constexpr static const char * const name = "URL";
 
-  explicit URL() : AttributeBase() {}
+  explicit URL() noexcept : AttributeBase() {}
   explicit URL(const value_type& value) : AttributeBase(value) {}
   explicit URL(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   constexpr static bool is_default(const value_type& value) noexcept
   {

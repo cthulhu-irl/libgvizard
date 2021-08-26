@@ -12,13 +12,13 @@ struct XDotVersion final : public AttributeBase<XDotVersion, std::string> {
 
   constexpr static const char * const name = "xdotversion";
 
-  explicit XDotVersion() : AttributeBase() {}
+  explicit XDotVersion() noexcept : AttributeBase() {}
   explicit XDotVersion(const value_type& value) : AttributeBase(value) {}
   explicit XDotVersion(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

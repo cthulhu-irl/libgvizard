@@ -23,7 +23,7 @@ struct Label final
   explicit Label(const value_type& value) : AttributeBase(value) {}
   explicit Label(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -306,13 +306,13 @@ struct LabelTarget final
 
   constexpr static const char * const name = "labeltarget";
 
-  explicit LabelTarget() : AttributeBase() {}
+  explicit LabelTarget() noexcept : AttributeBase() {}
   explicit LabelTarget(const value_type& value) : AttributeBase(value) {}
   explicit LabelTarget(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -330,13 +330,13 @@ struct LabelTooltip final
 
   constexpr static const char * const name = "labeltooltip";
 
-  explicit LabelTooltip() : AttributeBase() {}
+  explicit LabelTooltip() noexcept : AttributeBase() {}
   explicit LabelTooltip(const value_type& value) : AttributeBase(value) {}
   explicit LabelTooltip(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -354,13 +354,11 @@ struct LabelURL final
 
   constexpr static const char * const name = "labelURL";
 
-  explicit LabelURL() : AttributeBase() {}
+  explicit LabelURL() noexcept : AttributeBase() {}
   explicit LabelURL(const value_type& value) : AttributeBase(value) {}
-  explicit LabelURL(value_type&& value)
-    : AttributeBase(std::move(value))
-  {}
+  explicit LabelURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {

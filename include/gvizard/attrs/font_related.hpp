@@ -63,13 +63,13 @@ struct FontNames final : public AttributeBase<FontNames, std::string> {
 
   constexpr static const char * const name = "fontnames";
 
-  explicit FontNames() : AttributeBase() {}
+  explicit FontNames() noexcept : AttributeBase() {}
   explicit FontNames(const value_type& value) : AttributeBase(value) {}
   explicit FontNames(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -85,13 +85,13 @@ struct FontPath final : public AttributeBase<FontPath, std::string> {
 
   constexpr static const char * const name = "fontpath";
 
-  explicit FontPath() : AttributeBase() {}
+  explicit FontPath() noexcept : AttributeBase() {}
   explicit FontPath(const value_type& value) : AttributeBase(value) {}
   explicit FontPath(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

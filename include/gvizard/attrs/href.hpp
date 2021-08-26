@@ -15,11 +15,11 @@ struct Href final
 
   constexpr static const char * const name = "href";
 
-  explicit Href() : AttributeBase() {}
+  explicit Href() noexcept : AttributeBase() {}
   explicit Href(const value_type& value) : AttributeBase(value) {}
   explicit Href(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {

@@ -12,11 +12,11 @@ struct XLabel final : public AttributeBase<XLabel, std::string> {
 
   constexpr static const char * const name = "xlabel";
 
-  explicit XLabel() : AttributeBase() {}
+  explicit XLabel() noexcept : AttributeBase() {}
   explicit XLabel(const value_type& value) : AttributeBase(value) {}
   explicit XLabel(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

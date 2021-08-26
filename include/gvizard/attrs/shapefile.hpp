@@ -12,13 +12,13 @@ struct ShapeFile final : public AttributeBase<ShapeFile, std::string> {
 
   constexpr static const char * const name = "shapefile";
 
-  explicit ShapeFile() : AttributeBase() {}
+  explicit ShapeFile() noexcept : AttributeBase() {}
   explicit ShapeFile(const value_type& value) : AttributeBase(value) {}
   explicit ShapeFile(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {

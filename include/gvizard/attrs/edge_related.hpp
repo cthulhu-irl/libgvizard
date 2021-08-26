@@ -40,11 +40,11 @@ struct EdgeHref final
 
   constexpr static const char * const name = "edgehref";
 
-  explicit EdgeHref() : AttributeBase() {}
+  explicit EdgeHref() noexcept : AttributeBase() {}
   explicit EdgeHref(const value_type& value) : AttributeBase(value) {}
   explicit EdgeHref(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -62,13 +62,13 @@ struct EdgeTarget final
 
   constexpr static const char * const name = "edgetarget";
 
-  explicit EdgeTarget() : AttributeBase() {}
+  explicit EdgeTarget() noexcept : AttributeBase() {}
   explicit EdgeTarget(const value_type& value) : AttributeBase(value) {}
   explicit EdgeTarget(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -86,13 +86,13 @@ struct EdgeTooltip final
 
   constexpr static const char * const name = "edgetooltip";
 
-  explicit EdgeTooltip() : AttributeBase() {}
+  explicit EdgeTooltip() noexcept : AttributeBase() {}
   explicit EdgeTooltip(const value_type& value) : AttributeBase(value) {}
   explicit EdgeTooltip(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -110,11 +110,11 @@ struct EdgeURL final
 
   constexpr static const char * const name = "edgeURL";
 
-  explicit EdgeURL() : AttributeBase() {}
+  explicit EdgeURL() noexcept : AttributeBase() {}
   explicit EdgeURL(const value_type& value) : AttributeBase(value) {}
   explicit EdgeURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return value_type(""); }
+  static value_type get_default_value() noexcept { return value_type({}); }
 
   static bool is_default(const value_type& value) noexcept
   {

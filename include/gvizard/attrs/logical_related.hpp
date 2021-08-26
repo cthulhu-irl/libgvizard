@@ -14,11 +14,11 @@ struct LHead final : public AttributeBase<LHead, std::string> {
 
   constexpr static const char * const name = "lhead";
 
-  explicit LHead() : AttributeBase() {}
+  explicit LHead() noexcept : AttributeBase() {}
   explicit LHead(const value_type& value) : AttributeBase(value) {}
   explicit LHead(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -34,11 +34,11 @@ struct LTail final : public AttributeBase<LTail, std::string> {
 
   constexpr static const char * const name = "ltail";
 
-  explicit LTail() : AttributeBase() {}
+  explicit LTail() noexcept : AttributeBase() {}
   explicit LTail(const value_type& value) : AttributeBase(value) {}
   explicit LTail(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return ""; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
