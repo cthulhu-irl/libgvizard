@@ -76,7 +76,7 @@ struct LayerSelect final
 {
   using value_type = attrtypes::LayerRange;
 
-  constexpr static const char * const name = "layerrange";
+  constexpr static const char * const name = "layerselect";
 
   explicit LayerSelect() noexcept : AttributeBase() {}
   explicit LayerSelect(const value_type& value) : AttributeBase(value) {}
