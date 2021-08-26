@@ -4,13 +4,13 @@
 #include <optional>
 #include <variant>
 
-#include "gvizard/attribute.hpp"
-#include "gvizard/attrtypes/color.hpp"
+#include <gvizard/attribute.hpp>
+#include <gvizard/attrtypes/color.hpp>
 
-#include "gvizard/colors/x11.hpp"
-#include "gvizard/colors/rgba.hpp"
+#include <gvizard/colors/x11.hpp>
+#include <gvizard/colors/rgba.hpp>
 
-#include "gvizard/colors/color.hpp"
+#include <gvizard/colors/color.hpp>
 
 namespace gvizard::attrs {
 

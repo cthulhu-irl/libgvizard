@@ -3,8 +3,8 @@
 
 #include <optional>
 
-#include "gvizard/attribute.hpp"
-#include "gvizard/attrtypes/rect.hpp"
+#include <gvizard/attribute.hpp>
+#include <gvizard/attrtypes/rect.hpp>
 
 namespace gvizard::attrs {
 

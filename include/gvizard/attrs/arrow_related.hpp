@@ -3,8 +3,8 @@
 
 #include <optional>
 
-#include "gvizard/attribute.hpp"
-#include "gvizard/attrtypes/arrowtype.hpp"
+#include <gvizard/attribute.hpp>
+#include <gvizard/attrtypes/arrowtype.hpp>
 
 namespace gvizard::attrs {
 
