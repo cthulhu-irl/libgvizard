@@ -70,6 +70,28 @@ struct Layers final : public AttributeBase<Layers, attrtypes::LayerList>
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
+
+struct LayerSep final : public AttributeBase<LayerSep, std::string> {
+  using value_type = std::string;
+
+  constexpr static const char * const name = "layersep";
+
+  explicit LayerSep() : AttributeBase() {}
+  explicit LayerSep(const value_type& value) : AttributeBase(value) {}
+  explicit LayerSep(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return ":\t "; }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LAYER_RELATED_HPP_
