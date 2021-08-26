@@ -108,7 +108,7 @@ struct EdgeURL final
 {
   using value_type = attrtypes::EscString<std::string>;
 
-  constexpr static const char * const name = "edgeurl";
+  constexpr static const char * const name = "edgeURL";
 
   explicit EdgeURL() : AttributeBase() {}
   explicit EdgeURL(const value_type& value) : AttributeBase(value) {}
