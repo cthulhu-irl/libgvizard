@@ -8,7 +8,7 @@ namespace gvizard::attrs {
 struct MinDist final : public AttributeBase<MinDist, double> {
   using value_type = double;  
   
-  constexpr static const char * const name = "penwidth";
+  constexpr static const char * const name = "mindist";
   
   constexpr explicit MinDist() : AttributeBase() {}
   constexpr explicit MinDist(value_type value) : AttributeBase(value) {}
