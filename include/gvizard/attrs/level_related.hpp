@@ -12,7 +12,7 @@ struct Levels final : public AttributeBase<Levels, unsigned int> {
 
   constexpr static const char * const name = "levels";
 
-  constexpr explicit Levels() : AttributeBase() {}
+  constexpr explicit Levels() noexcept : AttributeBase() {}
   constexpr explicit Levels(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -37,7 +37,7 @@ struct LevelsGap final : public AttributeBase<LevelsGap, double> {
 
   constexpr static const char * const name = "levelsgap";
 
-  constexpr explicit LevelsGap() : AttributeBase() {}
+  constexpr explicit LevelsGap() noexcept : AttributeBase() {}
   constexpr explicit LevelsGap(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.; }

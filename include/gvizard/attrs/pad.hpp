@@ -15,7 +15,7 @@ struct Pad final : public AttributeBase<Pad, PadType> {
 
   constexpr static const char * const name = "pad";
 
-  constexpr explicit Pad() : AttributeBase() {}
+  constexpr explicit Pad() noexcept : AttributeBase() {}
   constexpr explicit Pad(const value_type& value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return .0555; }

@@ -19,7 +19,7 @@ struct Label final
 
   constexpr static const char * const name = "label";
 
-  explicit Label() : AttributeBase() {}
+  explicit Label() noexcept : AttributeBase() {}
   explicit Label(const value_type& value) : AttributeBase(value) {}
   explicit Label(value_type&& value) : AttributeBase(std::move(value)) {}
 

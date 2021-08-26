@@ -18,7 +18,7 @@ struct Sep final : public AttributeBase<Sep, SepType> {
 
   constexpr static const char * const name = "sep";
 
-  constexpr explicit Sep() : AttributeBase() {}
+  constexpr explicit Sep() noexcept : AttributeBase() {}
   constexpr explicit Sep(const value_type& value)
     : AttributeBase(value)
   {}
