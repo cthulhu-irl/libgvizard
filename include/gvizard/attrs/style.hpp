@@ -11,11 +11,11 @@ struct Style final : public AttributeBase<Style, attrtypes::Style> {
 
   constexpr static const char * const name = "style";
 
-  explicit Style() : AttributeBase() {}
+  explicit Style() noexcept : AttributeBase() {}
   explicit Style(const value_type& value) : AttributeBase(value) {}
   explicit Style(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return {}; }
+  static value_type get_default_value() noexcept { return {}; }
 
   static bool is_default(const value_type& value) noexcept
   {
