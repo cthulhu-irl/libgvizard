@@ -71,6 +71,30 @@ struct Layers final : public AttributeBase<Layers, attrtypes::LayerList>
 };
 
 
+struct LayerSelect final
+  : public AttributeBase<LayerSelect, attrtypes::LayerRange>
+{
+  using value_type = attrtypes::LayerRange;
+
+  constexpr static const char * const name = "layerrange";
+
+  explicit LayerSelect() noexcept : AttributeBase() {}
+  explicit LayerSelect(const value_type& value) : AttributeBase(value) {}
+  explicit LayerSelect(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() noexcept { return {}; }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.empty();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
+
 struct LayerSep final : public AttributeBase<LayerSep, std::string> {
   using value_type = std::string;
 
