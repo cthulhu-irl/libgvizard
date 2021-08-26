@@ -25,6 +25,30 @@ struct Layer final : public AttributeBase<Layer, attrtypes::LayerRange> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
+
+struct LayerListSep final
+  : public AttributeBase<LayerListSep, std::string>
+{
+  using value_type = std::string;
+
+  constexpr static const char * const name = "layerlistsep";
+
+  explicit LayerListSep() : AttributeBase() {}
+  explicit LayerListSep(const value_type& value) : AttributeBase(value) {}
+  explicit LayerListSep(value_type&& value)
+    : AttributeBase(std::move(value))
+  {}
+
+  static value_type get_default_value() { return ","; }
+
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value == get_default_value();
+  }
+
+  static bool constraint(const value_type&) noexcept { return true; }
+};
+
 }  // namespace gvizard::attrs
 
 #endif  // GVIZARD_ATTRS_LAYER_RELATED_HPP_
