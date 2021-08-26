@@ -8,7 +8,7 @@ namespace gvizard::attrs {
 struct NoJustify final : public AttributeBase<NoJustify, bool> {
   using value_type = bool;
 
-  constexpr static const char * const name = "newrank";
+  constexpr static const char * const name = "nojustify";
 
   constexpr explicit NoJustify() : AttributeBase() {}
   constexpr explicit NoJustify(value_type value) : AttributeBase(value) {}
