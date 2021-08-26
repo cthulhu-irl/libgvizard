@@ -12,7 +12,7 @@ struct PageDir final : public AttributeBase<PageDir, attrtypes::PageDir>
 
   constexpr static const char * const name = "pagedir";
 
-  constexpr explicit PageDir() : AttributeBase() {}
+  constexpr explicit PageDir() noexcept : AttributeBase() {}
   constexpr explicit PageDir(const value_type& value)
     : AttributeBase(value)
   {}

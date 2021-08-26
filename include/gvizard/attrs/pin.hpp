@@ -10,7 +10,7 @@ struct Pin final : public AttributeBase<Pin, bool> {
 
   constexpr static const char * const name = "pin";
 
-  constexpr explicit Pin() : AttributeBase() {}
+  constexpr explicit Pin() noexcept : AttributeBase() {}
   constexpr explicit Pin(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

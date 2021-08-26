@@ -10,7 +10,7 @@ struct Dpi final : public AttributeBase<Dpi, double> {
 
   constexpr static const char * const name = "dpi";
 
-  constexpr explicit Dpi() : AttributeBase() {}
+  constexpr explicit Dpi() noexcept : AttributeBase() {}
   constexpr explicit Dpi(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

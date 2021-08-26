@@ -17,7 +17,7 @@ struct Size final : public AttributeBase<Size, SizeType> {
 
   constexpr static const char * const name = "size";
 
-  constexpr explicit Size() : AttributeBase() {}
+  constexpr explicit Size() noexcept : AttributeBase() {}
   constexpr explicit Size(const value_type& value)
     : AttributeBase(value)
   {}

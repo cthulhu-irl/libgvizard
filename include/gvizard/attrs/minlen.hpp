@@ -10,7 +10,7 @@ struct MinLen final : public AttributeBase<MinLen, int> {
 
   constexpr static const char * const name = "minlen";
 
-  constexpr explicit MinLen() : AttributeBase() {}
+  constexpr explicit MinLen() noexcept : AttributeBase() {}
   constexpr explicit MinLen(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1; }

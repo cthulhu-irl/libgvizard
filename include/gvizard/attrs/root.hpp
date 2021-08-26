@@ -17,13 +17,13 @@ struct Root final : public AttributeBase<Root, RootType>
 
   constexpr static const char * const name = "root";
 
-  explicit Root() : AttributeBase() {}
+  explicit Root() noexcept : AttributeBase() {}
   explicit Root(const value_type& value) : AttributeBase(value) {}
   explicit Root(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() noexcept { return std::nullopt; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

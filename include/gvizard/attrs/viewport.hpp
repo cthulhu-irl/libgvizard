@@ -13,13 +13,16 @@ struct ViewPort final
 
   constexpr static const char * const name = "viewport";
 
-  explicit ViewPort() : AttributeBase() {}
+  explicit ViewPort() noexcept : AttributeBase() {}
   explicit ViewPort(const value_type& value) : AttributeBase(value) {}
   explicit ViewPort(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() { return attrtypes::ViewPortXY{}; }
+  static value_type get_default_value() noexcept
+  {
+    return attrtypes::ViewPortXY{};
+  }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

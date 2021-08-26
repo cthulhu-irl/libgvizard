@@ -10,7 +10,7 @@ struct ReminCross final : public AttributeBase<ReminCross, bool> {
 
   constexpr static const char * const name = "remincross";
 
-  constexpr explicit ReminCross() : AttributeBase() {}
+  constexpr explicit ReminCross() noexcept : AttributeBase() {}
   constexpr explicit ReminCross(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return true; }

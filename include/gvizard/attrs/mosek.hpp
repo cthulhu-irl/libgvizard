@@ -10,7 +10,7 @@ struct Mosek final : public AttributeBase<Mosek, bool> {
 
   constexpr static const char * const name = "mosek";
 
-  constexpr explicit Mosek() : AttributeBase() {}
+  constexpr explicit Mosek() noexcept : AttributeBase() {}
   constexpr explicit Mosek(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

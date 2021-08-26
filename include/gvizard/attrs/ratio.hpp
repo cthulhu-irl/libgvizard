@@ -18,13 +18,13 @@ struct Ratio final
 
   constexpr static const char * const name = "ratio";
 
-  explicit Ratio() : AttributeBase() {}
+  explicit Ratio() noexcept : AttributeBase() {}
   explicit Ratio(const value_type& value) : AttributeBase(value) {}
   explicit Ratio(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() noexcept { return std::nullopt; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

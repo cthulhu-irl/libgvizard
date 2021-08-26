@@ -13,7 +13,7 @@ struct Smoothing final
 
   constexpr static const char * const name = "smoothing";
 
-  constexpr Smoothing() : AttributeBase() {}
+  constexpr Smoothing() noexcept : AttributeBase() {}
   constexpr Smoothing(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

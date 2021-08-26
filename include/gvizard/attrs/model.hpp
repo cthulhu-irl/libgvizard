@@ -18,7 +18,7 @@ struct Model final : public AttributeBase<Model, std::string> {
 
   static value_type get_default_value() { return "shortpath"; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

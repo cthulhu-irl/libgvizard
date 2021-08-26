@@ -10,7 +10,7 @@ struct Landscape final : public AttributeBase<Landscape, bool> {
 
   constexpr static const char * const name = "landscape";
 
-  constexpr explicit Landscape() : AttributeBase() {}
+  constexpr explicit Landscape() noexcept : AttributeBase() {}
   constexpr explicit Landscape(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

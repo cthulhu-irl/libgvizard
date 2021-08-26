@@ -10,7 +10,7 @@ struct NewRank final : public AttributeBase<NewRank, bool> {
 
   constexpr static const char * const name = "newrank";
 
-  constexpr explicit NewRank() : AttributeBase() {}
+  constexpr explicit NewRank() noexcept : AttributeBase() {}
   constexpr explicit NewRank(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

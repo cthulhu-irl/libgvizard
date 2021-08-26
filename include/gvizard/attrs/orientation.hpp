@@ -19,7 +19,7 @@ struct Orientation final
 
   constexpr static const char * const name = "orientation";
 
-  explicit Orientation() : AttributeBase() {}
+  explicit Orientation() noexcept : AttributeBase() {}
   explicit Orientation(const value_type& value) : AttributeBase(value) {}
   explicit Orientation(value_type&& value)
     : AttributeBase(std::move(value))
@@ -27,7 +27,7 @@ struct Orientation final
 
   static value_type get_default_value() noexcept { return 0.; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }
@@ -36,8 +36,8 @@ struct Orientation final
   {
     return utils::LambdaVisit(
       value,
-      [](double degree) { return 0. <= degree <= 360.; },
-      [](const std::string&) { return true; }
+      [](double degree) noexcept { return 0. <= degree <= 360.; },
+      [](const std::string&) noexcept { return true; }
     );
   }
 };

@@ -17,7 +17,7 @@ struct Page final : public AttributeBase<Page, PageType> {
 
   constexpr static const char * const name = "page";
 
-  constexpr explicit Page() : AttributeBase() {}
+  constexpr explicit Page() noexcept : AttributeBase() {}
   constexpr explicit Page(const value_type& value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

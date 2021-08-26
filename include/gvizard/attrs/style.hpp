@@ -17,7 +17,7 @@ struct Style final : public AttributeBase<Style, attrtypes::Style> {
 
   static value_type get_default_value() { return {}; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.items.empty();
   }

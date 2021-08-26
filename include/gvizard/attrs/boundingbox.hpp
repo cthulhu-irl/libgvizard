@@ -15,7 +15,7 @@ struct BoundingBox final
 
   constexpr static const char * const name = "bb";
 
-  constexpr explicit BoundingBox() : AttributeBase() {}
+  constexpr explicit BoundingBox() noexcept : AttributeBase() {}
   constexpr explicit BoundingBox(const value_type& value)
     : AttributeBase(value)
   {}

@@ -18,7 +18,7 @@ struct Esep final : public AttributeBase<Esep, EsepType> {
 
   constexpr static const char * const name = "esep";
 
-  constexpr explicit Esep() : AttributeBase() {}
+  constexpr explicit Esep() noexcept : AttributeBase() {}
   constexpr explicit Esep(const value_type& value)
     : AttributeBase(value)
   {}

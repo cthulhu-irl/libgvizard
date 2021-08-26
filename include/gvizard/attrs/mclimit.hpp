@@ -10,7 +10,7 @@ struct MCLimit final : public AttributeBase<MCLimit, double> {
 
   constexpr static const char * const name = "mclimit";
 
-  constexpr explicit MCLimit() : AttributeBase() {}
+  constexpr explicit MCLimit() noexcept : AttributeBase() {}
   constexpr explicit MCLimit(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1.; }

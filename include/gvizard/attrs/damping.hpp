@@ -10,7 +10,7 @@ struct Damping final : public AttributeBase<Damping, double> {
 
   constexpr static const char * const name = "damping";
 
-  constexpr explicit Damping() : AttributeBase() {}
+  constexpr explicit Damping() noexcept : AttributeBase() {}
   constexpr explicit Damping(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

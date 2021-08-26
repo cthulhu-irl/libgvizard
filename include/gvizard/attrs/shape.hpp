@@ -11,7 +11,7 @@ struct Shape final : public AttributeBase<Shape, attrtypes::ShapeType> {
 
   constexpr static const char * const name = "shape";
 
-  constexpr Shape() : AttributeBase() {}
+  constexpr Shape() noexcept : AttributeBase() {}
   constexpr Shape(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

@@ -21,7 +21,7 @@ struct Pos final : public AttributeBase<Pos, PosType> {
 
   constexpr static const char * const name = "pos";
 
-  explicit Pos() : AttributeBase() {}
+  explicit Pos() noexcept : AttributeBase() {}
   explicit Pos(const value_type& value) : AttributeBase(value) {}
   explicit Pos(value_type&& value) : AttributeBase(std::move(value)) {}
 

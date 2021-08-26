@@ -10,7 +10,7 @@ struct VoroMargin final : public AttributeBase<VoroMargin, double> {
 
   constexpr static const char * const name = "voro_margin";
 
-  constexpr explicit VoroMargin() : AttributeBase() {}
+  constexpr explicit VoroMargin() noexcept : AttributeBase() {}
   constexpr explicit VoroMargin(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.05; }

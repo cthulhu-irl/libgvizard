@@ -20,7 +20,7 @@ struct BGColor final
 
   constexpr static const char * const name = "bgcolor";
 
-  constexpr explicit BGColor() : AttributeBase() {}
+  constexpr explicit BGColor() noexcept : AttributeBase() {}
   constexpr explicit BGColor(const value_type& value)
     : AttributeBase(value)
   {}

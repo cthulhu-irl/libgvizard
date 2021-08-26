@@ -10,7 +10,7 @@ struct Len final : public AttributeBase<Len, double> {
 
   constexpr static const char * const name = "len";
 
-  constexpr explicit Len() : AttributeBase() {}
+  constexpr explicit Len() noexcept : AttributeBase() {}
   constexpr explicit Len(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1.0; }

@@ -19,12 +19,16 @@ struct XDotVersion final : public AttributeBase<XDotVersion, std::string> {
   {}
 
   static value_type get_default_value() { return ""; }
-  static bool is_default(const value_type& value)
+
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }
 
-  static bool constraint(const value_type& value) { return true; }
+  static bool constraint(const value_type&) noexcept
+  {
+    return true;
+  }
 };
 
 }  // namespace gvizard::attrs

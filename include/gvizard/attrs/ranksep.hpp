@@ -19,7 +19,7 @@ struct RankSep final : public AttributeBase<RankSep, RankSepType> {
 
   constexpr static const char * const name = "ranksep";
 
-  explicit RankSep() : AttributeBase() {}
+  explicit RankSep() noexcept : AttributeBase() {}
   explicit RankSep(const value_type& value) : AttributeBase(value) {}
   explicit RankSep(value_type&& value) : AttributeBase(std::move(value)) {}
 

@@ -14,7 +14,7 @@ struct Pack final : public AttributeBase<Pack, PackType> {
 
   constexpr static const char * const name = "pack";
 
-  constexpr explicit Pack() : AttributeBase() {}
+  constexpr explicit Pack() noexcept : AttributeBase() {}
   constexpr explicit Pack(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

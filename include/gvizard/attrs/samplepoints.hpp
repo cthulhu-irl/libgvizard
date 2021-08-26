@@ -14,7 +14,7 @@ struct SamplePoints final
 
   constexpr static const char * const name = "samplepoints";
 
-  constexpr explicit SamplePoints() : AttributeBase() {}
+  constexpr explicit SamplePoints() noexcept : AttributeBase() {}
   constexpr explicit SamplePoints(value_type value)
     : AttributeBase(value)
   {}

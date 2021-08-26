@@ -13,7 +13,7 @@ struct OutputOrder final
 
   constexpr static const char * const name = "outputorder";
 
-  constexpr OutputOrder() : AttributeBase() {}
+  constexpr OutputOrder() noexcept : AttributeBase() {}
   constexpr OutputOrder(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

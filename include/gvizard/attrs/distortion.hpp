@@ -10,7 +10,7 @@ struct Distortion final : public AttributeBase<Distortion, double> {
 
   constexpr static const char * const name = "distortion";
 
-  constexpr explicit Distortion() : AttributeBase() {}
+  constexpr explicit Distortion() noexcept : AttributeBase() {}
   constexpr explicit Distortion(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

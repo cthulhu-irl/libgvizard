@@ -24,24 +24,24 @@ struct Color final
 
   constexpr static const char * const name = "color";
 
-  explicit Color() : AttributeBase() {}
+  explicit Color() noexcept : AttributeBase() {}
   explicit Color(const value_type& value) : AttributeBase(value) {}
   explicit Color(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value()
+  static value_type get_default_value() noexcept
   {
     return get_default_color();
   }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }
 
-  static bool constraint(const value_type& value) { return true; }
+  static bool constraint(const value_type&) noexcept { return true; }
 
  private:
-  static attrtypes::ColorType get_default_color()
+  static attrtypes::ColorType get_default_color() noexcept
   {
     return attrtypes::ColorType(
       colors::X11Color(colors::X11ColorEnum::black)

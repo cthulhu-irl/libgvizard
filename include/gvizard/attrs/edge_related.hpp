@@ -19,12 +19,12 @@ struct DirEdgeConstraints final
 
   constexpr static const char * const name = "diredgeconstraints";
 
-  explicit DirEdgeConstraints() : AttributeBase() {}
+  explicit DirEdgeConstraints() noexcept : AttributeBase() {}
   explicit DirEdgeConstraints(value_type value) : AttributeBase(value) {}
 
   static value_type get_default_value() noexcept { return false; }
 
-  static bool is_default(value_type value)
+  static bool is_default(value_type value) noexcept
   {
     return value == get_default_value();
   }
@@ -46,7 +46,7 @@ struct EdgeHref final
 
   static value_type get_default_value() { return value_type(""); }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
   }
@@ -68,7 +68,7 @@ struct EdgeTarget final
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() noexcept { return value_type(""); }
+  static value_type get_default_value() { return value_type(""); }
 
   static bool is_default(const value_type& value) noexcept
   {

@@ -19,7 +19,7 @@ struct TailLP final : public AttributeBase<TailLP, TailLPType> {
 
   constexpr static const char * const name = "tail_lp";
 
-  constexpr explicit TailLP() : AttributeBase() {}
+  constexpr explicit TailLP() noexcept : AttributeBase() {}
   constexpr explicit TailLP(const value_type& value)
     : AttributeBase(value)
   {}
@@ -46,7 +46,7 @@ struct TailClip final : public AttributeBase<TailClip, bool> {
 
   constexpr static const char * const name = "tailclip";
 
-  constexpr explicit TailClip() : AttributeBase() {}
+  constexpr explicit TailClip() noexcept : AttributeBase() {}
   constexpr explicit TailClip(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return true; }

@@ -11,7 +11,7 @@ struct Dir final : public AttributeBase<Dir, attrtypes::DirType> {
 
   constexpr static const char * const name = "dir";
 
-  constexpr Dir() : AttributeBase() {}
+  constexpr Dir() noexcept : AttributeBase() {}
   constexpr Dir(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

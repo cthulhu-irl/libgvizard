@@ -10,7 +10,7 @@ struct Width final : public AttributeBase<Width, double> {
 
   constexpr static const char * const name = "width";
 
-  constexpr explicit Width() : AttributeBase() {}
+  constexpr explicit Width() noexcept : AttributeBase() {}
   constexpr explicit Width(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.75; }

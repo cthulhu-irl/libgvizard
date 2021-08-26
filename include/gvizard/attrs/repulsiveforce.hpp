@@ -11,7 +11,7 @@ struct RepulsiveForce final : public AttributeBase<RepulsiveForce, double>
 
   constexpr static const char * const name = "repulsiveforce";
 
-  constexpr explicit RepulsiveForce() : AttributeBase() {}
+  constexpr explicit RepulsiveForce() noexcept : AttributeBase() {}
   constexpr explicit RepulsiveForce(value_type value)
     : AttributeBase(value)
   {}

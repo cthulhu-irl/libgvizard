@@ -11,7 +11,7 @@ struct Rank final : public AttributeBase<Rank, attrtypes::RankType> {
 
   constexpr static const char * const name = "rank";
 
-  constexpr Rank() : AttributeBase() {}
+  constexpr Rank() noexcept : AttributeBase() {}
   constexpr Rank(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

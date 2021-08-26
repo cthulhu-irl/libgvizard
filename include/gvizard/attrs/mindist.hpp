@@ -10,7 +10,7 @@ struct MinDist final : public AttributeBase<MinDist, double> {
   
   constexpr static const char * const name = "mindist";
   
-  constexpr explicit MinDist() : AttributeBase() {}
+  constexpr explicit MinDist() noexcept : AttributeBase() {}
   constexpr explicit MinDist(value_type value) : AttributeBase(value) {}
   
   constexpr static value_type get_default_value() noexcept { return 1.; }

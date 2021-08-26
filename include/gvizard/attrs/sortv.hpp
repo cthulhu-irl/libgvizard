@@ -10,7 +10,7 @@ struct SortV final : public AttributeBase<SortV, int> {
 
   constexpr static const char * const name = "sortv";
 
-  constexpr explicit SortV() : AttributeBase() {}
+  constexpr explicit SortV() noexcept : AttributeBase() {}
   constexpr explicit SortV(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0; }

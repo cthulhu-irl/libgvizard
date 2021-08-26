@@ -17,7 +17,7 @@ struct Margin final : public AttributeBase<Margin, MarginType> {
 
   constexpr static const char * const name = "margin";
 
-  constexpr explicit Margin() : AttributeBase() {}
+  constexpr explicit Margin() noexcept : AttributeBase() {}
   constexpr explicit Margin(const value_type& value)
     : AttributeBase(value)
   {}

@@ -16,7 +16,7 @@ struct Rects final : public AttributeBase<Rects, RectsType>
 
   constexpr static const char * const name = "rects";
 
-  constexpr explicit Rects() : AttributeBase() {}
+  constexpr explicit Rects() noexcept : AttributeBase() {}
   constexpr explicit Rects(const value_type& value)
     : AttributeBase(value)
   {}
@@ -26,7 +26,7 @@ struct Rects final : public AttributeBase<Rects, RectsType>
     return std::nullopt;
   }
 
-  constexpr static bool is_default(const value_type& value)
+  constexpr static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

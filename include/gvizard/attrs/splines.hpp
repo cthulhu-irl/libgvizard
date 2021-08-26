@@ -16,13 +16,16 @@ struct Splines final : public AttributeBase<Splines, SplinesType> {
 
   constexpr static const char * const name = "splines";
 
-  explicit Splines() : AttributeBase() {}
+  explicit Splines() noexcept : AttributeBase() {}
   explicit Splines(const value_type& value) : AttributeBase(value) {}
   explicit Splines(value_type&& value) : AttributeBase(std::move(value)) {}
 
   static value_type get_default_value() noexcept { return std::nullopt; }
 
-  static bool is_default(const value_type& value) { return !value; }
+  static bool is_default(const value_type& value) noexcept
+  {
+    return !value;
+  }
 
   static bool constraint(const value_type&) noexcept { return true; }
 };

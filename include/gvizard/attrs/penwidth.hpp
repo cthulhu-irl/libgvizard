@@ -10,7 +10,7 @@ struct PenWidth final : public AttributeBase<PenWidth, double> {
 
   constexpr static const char * const name = "penwidth";
 
-  constexpr explicit PenWidth() : AttributeBase() {}
+  constexpr explicit PenWidth() noexcept : AttributeBase() {}
   constexpr explicit PenWidth(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1.; }

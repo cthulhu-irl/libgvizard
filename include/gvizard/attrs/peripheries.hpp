@@ -10,7 +10,7 @@ struct Peripheries final : public AttributeBase<Peripheries, int> {
 
   constexpr static const char * const name = "peripheries";
 
-  constexpr explicit Peripheries() : AttributeBase() {}
+  constexpr explicit Peripheries() noexcept : AttributeBase() {}
   constexpr explicit Peripheries(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1; }

@@ -58,7 +58,7 @@ struct ImagePos final
 
   constexpr static const char * const name = "imagepos";
 
-  constexpr explicit ImagePos() : AttributeBase() {}
+  constexpr explicit ImagePos() noexcept : AttributeBase() {}
   constexpr explicit ImagePos(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -83,13 +83,13 @@ struct ImageScale final : public AttributeBase<ImageScale, ImageScaleType>
 
   constexpr static const char * const name = "imagescale";
 
-  explicit ImageScale() : AttributeBase() {}
+  explicit ImageScale() noexcept : AttributeBase() {}
   explicit ImageScale(const value_type& value) : AttributeBase(value) {}
   explicit ImageScale(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() { return false; }
+  static value_type get_default_value() noexcept { return false; }
 
   static bool is_default(const value_type& value) noexcept
   {

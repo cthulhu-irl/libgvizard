@@ -20,12 +20,15 @@ struct Comment final : public AttributeBase<Comment, std::string> {
 
   static value_type get_default_value() { return ""; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.size() == 0;
   }
 
-  constexpr static bool constraint(const value_type&) { return true; }
+  constexpr static bool constraint(const value_type&) noexcept
+  {
+    return true;
+  }
 };
 
 }  // namespace gvizard::attrs

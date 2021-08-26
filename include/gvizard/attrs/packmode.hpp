@@ -13,7 +13,7 @@ struct PackMode final
 
   constexpr static const char * const name = "packmode";
 
-  constexpr explicit PackMode() : AttributeBase() {}
+  constexpr explicit PackMode() noexcept : AttributeBase() {}
   constexpr explicit PackMode(const value_type& value)
     : AttributeBase(value)
   {}

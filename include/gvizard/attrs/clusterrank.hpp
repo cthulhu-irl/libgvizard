@@ -13,7 +13,7 @@ struct ClusterRank final
 
   constexpr static const char * const name = "clusterrank";
 
-  constexpr explicit ClusterRank() : AttributeBase() {}
+  constexpr explicit ClusterRank() noexcept : AttributeBase() {}
   constexpr explicit ClusterRank(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

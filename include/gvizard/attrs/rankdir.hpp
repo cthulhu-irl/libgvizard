@@ -12,7 +12,7 @@ struct RankDir final : public AttributeBase<RankDir, attrtypes::RankDir>
 
   constexpr static const char * const name = "rankdir";
 
-  constexpr RankDir() : AttributeBase() {}
+  constexpr RankDir() noexcept : AttributeBase() {}
   constexpr RankDir(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

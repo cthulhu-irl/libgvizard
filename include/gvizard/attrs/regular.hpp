@@ -10,7 +10,7 @@ struct Regular final : public AttributeBase<Regular, bool> {
 
   constexpr static const char * const name = "regular";
 
-  constexpr explicit Regular() : AttributeBase() {}
+  constexpr explicit Regular() noexcept : AttributeBase() {}
   constexpr explicit Regular(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

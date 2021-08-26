@@ -10,7 +10,7 @@ struct Quantum final : public AttributeBase<Quantum, double> {
 
   constexpr static const char * const name = "quantum";
 
-  constexpr explicit Quantum() : AttributeBase() {}
+  constexpr explicit Quantum() noexcept : AttributeBase() {}
   constexpr explicit Quantum(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.; }

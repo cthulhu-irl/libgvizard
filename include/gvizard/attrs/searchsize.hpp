@@ -10,7 +10,7 @@ struct SearchSize final : public AttributeBase<SearchSize, int> {
 
   constexpr static const char * const name = "searchsize";
 
-  constexpr explicit SearchSize() : AttributeBase() {}
+  constexpr explicit SearchSize() noexcept : AttributeBase() {}
   constexpr explicit SearchSize(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 30; }

@@ -10,7 +10,7 @@ struct Rotation final : public AttributeBase<Rotation, double> {
 
   constexpr static const char * const name = "rotation";
 
-  constexpr explicit Rotation() : AttributeBase() {}
+  constexpr explicit Rotation() noexcept : AttributeBase() {}
   constexpr explicit Rotation(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.; }

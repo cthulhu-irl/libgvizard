@@ -12,7 +12,7 @@ struct DefaultDist final : public AttributeBase<DefaultDist, double> {
 
   constexpr static const char * const name = "defaultdist";
 
-  constexpr explicit DefaultDist() : AttributeBase() {}
+  constexpr explicit DefaultDist() noexcept : AttributeBase() {}
   constexpr explicit DefaultDist(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

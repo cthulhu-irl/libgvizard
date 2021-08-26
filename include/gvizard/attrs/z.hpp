@@ -12,7 +12,7 @@ struct ZCoord final : public AttributeBase<ZCoord, double> {
 
   constexpr static const char * const name = "z";
 
-  constexpr explicit ZCoord() : AttributeBase() {}
+  constexpr explicit ZCoord() noexcept : AttributeBase() {}
   constexpr explicit ZCoord(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.; }

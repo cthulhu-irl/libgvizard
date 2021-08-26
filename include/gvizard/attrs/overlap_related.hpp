@@ -15,7 +15,7 @@ struct Overlap final : public AttributeBase<Overlap, OverlapType> {
 
   constexpr static const char * const name = "overlap";
 
-  explicit Overlap() : AttributeBase() {}
+  explicit Overlap() noexcept : AttributeBase() {}
   explicit Overlap(const value_type& value) : AttributeBase(value) {}
   explicit Overlap(value_type&& value) : AttributeBase(std::move(value)) {}
 
@@ -36,7 +36,7 @@ struct OverlapScaling final : public AttributeBase<OverlapScaling, double>
 
   constexpr static const char * const name = "overlap_scaling";
 
-  constexpr explicit OverlapScaling() : AttributeBase() {}
+  constexpr explicit OverlapScaling() noexcept : AttributeBase() {}
   constexpr explicit OverlapScaling(value_type value)
     : AttributeBase(value)
   {}
@@ -60,7 +60,7 @@ struct OverlapShrink final : public AttributeBase<OverlapShrink, double> {
 
   constexpr static const char * const name = "overlap_shrink";
 
-  constexpr explicit OverlapShrink() : AttributeBase() {}
+  constexpr explicit OverlapShrink() noexcept : AttributeBase() {}
   constexpr explicit OverlapShrink(value_type value)
     : AttributeBase(value)
   {}

@@ -10,7 +10,7 @@ struct TrueColor final : public AttributeBase<TrueColor, bool> {
 
   constexpr static const char * const name = "truecolor";
 
-  constexpr explicit TrueColor() : AttributeBase() {}
+  constexpr explicit TrueColor() noexcept : AttributeBase() {}
   constexpr explicit TrueColor(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

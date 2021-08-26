@@ -14,7 +14,7 @@ struct InputScale final
 
   constexpr static const char * const name = "inputscale";
 
-  constexpr explicit InputScale() : AttributeBase() {}
+  constexpr explicit InputScale() noexcept : AttributeBase() {}
   constexpr explicit InputScale(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

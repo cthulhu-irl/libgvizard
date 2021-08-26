@@ -21,7 +21,7 @@ struct Id final
 
   static value_type get_default_value() { return value_type(""); }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
   }

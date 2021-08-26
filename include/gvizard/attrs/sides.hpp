@@ -10,7 +10,7 @@ struct Sides final : public AttributeBase<Sides, int> {
 
   constexpr static const char * const name = "sides";
 
-  constexpr explicit Sides() : AttributeBase() {}
+  constexpr explicit Sides() noexcept : AttributeBase() {}
   constexpr explicit Sides(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 4; }

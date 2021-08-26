@@ -10,7 +10,7 @@ struct Skew final : public AttributeBase<Skew, double> {
 
   constexpr static const char * const name = "skew";
 
-  constexpr explicit Skew() : AttributeBase() {}
+  constexpr explicit Skew() noexcept : AttributeBase() {}
   constexpr explicit Skew(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0.; }

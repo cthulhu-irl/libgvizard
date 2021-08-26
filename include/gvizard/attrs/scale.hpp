@@ -17,7 +17,7 @@ struct Scale final : public AttributeBase<Scale, ScaleType> {
 
   constexpr static const char * const name = "scale";
 
-  constexpr explicit Scale() : AttributeBase() {}
+  constexpr explicit Scale() noexcept : AttributeBase() {}
   constexpr explicit Scale(const value_type& value)
     : AttributeBase(value)
   {}

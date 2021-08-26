@@ -10,7 +10,7 @@ struct NoTranslate final : public AttributeBase<NoTranslate, bool> {
 
   constexpr static const char * const name = "notranslate";
 
-  constexpr explicit NoTranslate() : AttributeBase() {}
+  constexpr explicit NoTranslate() noexcept : AttributeBase() {}
   constexpr explicit NoTranslate(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

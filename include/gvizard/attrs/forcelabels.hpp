@@ -10,7 +10,7 @@ struct ForceLabels final : public AttributeBase<ForceLabels, bool> {
 
   constexpr static const char * const name = "forcelabels";
 
-  constexpr explicit ForceLabels() : AttributeBase(get_default_value()) {}
+  constexpr explicit ForceLabels() noexcept : AttributeBase() {}
   constexpr explicit ForceLabels(value_type value)
     : AttributeBase(value)
   {}

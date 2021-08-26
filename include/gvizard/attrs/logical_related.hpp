@@ -20,7 +20,10 @@ struct LHead final : public AttributeBase<LHead, std::string> {
 
   static value_type get_default_value() { return ""; }
 
-  static bool is_default(const value_type& value) { return value.empty(); }
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.empty();
+  }
 
   static bool constraint(const value_type&) noexcept { return true; }
 };
@@ -37,7 +40,10 @@ struct LTail final : public AttributeBase<LTail, std::string> {
 
   static value_type get_default_value() { return ""; }
 
-  static bool is_default(const value_type& value) { return value.empty(); }
+  static bool is_default(const value_type& value) noexcept
+  {
+    return value.empty();
+  }
 
   static bool constraint(const value_type&) noexcept { return true; }
 };
@@ -50,7 +56,7 @@ struct LHeight final
 
   constexpr static const char * const name = "lheight";
 
-  constexpr explicit LHeight() : AttributeBase() {}
+  constexpr explicit LHeight() noexcept : AttributeBase() {}
   constexpr explicit LHeight(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -74,7 +80,7 @@ struct LWidth final
 
   constexpr static const char * const name = "lwidth";
 
-  constexpr explicit LWidth() : AttributeBase() {}
+  constexpr explicit LWidth() noexcept : AttributeBase() {}
   constexpr explicit LWidth(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -99,7 +105,7 @@ struct LPosition final : public AttributeBase<LPosition, LPositionType>
 
   constexpr static const char * const name = "lposition";
 
-  constexpr explicit LPosition() : AttributeBase() {}
+  constexpr explicit LPosition() noexcept : AttributeBase() {}
   constexpr explicit LPosition(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

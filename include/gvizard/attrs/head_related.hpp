@@ -18,7 +18,7 @@ struct HeadLP final
 
   constexpr static const char * const name = "head_lp";
 
-  constexpr explicit HeadLP() : AttributeBase() {}
+  constexpr explicit HeadLP() noexcept : AttributeBase() {}
   constexpr explicit HeadLP(const value_type& value)
     : AttributeBase(value)
   {}
@@ -45,7 +45,7 @@ struct HeadClip final : public AttributeBase<HeadClip, bool> {
 
   constexpr static const char * const name = "headclip";
 
-  constexpr explicit HeadClip() : AttributeBase() {}
+  constexpr explicit HeadClip() noexcept : AttributeBase() {}
   constexpr explicit HeadClip(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return true; }
@@ -72,7 +72,7 @@ struct HeadHref final
 
   static value_type get_default_value() { return value_type(""); }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
   }
@@ -96,7 +96,7 @@ struct HeadLabel final
 
   static value_type get_default_value() { return value_type(""); }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
   }
@@ -120,7 +120,7 @@ struct HeadPort final
 
   static value_type get_default_value() { return {}; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

@@ -25,7 +25,7 @@ struct Label final
 
   static value_type get_default_value() { return value_type(""); }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value.get_format_ref().empty();
   }
@@ -39,7 +39,7 @@ struct LabelScheme final : public AttributeBase<LabelScheme, int> {
 
   constexpr static const char * const name = "label_scheme";
 
-  constexpr explicit LabelScheme() : AttributeBase() {}
+  constexpr explicit LabelScheme() noexcept : AttributeBase() {}
   constexpr explicit LabelScheme(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0; }
@@ -61,7 +61,7 @@ struct LabelAngle final : public AttributeBase<LabelAngle, double> {
 
   constexpr static const char * const name = "labelangle";
 
-  constexpr explicit LabelAngle() : AttributeBase() {}
+  constexpr explicit LabelAngle() noexcept : AttributeBase() {}
   constexpr explicit LabelAngle(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return -25.; }
@@ -84,7 +84,7 @@ struct LabelDistance final : public AttributeBase<LabelDistance, double>
 
   constexpr static const char * const name = "labeldistance";
 
-  constexpr explicit LabelDistance() : AttributeBase() {}
+  constexpr explicit LabelDistance() noexcept : AttributeBase() {}
   constexpr explicit LabelDistance(value_type value)
     : AttributeBase(value)
   {}
@@ -108,7 +108,7 @@ struct LabelFloat final : public AttributeBase<LabelFloat, double> {
 
   constexpr static const char * const name = "labelfloat";
 
-  constexpr explicit LabelFloat() : AttributeBase() {}
+  constexpr explicit LabelFloat() noexcept : AttributeBase() {}
   constexpr explicit LabelFloat(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }
@@ -132,7 +132,7 @@ struct LabelFontColor final
 
   constexpr static const char * const name = "labelfontcolor";
 
-  constexpr explicit LabelFontColor() : AttributeBase() {}
+  constexpr explicit LabelFontColor() noexcept : AttributeBase() {}
   constexpr explicit LabelFontColor(const value_type& value)
     : AttributeBase(value)
   {}
@@ -184,7 +184,7 @@ struct LabelFontSize final : public AttributeBase<LabelFontSize, double>
 
   constexpr static const char * const name = "labelfontsize";
 
-  constexpr explicit LabelFontSize() : AttributeBase() {}
+  constexpr explicit LabelFontSize() noexcept : AttributeBase() {}
   constexpr explicit LabelFontSize(value_type value)
     : AttributeBase(value)  
   {}  
@@ -210,7 +210,7 @@ struct LabelJust final : public AttributeBase<LabelJust, LabelJustEnum> {
 
   constexpr static const char * const name = "labeljust";
 
-  constexpr LabelJust() : AttributeBase() {}
+  constexpr LabelJust() noexcept : AttributeBase() {}
   constexpr LabelJust(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -225,7 +225,7 @@ struct LabelJust final : public AttributeBase<LabelJust, LabelJustEnum> {
 
   constexpr static bool constraint(value_type) noexcept { return true; }
 
-  operator char()
+  operator char() noexcept
   {
     switch (get_value()) {
       case LabelJustEnum::center: return 'c';
@@ -258,7 +258,7 @@ struct LabelLoc final : public AttributeBase<LabelLoc, LabelLocEnum> {
 
   constexpr static const char * const name = "labelloc";
 
-  constexpr LabelLoc() : AttributeBase() {}
+  constexpr LabelLoc() noexcept : AttributeBase() {}
   constexpr LabelLoc(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -273,7 +273,7 @@ struct LabelLoc final : public AttributeBase<LabelLoc, LabelLocEnum> {
 
   constexpr static bool constraint(value_type) noexcept { return true; }
 
-  operator char()
+  operator char() noexcept
   {
     switch (get_value()) {
       case LabelLocEnum::center: return 'c';

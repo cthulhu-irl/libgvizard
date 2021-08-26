@@ -14,7 +14,7 @@ struct PenColor final
 
   constexpr static const char * const name = "pencolor";
 
-  constexpr explicit PenColor() : AttributeBase() {}
+  constexpr explicit PenColor() noexcept : AttributeBase() {}
   constexpr explicit PenColor(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

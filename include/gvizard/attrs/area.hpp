@@ -10,14 +10,23 @@ struct Area final : public AttributeBase<Area, double> {
 
   constexpr static const char * const name = "area";
 
-  constexpr explicit Area() : AttributeBase() {}
+  constexpr explicit Area() noexcept : AttributeBase() {}
   constexpr explicit Area(value_type value) : AttributeBase(value) {}
 
-  constexpr static value_type get_default_value() { return 1.0; }
+  constexpr static value_type get_default_value() noexcept
+  {
+    return 1.0;
+  }
 
-  constexpr static bool is_default(value_type value) { return value == 1.0; }
+  constexpr static bool is_default(value_type value) noexcept
+  {
+    return value == 1.0;
+  }
 
-  constexpr static bool constraint(value_type value) { return value > 0; }
+  constexpr static bool constraint(value_type value) noexcept
+  {
+    return value > 0;
+  }
 };
 
 }  // namespace gvizard::attrs

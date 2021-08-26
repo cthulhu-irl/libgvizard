@@ -10,7 +10,7 @@ struct ShadowBoxes final : public AttributeBase<ShadowBoxes, int> {
 
   constexpr static const char * const name = "shadowboxes";
 
-  constexpr explicit ShadowBoxes() : AttributeBase() {}
+  constexpr explicit ShadowBoxes() noexcept : AttributeBase() {}
   constexpr explicit ShadowBoxes(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 0; }

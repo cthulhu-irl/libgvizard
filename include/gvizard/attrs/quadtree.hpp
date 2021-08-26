@@ -15,7 +15,7 @@ struct QuadTree final : public AttributeBase<QuadTree, QuadTreeType> {
 
   constexpr static const char * const name = "quadtree";
 
-  constexpr explicit QuadTree() : AttributeBase() {}
+  constexpr explicit QuadTree() noexcept : AttributeBase() {}
   constexpr explicit QuadTree(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

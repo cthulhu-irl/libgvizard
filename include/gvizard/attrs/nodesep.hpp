@@ -10,7 +10,7 @@ struct NodeSep final : public AttributeBase<NodeSep, double> {
 
   constexpr static const char * const name = "nodesep";
 
-  constexpr explicit NodeSep() : AttributeBase() {}
+  constexpr explicit NodeSep() noexcept : AttributeBase() {}
   constexpr explicit NodeSep(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return .25; }

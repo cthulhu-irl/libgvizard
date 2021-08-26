@@ -15,7 +15,7 @@ struct FixedSize final : public AttributeBase<FixedSize, FixedSizeType> {
 
   constexpr static const char * const name = "fixedsize";
 
-  explicit FixedSize() : AttributeBase() {}
+  explicit FixedSize() noexcept : AttributeBase() {}
   explicit FixedSize(const value_type& value) : AttributeBase(value) {}
   explicit FixedSize(value_type&& value)
     : AttributeBase(std::move(value))
@@ -23,7 +23,7 @@ struct FixedSize final : public AttributeBase<FixedSize, FixedSizeType> {
 
   static value_type get_default_value() noexcept { return false; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

@@ -14,7 +14,7 @@ struct NSLimit1 final
 
   constexpr static const char * const name = "nslimit1";
 
-  constexpr explicit NSLimit1() : AttributeBase() {}
+  constexpr explicit NSLimit1() noexcept : AttributeBase() {}
   constexpr explicit NSLimit1(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

@@ -11,7 +11,7 @@ struct Start final : public AttributeBase<Start, attrtypes::StartType> {
 
   constexpr static const char * const name = "start";
 
-  constexpr Start() : AttributeBase() {}
+  constexpr Start() noexcept : AttributeBase() {}
   constexpr Start(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

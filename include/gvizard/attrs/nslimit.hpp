@@ -13,7 +13,7 @@ struct NSLimit final : public AttributeBase<NSLimit, std::optional<double>>
 
   constexpr static const char * const name = "nslimit";
 
-  constexpr explicit NSLimit() : AttributeBase() {}
+  constexpr explicit NSLimit() noexcept : AttributeBase() {}
   constexpr explicit NSLimit(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

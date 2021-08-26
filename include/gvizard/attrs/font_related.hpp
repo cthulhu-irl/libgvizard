@@ -16,7 +16,7 @@ struct FontColor final
 
   constexpr static const char * const name = "fontcolor";
 
-  constexpr explicit FontColor() : AttributeBase() {}
+  constexpr explicit FontColor() noexcept : AttributeBase() {}
   constexpr explicit FontColor(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
@@ -49,7 +49,7 @@ struct FontName final : public AttributeBase<FontName, std::string> {
 
   static value_type get_default_value() { return "Times-Roman"; }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }
@@ -107,7 +107,7 @@ struct FontSize final : public AttributeBase<FontSize, double> {
 
   constexpr static const char * const name = "fontsize";
 
-  constexpr explicit FontSize() : AttributeBase() {}
+  constexpr explicit FontSize() noexcept : AttributeBase() {}
   constexpr explicit FontSize(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 14.0; };

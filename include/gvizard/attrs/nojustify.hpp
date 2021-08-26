@@ -10,7 +10,7 @@ struct NoJustify final : public AttributeBase<NoJustify, bool> {
 
   constexpr static const char * const name = "nojustify";
 
-  constexpr explicit NoJustify() : AttributeBase() {}
+  constexpr explicit NoJustify() noexcept : AttributeBase() {}
   constexpr explicit NoJustify(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

@@ -14,7 +14,7 @@ struct Normalize final : public AttributeBase<Normalize, NormalizeType> {
 
   constexpr static const char * const name = "normalize";
 
-  constexpr explicit Normalize() : AttributeBase() {}
+  constexpr explicit Normalize() noexcept : AttributeBase() {}
   constexpr explicit Normalize(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return false; }

@@ -14,7 +14,7 @@ struct Resolution final
 
   constexpr static const char * const name = "resolution";
 
-  constexpr explicit Resolution() : AttributeBase() {}
+  constexpr explicit Resolution() noexcept : AttributeBase() {}
   constexpr explicit Resolution(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

@@ -10,7 +10,7 @@ struct Weight final : public AttributeBase<Weight, double> {
 
   constexpr static const char * const name = "weight";
 
-  constexpr explicit Weight() : AttributeBase() {}
+  constexpr explicit Weight() noexcept : AttributeBase() {}
   constexpr explicit Weight(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept { return 1.; }

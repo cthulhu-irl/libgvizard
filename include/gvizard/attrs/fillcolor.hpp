@@ -17,20 +17,20 @@ struct FillColor final : public AttributeBase<FillColor, FillColorType> {
 
   constexpr static const char * const name = "fillcolor";
 
-  explicit FillColor() : AttributeBase() {}
+  explicit FillColor() noexcept : AttributeBase() {}
   explicit FillColor(const value_type& value) : AttributeBase(value) {}
   explicit FillColor(value_type&& value)
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value()
+  static value_type get_default_value() noexcept
   {
     return attrtypes::ColorType(
       colors::X11Color{colors::X11ColorEnum::lightgrey}
     );
   }
 
-  static bool is_default(const value_type& value)
+  static bool is_default(const value_type& value) noexcept
   {
     return value == get_default_value();
   }

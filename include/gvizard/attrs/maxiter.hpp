@@ -14,7 +14,7 @@ struct MaxIter final
 
   constexpr static const char * const name = "maxiter";
 
-  constexpr explicit MaxIter() : AttributeBase() {}
+  constexpr explicit MaxIter() noexcept : AttributeBase() {}
   constexpr explicit MaxIter(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept

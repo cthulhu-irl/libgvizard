@@ -10,7 +10,7 @@ struct Decorate final : public AttributeBase<Decorate, bool> {
 
   constexpr static const char * const name = "decorate";
 
-  constexpr explicit Decorate() : AttributeBase() {}
+  constexpr explicit Decorate() noexcept : AttributeBase() {}
   constexpr explicit Decorate(value_type value) : AttributeBase(value) {}
 
   constexpr static value_type get_default_value() noexcept
