@@ -106,6 +106,16 @@ struct PointType : public Point3D<T> {
   constexpr PointType(Point3D<T> p)
     : Point3D<T>(std::move(p.x), std::move(p.y), std::move(p.z))
   {}
+
+  constexpr operator Point2D<T>() const
+  {
+    return Point2D<T>{ Point3D<T>::x, Point3D<T>::y };
+  }
+
+  constexpr operator Point3D<T>() const
+  {
+    return Point3D<T>{ Point3D<T>::x, Point3D<T>::y, Point3D<T>::z };
+  }
 };
 
 }  // namespace gvizard::attrtypes
