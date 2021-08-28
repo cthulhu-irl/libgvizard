@@ -98,7 +98,9 @@ struct Point3D {
 
 template <typename T>
 struct PointType final {
-  std::variant<Point2D<T>, Point3D<T>> point;
+  using point_type = std::variant<Point2D<T>, Point3D<T>>;
+
+  point_type point;
 
   constexpr PointType() : point(Point2D<T>(T(), T())) {}
   constexpr PointType(T x, T y)
@@ -108,6 +110,8 @@ struct PointType final {
   constexpr PointType(T x, T y, T z)
     : point(Point3D<T>(std::move(x), std::move(y), std::move(z)))
   {}
+
+  constexpr PointType(point_type p) : point(std::move(p)) {}
 
   constexpr operator Point2D<T>() const
   {
