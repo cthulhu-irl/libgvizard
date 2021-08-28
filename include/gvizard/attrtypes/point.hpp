@@ -93,6 +93,21 @@ struct Point3D {
   }
 };
 
+template <typename T>
+struct PointType : public Point3D<T> {
+  constexpr PointType(T x, T y, T z = {})
+    : Point3D<T>(std::move(x), std::move(y), std::move(z))
+  {}
+
+  constexpr PointType(Point2D<T> p)
+    : Point3D<T>(std::move(p.x), std::move(p.y), T{})
+  {}
+
+  constexpr PointType(Point3D<T> p)
+    : Point3D<T>(std::move(p.x), std::move(p.y), std::move(p.z))
+  {}
+};
+
 }  // namespace gvizard::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_POINT_HPP_
