@@ -113,6 +113,42 @@ struct PointType final {
 
   constexpr PointType(point_type p) : point(std::move(p)) {}
 
+  constexpr bool operator==(const PointType& other) const
+  {
+    return utils::LambdaVisit(
+        point,
+        [&](const Point2D<T>& p) { return p == Point2D<T>(other); },
+        [&](const Point3D<T>& p) { return p == Point3D<T>(other); }
+    );
+  }
+
+  constexpr bool operator!=(const PointType& other) const
+  {
+    return utils::LambdaVisit(
+        point,
+        [&](const Point2D<T>& p) { return p != Point2D<T>(other); },
+        [&](const Point3D<T>& p) { return p != Point3D<T>(other); }
+    );
+  }
+
+  constexpr bool operator+(const PointType& other) const
+  {
+    return utils::LambdaVisit(
+        point,
+        [&](const Point2D<T>& p) { return p + Point2D<T>(other); },
+        [&](const Point3D<T>& p) { return p + Point3D<T>(other); }
+    );
+  }
+
+  constexpr bool operator-(const PointType& other) const
+  {
+    return utils::LambdaVisit(
+        point,
+        [&](const Point2D<T>& p) { return p - Point2D<T>(other); },
+        [&](const Point3D<T>& p) { return p - Point3D<T>(other); }
+    );
+  }
+
   constexpr operator Point2D<T>() const
   {
     return utils::LambdaVisit(
