@@ -9,7 +9,7 @@
 
 namespace gvizard::attrtypes {
 
-using spline_point_type = Point2D<double>;
+using spline_point_type = PointType<double>;
 using spline_triple_type =
   std::tuple<spline_point_type, spline_point_type, spline_point_type>;
 

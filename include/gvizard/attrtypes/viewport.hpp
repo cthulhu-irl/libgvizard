@@ -9,9 +9,9 @@
 namespace gvizard::attrtypes {
 
 struct ViewPortXY final {
-  Point2D<double> size = {0., 0.};
+  PointType<double> size = {0., 0.};
   double zoom = 1.;
-  Point2D<double> center{};
+  PointType<double> center{};
 
   constexpr bool operator==(const ViewPortXY& other) const noexcept
   {
@@ -29,7 +29,7 @@ struct ViewPortXY final {
 };
 
 struct ViewPortS final {
-  Point2D<double> size = {0., 0.};
+  PointType<double> size = {0., 0.};
   double zoom = 1.;
   std::string center{};
 
