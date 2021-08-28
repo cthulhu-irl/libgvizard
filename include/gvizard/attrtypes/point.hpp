@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <variant>
 
 namespace gvizard::attrtypes {
 
@@ -94,17 +95,16 @@ struct Point3D {
 };
 
 template <typename T>
-struct PointType : public Point3D<T> {
-  constexpr PointType(T x, T y, T z = {})
-    : Point3D<T>(std::move(x), std::move(y), std::move(z))
+struct PointType final {
+  std::variant<Point2D<T>, Point3D<T>> point;
+
+  constexpr PointType() : point(Point2D<T>(T(), T())) {}
+  constexpr PointType(T x, T y)
+    : point(Point2D<T>(std::move(x), std::move(y)))
   {}
 
-  constexpr PointType(Point2D<T> p)
-    : Point3D<T>(std::move(p.x), std::move(p.y), T{})
-  {}
-
-  constexpr PointType(Point3D<T> p)
-    : Point3D<T>(std::move(p.x), std::move(p.y), std::move(p.z))
+  constexpr PointType(T x, T y, T z)
+    : point(Point3D<T>(std::move(x), std::move(y), std::move(z)))
   {}
 
   constexpr operator Point2D<T>() const
