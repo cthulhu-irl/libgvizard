@@ -7,7 +7,7 @@
 #include <variant>
 #include <algorithm>
 
-#include "gvizard/utils.hpp"
+#include <gvizard/utils.hpp>
 
 namespace gvizard::attrtypes {
 

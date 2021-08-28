@@ -4,14 +4,14 @@
 #include <variant>
 #include <vector>
 
-#include "gvizard/colors/rgb.hpp"
-#include "gvizard/colors/rgba.hpp"
-#include "gvizard/colors/hsv.hpp"
-#include "gvizard/colors/x11.hpp"
-#include "gvizard/colors/svg.hpp"
+#include <gvizard/colors/rgb.hpp>
+#include <gvizard/colors/rgba.hpp>
+#include <gvizard/colors/hsv.hpp>
+#include <gvizard/colors/x11.hpp>
+#include <gvizard/colors/svg.hpp>
 
-#include "gvizard/colors/general.hpp"
-#include "gvizard/colors/converter.hpp"
+#include <gvizard/colors/general.hpp>
+#include <gvizard/colors/converter.hpp>
 
 namespace gvizard {
 
