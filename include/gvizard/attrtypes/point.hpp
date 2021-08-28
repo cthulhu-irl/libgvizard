@@ -6,6 +6,8 @@
 #include <vector>
 #include <variant>
 
+#include <gvizard/utils.hpp>
+
 namespace gvizard::attrtypes {
 
 template <typename T>
@@ -109,12 +111,20 @@ struct PointType final {
 
   constexpr operator Point2D<T>() const
   {
-    return Point2D<T>{ Point3D<T>::x, Point3D<T>::y };
+    return utils::LambdaVisit(
+        point,
+        [](const Point2D<T>& p) { return p; },
+        [](const Point3D<T>& p) { return Point2D<T>{ p.x, p.y }; }
+    );
   }
 
   constexpr operator Point3D<T>() const
   {
-    return Point3D<T>{ Point3D<T>::x, Point3D<T>::y, Point3D<T>::z };
+    return utils::LambdaVisit(
+        point,
+        [](const Point2D<T>& p) { return Point3D<T>{ p.x, p.y, T{} }; },
+        [](const Point3D<T>& p) { return p; }
+    );
   }
 };
 
