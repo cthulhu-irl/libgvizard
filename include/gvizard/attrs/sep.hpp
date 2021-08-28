@@ -11,7 +11,7 @@ namespace gvizard::attrs {
 
 using SepType =
   std::variant<
-    attrtypes::AddDouble, attrtypes::Addible<attrtypes::Point2D<double>>>;
+    attrtypes::AddDouble, attrtypes::Addible<attrtypes::PointType<double>>>;
 
 struct Sep final : public AttributeBase<Sep, SepType> {
   using value_type = SepType;

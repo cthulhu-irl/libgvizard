@@ -8,7 +8,7 @@
 
 namespace gvizard::attrs {
 
-using PadType = std::variant<double, attrtypes::Point2D<double>>;
+using PadType = std::variant<double, attrtypes::PointType<double>>;
 
 struct Pad final : public AttributeBase<Pad, PadType> {
   using value_type = PadType;

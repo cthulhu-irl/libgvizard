@@ -12,7 +12,7 @@
 
 namespace gvizard::attrs {
 
-using TailLPType = std::optional<attrtypes::Point2D<double>>;
+using TailLPType = std::optional<attrtypes::PointType<double>>;
 
 struct TailLP final : public AttributeBase<TailLP, TailLPType> {
   using value_type = TailLPType;

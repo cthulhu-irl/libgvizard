@@ -12,9 +12,9 @@
 namespace gvizard::attrs {
 
 struct HeadLP final
-  : public AttributeBase<HeadLP, attrtypes::Point2D<double>>
+  : public AttributeBase<HeadLP, attrtypes::PointType<double>>
 {
-  using value_type = attrtypes::Point2D<double>;
+  using value_type = attrtypes::PointType<double>;
 
   constexpr static const char * const name = "head_lp";
 

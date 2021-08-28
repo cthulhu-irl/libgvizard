@@ -11,7 +11,7 @@ namespace gvizard::attrs {
 
 using EsepType =
   std::variant<attrtypes::AddDouble,
-               attrtypes::Addible<attrtypes::Point2D<double>>>;
+               attrtypes::Addible<attrtypes::PointType<double>>>;
 
 struct Esep final : public AttributeBase<Esep, EsepType> {
   using value_type = EsepType;

@@ -8,7 +8,7 @@
 
 namespace gvizard::attrs {
 
-using VerticesType = std::vector<attrtypes::Point2D<double>>;
+using VerticesType = std::vector<attrtypes::PointType<double>>;
 
 struct Vertices final : public AttributeBase<Vertices, VerticesType>
 {

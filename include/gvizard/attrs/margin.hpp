@@ -10,7 +10,7 @@
 namespace gvizard::attrs {
 
 using MarginType =
-  std::optional<std::variant<double, attrtypes::Point2D<double>>>;
+  std::optional<std::variant<double, attrtypes::PointType<double>>>;
 
 struct Margin final : public AttributeBase<Margin, MarginType> {
   using value_type = MarginType;

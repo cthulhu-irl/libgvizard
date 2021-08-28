@@ -10,7 +10,7 @@
 namespace gvizard::attrs {
 
 using SizeType =
-  std::optional<std::variant<double, attrtypes::Point2D<double>>>;
+  std::optional<std::variant<double, attrtypes::PointType<double>>>;
 
 struct Size final : public AttributeBase<Size, SizeType> {
   using value_type = SizeType;

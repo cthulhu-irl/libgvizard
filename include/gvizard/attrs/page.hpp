@@ -10,7 +10,7 @@
 namespace gvizard::attrs {
 
 using PageType =
-  std::optional<std::variant<double, attrtypes::Point2D<double>>>;
+  std::optional<std::variant<double, attrtypes::PointType<double>>>;
 
 struct Page final : public AttributeBase<Page, PageType> {
   using value_type = PageType;

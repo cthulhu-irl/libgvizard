@@ -10,7 +10,7 @@
 namespace gvizard::attrs {
 
 using ScaleType =
-  std::optional<std::variant<double, attrtypes::Point2D<double>>>;
+  std::optional<std::variant<double, attrtypes::PointType<double>>>;
 
 struct Scale final : public AttributeBase<Scale, ScaleType> {
   using value_type = ScaleType;

@@ -97,7 +97,7 @@ struct LWidth final
 };
 
 
-using LPositionType = std::optional<attrtypes::Point2D<double>>;
+using LPositionType = std::optional<attrtypes::PointType<double>>;
 
 struct LPosition final : public AttributeBase<LPosition, LPositionType>
 {

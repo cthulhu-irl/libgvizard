@@ -14,7 +14,7 @@ namespace gvizard::attrs {
 using PosType =
   std::optional<
     std::variant<
-      attrtypes::Point2D<double>, attrtypes::SplineType<std::vector>>>;
+      attrtypes::PointType<double>, attrtypes::SplineType<std::vector>>>;
 
 struct Pos final : public AttributeBase<Pos, PosType> {
   using value_type = PosType;
