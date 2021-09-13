@@ -54,10 +54,10 @@ class AttributeBase : public IAttribute {
     value_ = Derived::get_default_value();
   }
 
-  value_type get_value() &       { return value_; }
-  value_type get_value() const&  { return value_; }
-  value_type get_value() &&      { return std::move(value_); }
-  value_type get_value() const&& { return std::move(value_); }
+  value_type&        get_value() &       { return value_; }
+  const value_type&  get_value() const&  { return value_; }
+  value_type&&       get_value() &&      { return std::move(value_); }
+  const value_type&& get_value() const&& { return std::move(value_); }
 
   value_type get_default() const { return Derived::get_default_value(); }
 
