@@ -45,38 +45,34 @@ struct AddibleBase {
     return addible != AddibleSign::neutral || value != other;
   }
 
-  friend constexpr Derived operator+(const Derived& obj)
+  constexpr Derived operator+() const&
   {
-    return make( obj.value, AddibleSign::addible );
+    return make( value, AddibleSign::addible );
   }
 
-  friend constexpr Derived operator+(Derived&& obj)
+  constexpr Derived operator+() &&
   {
-    return make( std::move(obj.value), AddibleSign::addible );
+    return make( std::move(value), AddibleSign::addible );
   }
 
-  friend constexpr Derived
-  operator+(const Derived& lhs, const Derived& rhs)
+  constexpr Derived operator+(const Derived& rhs) const&
   {
-    return make( lhs.value + rhs.value, lhs.addible );
+    return make( value + rhs.value, addible );
   }
 
-  friend constexpr Derived
-  operator+(const Derived& lhs, Derived&& rhs)
+  constexpr Derived operator+(Derived&& rhs) const&
   {
-    return make( lhs.value + std::move(rhs.value), lhs.addible );
+    return make( value + std::move(rhs.value), addible );
   }
 
-  friend constexpr Derived
-  operator+(Derived&& lhs, const Derived& rhs)
+  constexpr Derived operator+(const Derived& rhs) &&
   {
-    return make( std::move(lhs.value) + rhs.value, lhs.addible );
+    return make( std::move(value) + rhs.value, addible );
   }
 
-  friend constexpr Derived
-  operator+(Derived&& lhs, Derived&& rhs)
+  constexpr Derived operator+(Derived&& rhs) &&
   {
-    return make( std::move(lhs.value) + std::move(rhs.value), lhs.addible );
+    return make( std::move(value) + std::move(rhs.value), addible );
   }
 };
 
@@ -100,22 +96,24 @@ struct AddDouble : public AddibleBase<AddDouble, double> {
     : AddibleBase{value, sign}
   {}
 
-  friend constexpr AddDouble
-  operator-(const AddDouble& lhs, const AddDouble& rhs)
+  constexpr AddDouble operator+(const AddDouble& rhs)
   {
-    return make( lhs.value - rhs.value, lhs.addible );
+    return make( value - rhs.value, addible );
   }
 
-  friend constexpr AddDouble
-  operator*(const AddDouble& lhs, const AddDouble& rhs)
+  constexpr AddDouble operator-(const AddDouble& rhs)
   {
-    return make( lhs.value * rhs.value, lhs.addible );
+    return make( value - rhs.value, addible );
   }
 
-  friend constexpr AddDouble
-  operator/(const AddDouble& lhs, const AddDouble& rhs)
+  constexpr AddDouble operator*(const AddDouble& rhs)
   {
-    return make( lhs.value / rhs.value, lhs.addible );
+    return make( value * rhs.value, addible );
+  }
+
+  constexpr AddDouble operator/(const AddDouble& rhs)
+  {
+    return make( value / rhs.value, addible );
   }
 };
 
