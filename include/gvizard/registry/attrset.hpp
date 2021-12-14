@@ -6,12 +6,12 @@
 #include <type_traits>
 #include <utility>
 
-#include "mtputils.hpp"
+#include "gvizard/mtputils.hpp"
 
 namespace gvizard {
 
 template <typename ...Ts>
-class AttributeSet {
+class AttrSet {
   using storage_type = std::tuple<Ts...>;
 
   storage_type attrs_;
@@ -19,14 +19,14 @@ class AttributeSet {
  public:
   struct aggregate_tag {};
 
-  constexpr explicit AttributeSet() : attrs_{} {}
+  constexpr explicit AttrSet() : attrs_{} {}
 
-  constexpr explicit AttributeSet(storage_type storage)
+  constexpr explicit AttrSet(storage_type storage)
     : attrs_{std::move(storage)}
   {}
 
   template <typename ...Attrs>
-  constexpr explicit AttributeSet(aggregate_tag, Attrs... attrs)
+  constexpr explicit AttrSet(aggregate_tag, Attrs... attrs)
     : attrs_{std::move(attrs...)}
   {}
 
@@ -62,19 +62,19 @@ class AttributeSet {
   template <typename ...Attrs>
   constexpr auto subset() &
   {
-    return AttributeSet<Attrs...>(aggregate_tag{}, get<Attrs>()...);
+    return AttrSet<Attrs...>(aggregate_tag{}, get<Attrs>()...);
   }
 
   template <typename ...Attrs>
   constexpr auto subset() const&
   {
-    return AttributeSet<Attrs...>(aggregate_tag{}, get<Attrs>()...);
+    return AttrSet<Attrs...>(aggregate_tag{}, get<Attrs>()...);
   }
 
   template <typename ...Attrs>
   constexpr auto subset() &&
   {
-    return AttributeSet<Attrs...>(
+    return AttrSet<Attrs...>(
         aggregate_tag{},
         std::move(get<Attrs>())...
     );
@@ -83,7 +83,7 @@ class AttributeSet {
   template <typename ...Attrs>
   constexpr auto subset() const&&
   {
-    return AttributeSet<Attrs...>(
+    return AttrSet<Attrs...>(
         aggregate_tag{},
         std::move(get<Attrs>())...
     );
