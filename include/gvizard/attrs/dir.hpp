@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_DIR_HPP_
 #define GVIZARD_ATTRS_DIR_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/dirtype.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/dirtype.hpp"
 
 namespace gvizard::attrs {
 

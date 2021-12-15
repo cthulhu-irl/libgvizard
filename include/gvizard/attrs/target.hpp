@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/escstring.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/escstring.hpp"
 
 namespace gvizard::attrs {
 

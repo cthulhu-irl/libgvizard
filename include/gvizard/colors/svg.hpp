@@ -1,10 +1,12 @@
 #ifndef GVIZARD_COLORS_SVG_HPP_
 #define GVIZARD_COLORS_SVG_HPP_
 
-#include <gvizard/utils.hpp>
+#include <cstdint>
 
-#include <gvizard/colors/general.hpp>
-#include <gvizard/colors/rgb.hpp>
+#include "gvizard/utils.hpp"
+
+#include "gvizard/colors/general.hpp"
+#include "gvizard/colors/rgb.hpp"
 
 namespace gvizard::colors {
 

@@ -3,11 +3,11 @@
 
 #include <string>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/point.hpp>
-#include <gvizard/attrtypes/escstring.hpp>
-#include <gvizard/attrtypes/label.hpp>
-#include <gvizard/attrtypes/portpos.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/point.hpp"
+#include "gvizard/attrtypes/escstring.hpp"
+#include "gvizard/attrtypes/label.hpp"
+#include "gvizard/attrtypes/portpos.hpp"
 
 namespace gvizard::attrs {
 

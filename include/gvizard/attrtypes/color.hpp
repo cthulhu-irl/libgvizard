@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRTYPES_COLOR_HPP_
 #define GVIZARD_ATTRTYPES_COLOR_HPP_
 
-#include <gvizard/colors.hpp>
+#include "gvizard/colors.hpp"
 
 namespace gvizard::attrtypes {
 

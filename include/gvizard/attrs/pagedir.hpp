@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_PAGEDIR_HPP_
 #define GVIZARD_ATTRS_PAGEDIR_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/pagedir.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/pagedir.hpp"
 
 namespace gvizard::attrs {
 

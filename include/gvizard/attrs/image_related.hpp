@@ -4,8 +4,8 @@
 #include <string>
 #include <variant>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/imagepos.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/imagepos.hpp"
 
 namespace gvizard::attrs {
 

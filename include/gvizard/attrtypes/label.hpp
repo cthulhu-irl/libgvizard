@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <gvizard/attrtypes/escstring.hpp>
+#include "gvizard/attrtypes/escstring.hpp"
 
 namespace gvizard::attrtypes {
 

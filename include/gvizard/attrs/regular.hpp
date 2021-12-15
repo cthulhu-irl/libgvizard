@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRS_REGULAR_HPP_
 #define GVIZARD_ATTRS_REGULAR_HPP_
 
-#include <gvizard/attribute.hpp>
+#include "gvizard/attribute.hpp"
 
 namespace gvizard::attrs {
 

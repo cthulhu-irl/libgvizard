@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_STYLE_HPP_
 #define GVIZARD_ATTRS_STYLE_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/style.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/style.hpp"
 
 namespace gvizard::attrs {
 

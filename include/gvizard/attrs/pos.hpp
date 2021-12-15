@@ -5,9 +5,9 @@
 #include <variant>
 #include <optional>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/point.hpp>
-#include <gvizard/attrtypes/spline.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/point.hpp"
+#include "gvizard/attrtypes/spline.hpp"
 
 namespace gvizard::attrs {
 

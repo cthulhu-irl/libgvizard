@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_CLUSTERRANK_HPP_
 #define GVIZARD_ATTRS_CLUSTERRANK_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/clustermode.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/clustermode.hpp"
 
 namespace gvizard::attrs {
 

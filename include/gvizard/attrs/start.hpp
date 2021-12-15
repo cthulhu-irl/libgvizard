@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_START_HPP_
 #define GVIZARD_ATTRS_START_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/starttype.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/starttype.hpp"
 
 namespace gvizard::attrs {
 

@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_PACKMODE_HPP_
 #define GVIZARD_ATTRS_PACKMODE_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/packmode.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/packmode.hpp"
 
 namespace gvizard::attrs {
 

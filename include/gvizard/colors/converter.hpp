@@ -1,15 +1,15 @@
 #ifndef GVIZARD_COLORS_CONVERTER_HPP_
 #define GVIZARD_COLORS_CONVERTER_HPP_
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
-#include <gvizard/colors/rgb.hpp>
-#include <gvizard/colors/rgba.hpp>
-#include <gvizard/colors/hsv.hpp>
-#include <gvizard/colors/x11.hpp>
-#include <gvizard/colors/svg.hpp>
+#include "gvizard/colors/rgb.hpp"
+#include "gvizard/colors/rgba.hpp"
+#include "gvizard/colors/hsv.hpp"
+#include "gvizard/colors/x11.hpp"
+#include "gvizard/colors/svg.hpp"
 
-#include <gvizard/colors/general.hpp>
+#include "gvizard/colors/general.hpp"
 
 using gvizard::colors::HSV;
 using gvizard::colors::RGB;

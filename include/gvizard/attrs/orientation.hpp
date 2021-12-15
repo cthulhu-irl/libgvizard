@@ -4,9 +4,9 @@
 #include <string>
 #include <variant>
 
-#include <gvizard/attribute.hpp>
+#include "gvizard/attribute.hpp"
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
 namespace gvizard::attrs {
 

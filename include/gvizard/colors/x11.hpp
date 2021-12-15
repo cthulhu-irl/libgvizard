@@ -3,10 +3,10 @@
 
 #include <cstdint>
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
-#include <gvizard/colors/general.hpp>
-#include <gvizard/colors/rgb.hpp>
+#include "gvizard/colors/general.hpp"
+#include "gvizard/colors/rgb.hpp"
 
 namespace gvizard::colors {
 

@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_VIEWPORT_HPP_
 #define GVIZARD_ATTRS_VIEWPORT_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/viewport.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/viewport.hpp"
 
 namespace gvizard::attrs {
 

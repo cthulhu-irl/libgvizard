@@ -5,7 +5,7 @@
 #include <variant>
 #include <optional>
 
-#include <gvizard/attribute.hpp>
+#include "gvizard/attribute.hpp"
 
 namespace gvizard::attrs {
 

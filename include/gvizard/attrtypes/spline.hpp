@@ -5,7 +5,7 @@
 #include <optional>
 #include <vector>
 
-#include <gvizard/attrtypes/point.hpp>
+#include "gvizard/attrtypes/point.hpp"
 
 namespace gvizard::attrtypes {
 

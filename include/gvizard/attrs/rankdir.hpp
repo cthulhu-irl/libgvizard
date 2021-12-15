@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_RANKDIR_HPP_
 #define GVIZARD_ATTRS_RANKDIR_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/rank.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/rank.hpp"
 
 namespace gvizard::attrs {
 

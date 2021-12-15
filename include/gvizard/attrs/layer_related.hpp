@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_LAYER_RELATED_HPP_
 #define GVIZARD_ATTRS_LAYER_RELATED_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/layers.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/layers.hpp"
 
 namespace gvizard::attrs {
 

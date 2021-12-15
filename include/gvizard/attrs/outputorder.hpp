@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_OUTPUTORDER_HPP_
 #define GVIZARD_ATTRS_OUTPUTORDER_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/outputmode.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/outputmode.hpp"
 
 namespace gvizard::attrs {
 

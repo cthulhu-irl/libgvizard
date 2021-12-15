@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRS_REPULSIVEFORCE_HPP_
 #define GVIZARD_ATTRS_REPULSIVEFORCE_HPP_
 
-#include <gvizard/attribute.hpp>
+#include "gvizard/attribute.hpp"
 
 namespace gvizard::attrs {
 

@@ -1,7 +1,7 @@
 #ifndef GVIZARD_CONTRACTS_HPP_
 #define GVIZARD_CONTRACTS_HPP_
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
 namespace gvizard::contracts {
 

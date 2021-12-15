@@ -3,8 +3,8 @@
 
 #include <variant>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/quadtype.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/quadtype.hpp"
 
 namespace gvizard::attrs {
 

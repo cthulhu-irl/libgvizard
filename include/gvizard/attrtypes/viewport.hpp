@@ -4,7 +4,7 @@
 #include <string>
 #include <variant>
 
-#include <gvizard/attrtypes/point.hpp>
+#include "gvizard/attrtypes/point.hpp"
 
 namespace gvizard::attrtypes {
 

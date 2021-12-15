@@ -4,8 +4,8 @@
 #include <optional>
 #include <variant>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/color.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/color.hpp"
 
 namespace gvizard::attrs {
 

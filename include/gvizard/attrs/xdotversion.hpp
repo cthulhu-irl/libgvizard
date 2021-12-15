@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <gvizard/attribute.hpp>
+#include "gvizard/attribute.hpp"
 
 namespace gvizard::attrs {
 

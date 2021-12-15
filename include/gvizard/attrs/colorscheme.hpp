@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/colors/general.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/colors/general.hpp"
 
 namespace gvizard::attrs {
 

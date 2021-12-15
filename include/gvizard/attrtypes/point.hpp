@@ -6,7 +6,7 @@
 #include <vector>
 #include <variant>
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
 namespace gvizard::attrtypes {
 

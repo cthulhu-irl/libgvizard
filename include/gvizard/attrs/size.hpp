@@ -4,8 +4,8 @@
 #include <variant>
 #include <optional>
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/point.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/point.hpp"
 
 namespace gvizard::attrs {
 

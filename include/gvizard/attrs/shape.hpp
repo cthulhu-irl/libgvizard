@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_SHAPE_HPP_
 #define GVIZARD_ATTRS_SHAPE_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/shape.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/shape.hpp"
 
 namespace gvizard::attrs {
 

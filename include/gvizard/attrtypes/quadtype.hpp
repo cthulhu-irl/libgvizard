@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#include <gvizard/utils.hpp>
+#include "gvizard/utils.hpp"
 
 namespace gvizard {
 namespace attrtypes {

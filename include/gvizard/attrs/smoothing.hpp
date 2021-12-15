@@ -1,8 +1,8 @@
 #ifndef GVIZARD_ATTRS_SMOOTHING_HPP_
 #define GVIZARD_ATTRS_SMOOTHING_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/smoothtype.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/smoothtype.hpp"
 
 namespace gvizard::attrs {
 

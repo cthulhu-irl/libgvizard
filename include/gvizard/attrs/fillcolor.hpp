@@ -1,9 +1,9 @@
 #ifndef GVIZARD_ATTRS_FILLCOLOR_HPP_
 #define GVIZARD_ATTRS_FILLCOLOR_HPP_
 
-#include <gvizard/attribute.hpp>
-#include <gvizard/attrtypes/color.hpp>
-#include <gvizard/colors/x11.hpp>
+#include "gvizard/attribute.hpp"
+#include "gvizard/attrtypes/color.hpp"
+#include "gvizard/colors/x11.hpp"
 
 namespace gvizard::attrs {
 
