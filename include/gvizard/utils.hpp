@@ -1,6 +1,8 @@
 #ifndef GVIZARD_UTILS_HPP_
 #define GVIZARD_UTILS_HPP_
 
+#include <cstddef>
+#include <memory>
 #include <type_traits>
 #include <string_view>
 #include <optional>
@@ -138,6 +140,59 @@ constexpr auto LambdaVisit(const T& arg, Fs... fs)
 {
   return std::visit(LambdaVisitor{fs...}, arg);
 }
+
+template <typename T>
+class Ref {
+  T* ptr_{nullptr};
+
+ public:
+  using value_type           = std::remove_reference_t<T>;
+  using reference_type       = value_type&;
+  using const_reference_type = const value_type&;
+  using pointer_type         = value_type*;
+  using const_pointer_type   = const value_type*;
+
+  Ref()                   : ptr_(nullptr) {}
+  Ref(reference_type ref) : ptr_(std::addressof(ref)) {}
+  Ref(pointer_type ptr)   : ptr_(ptr) {}
+
+  constexpr bool has_value() const noexcept { return bool(ptr_); }
+
+  constexpr auto&       value() noexcept       { return *ptr_; }
+  constexpr const auto& value() const noexcept { return *ptr_; }
+
+  template <typename U>
+  constexpr auto& value_or(U& other) noexcept
+  {
+    if (ptr_) return *ptr_;
+    else      return other;
+  }
+
+  template <typename U>
+  constexpr const auto& value_or(const U& other) const noexcept
+  {
+    if (ptr_) return *ptr_;
+    else      return other;
+  }
+
+  constexpr reference_type       operator*()       noexcept { return *ptr_; }
+  constexpr const_reference_type operator*() const noexcept { return *ptr_; }
+
+  constexpr pointer_type       operator->()       noexcept { return ptr_; }
+  constexpr const_pointer_type operator->() const noexcept { return ptr_; }
+
+  constexpr bool operator==(const Ref other) const noexcept
+  {
+    return ptr_ == other.ptr_;
+  }
+
+  constexpr bool operator!=(const Ref other) const noexcept
+  {
+    return ptr_ == other.ptr_;
+  }
+
+  constexpr operator bool() const noexcept { return bool(ptr_); }
+};
 
 }  // namespace utils
 }  // namespace gvizard
