@@ -142,7 +142,7 @@ constexpr auto LambdaVisit(const T& arg, Fs... fs)
 }
 
 template <typename T>
-class Ref {
+class OptionalRef {
   T* ptr_{nullptr};
 
  public:
@@ -152,9 +152,9 @@ class Ref {
   using pointer_type         = value_type*;
   using const_pointer_type   = const value_type*;
 
-  Ref()                   : ptr_(nullptr) {}
-  Ref(reference_type ref) : ptr_(std::addressof(ref)) {}
-  Ref(pointer_type ptr)   : ptr_(ptr) {}
+  OptionalRef()                   : ptr_(nullptr) {}
+  OptionalRef(reference_type ref) : ptr_(std::addressof(ref)) {}
+  OptionalRef(pointer_type ptr)   : ptr_(ptr) {}
 
   constexpr bool has_value() const noexcept { return bool(ptr_); }
 
