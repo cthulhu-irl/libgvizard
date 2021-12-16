@@ -3,11 +3,10 @@
 
 #include <cstddef>
 #include <initializer_list>
+#include <memory>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
-#include "gvizard/registry/attrset.hpp"
 
 namespace gvizard {
 
@@ -39,28 +38,34 @@ class AttrSetRegistry {
     : vector_(lst)
   {}
 
-  auto size() noexcept -> std::size_t {
+  auto size() noexcept -> std::size_t
+  {
     return entity_index_map_.size();
   }
 
-  void clear() noexcept {
+  void clear() noexcept
+  {
     entity_index_map_.clear();
     vector_.clear();
   }
 
-  auto create(attrset_type attrset = {}) noexcept -> entity_type {
-    const auto entity = generate_entity();
+  auto create(attrset_type attrset = {}) noexcept -> entity_type
+  {
+    const auto index = vector_.size();
 
-    // TODO add fail-tolerance
-    entity_index_map_.insert(std::make_pair(entity, vector_.size()));
-    vector_.push_back(AttrSetPair{ entity,  std::move(attrset) });
+    // there shouldn't be that many allocated entities
+    // that it wouldn't find any available number.
+    while (!entity_index_map_.try_emplace(++last_entity_, index).second);
 
-    return entity;
+    vector_.push_back(AttrSetPair{ last_entity_, std::move(attrset) });
+
+    return last_entity_;
   }
 
   // place last item in entities into its place, update index map,
   // and shrink the vector.
-  auto destroy(entity_type entity) -> bool {
+  auto destroy(entity_type entity) -> bool
+  {
     if (vector_.size() == 0)
       return false;
 
@@ -74,7 +79,7 @@ class AttrSetRegistry {
     entity_index_map_.erase(found_index_iter);
 
     // if it's already the last item, pop it and return.
-    // going further is both heavy and would leave a leak/vuln for UAF
+    // going further is both heavy and would leave a leak/vuln for UAF.
     if (recycle_index == last_index) {
       vector_.pop_back();
       return true;
@@ -90,18 +95,11 @@ class AttrSetRegistry {
     return true;
   }
 
- private:
-  // find an entity number that's not set already
-  auto generate_entity() noexcept -> entity_type {
-    auto entity = ++last_entity_;
+  auto begin() noexcept { return vector_.begin(); }
+  auto end() noexcept   { return vector_.end();   }
 
-    while (entity_index_map_.find(entity) != entity_index_map_.end())
-      ++entity;
-
-    last_entity_ = entity;
-
-    return entity;
-  }
+  auto cbegin() const noexcept { return vector_.cbegin(); }
+  auto cend() const noexcept   { return vector_.cend();   }
 };
 
 }  // namespace gvizard
