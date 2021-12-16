@@ -175,6 +175,42 @@ class OptionalRef {
     else      return other;
   }
 
+  template <typename F>
+  constexpr auto map(F&& func)
+    noexcept(noexcept(func(std::declval<T&>())))
+    -> std::optional<std::invoke_result_t<F, T&>>
+  {
+    if (!has_value()) return std::nullopt;
+    return { func(value()) };
+  }
+
+  template <typename F>
+  constexpr auto map(F&& func) const
+    noexcept(noexcept(func(std::declval<T&>())))
+    -> std::optional<std::invoke_result_t<F, const T&>>
+  {
+    if (!has_value()) return std::nullopt;
+    return { func(value()) };
+  }
+
+  template <typename U, typename F>
+  constexpr auto map_into(F&& func)
+    noexcept(noexcept(U(func(std::declval<T&>()))))
+    -> std::optional<std::invoke_result_t<F, T&>>
+  {
+    if (!has_value()) return U();
+    return U(func(value()));
+  }
+
+  template <typename U, typename F>
+  constexpr auto map_into(F&& func) const
+    noexcept(noexcept(func(std::declval<T&>())))
+    -> std::optional<std::invoke_result_t<F, const T&>>
+  {
+    if (!has_value()) return U();
+    return U(func(value()));
+  }
+
   constexpr reference_type       operator*()       noexcept { return *ptr_; }
   constexpr const_reference_type operator*() const noexcept { return *ptr_; }
 
