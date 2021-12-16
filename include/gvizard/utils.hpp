@@ -230,6 +230,8 @@ class OptionalRef {
   constexpr operator bool() const noexcept { return bool(ptr_); }
 };
 
+inline constexpr auto nulloptref = nullptr;
+
 }  // namespace utils
 }  // namespace gvizard
 
