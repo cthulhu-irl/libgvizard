@@ -115,62 +115,62 @@ class AttrSetRegistry {
   template <typename Attr>
   auto get(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template get<Attr>();
+    return attrsetopt->template get<Attr>();
   }
 
   template <typename Attr>
   auto has(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template has<Attr>();
+    return attrsetopt->template has<Attr>();
   }
 
   template <typename Attr, typename F>
   auto update(entity_type entity, F&& func) -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template update<Attr>(std::forward<F>(func));
+    return attrsetopt->template update<Attr>(std::forward<F>(func));
   }
 
   template <typename Attr, typename ValT>
   auto set(entity_type entity, ValT&& value) -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template set<Attr>(std::forward<ValT>(value));
+    return attrsetopt->template set<Attr>(std::forward<ValT>(value));
   }
 
   template <typename Attr, typename ...Args>
   auto emplace(entity_type entity, Args&&... args)
     -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template emplace<Attr>(std::forward<Args>(args)...);
+    return attrsetopt->template emplace<Attr>(std::forward<Args>(args)...);
   }
 
   template <typename Attr>
   auto remove(entity_type entity) -> utils::OptionalRef<Attr>
   {
-    auto attrsetptr = get_entity_attrset_ptr(entity);
-    if (!attrsetptr)
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
       return std::nullopt;
 
-    return attrsetptr->template remove<Attr>();
+    return attrsetopt->template remove<Attr>();
   }
 
  private:
@@ -186,14 +186,14 @@ class AttrSetRegistry {
   }
 
   // NOTE must be used only within access functions' scope and lifetime.
-  auto get_entity_attrset_ptr(entity_type entity) noexcept
-    -> AttrSetT*
+  auto get_entity_attrset(entity_type entity) noexcept
+    -> utils::OptionalRef<AttrSetT>
   {
     const auto index_opt = get_entity_index(entity);
     if (!index_opt.has_value())
-      return nullptr;
+      return utils::nulloptref;
 
-    return std::addressof(vector_[index_opt.value()].attrset);
+    return vector_[index_opt.value()].attrset;
   }
 };
 
