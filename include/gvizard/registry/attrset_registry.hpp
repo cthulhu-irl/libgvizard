@@ -3,10 +3,14 @@
 
 #include <cstddef>
 #include <initializer_list>
+#include <limits>
 #include <memory>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <optional>
+
+#include "gvizard/utils.hpp"
 
 namespace gvizard {
 
@@ -41,6 +45,11 @@ class AttrSetRegistry {
   auto size() noexcept -> std::size_t
   {
     return entity_index_map_.size();
+  }
+
+  constexpr auto max_size() -> std::size_t
+  {
+    return std::numeric_limits<std::size_t>::max();
   }
 
   void clear() noexcept
@@ -100,6 +109,92 @@ class AttrSetRegistry {
 
   auto cbegin() const noexcept { return vector_.cbegin(); }
   auto cend() const noexcept   { return vector_.cend();   }
+
+  // -- AttrSet access (lookup/modify) methods --
+
+  template <typename Attr>
+  auto get(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template get<Attr>();
+  }
+
+  template <typename Attr>
+  auto has(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template has<Attr>();
+  }
+
+  template <typename Attr, typename F>
+  auto update(entity_type entity, F&& func) -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template update<Attr>(std::forward<F>(func));
+  }
+
+  template <typename Attr, typename ValT>
+  auto set(entity_type entity, ValT&& value) -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template set<Attr>(std::forward<ValT>(value));
+  }
+
+  template <typename Attr, typename ...Args>
+  auto emplace(entity_type entity, Args&&... args)
+    -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template emplace<Attr>(std::forward<Args>(args)...);
+  }
+
+  template <typename Attr>
+  auto remove(entity_type entity) -> utils::OptionalRef<Attr>
+  {
+    auto attrsetptr = get_entity_attrset_ptr(entity);
+    if (!attrsetptr)
+      return std::nullopt;
+
+    return attrsetptr->template remove<Attr>();
+  }
+
+ private:
+  // NOTE must be used only within access functions' scope and lifetime.
+  auto get_entity_index(entity_type entity) const noexcept
+    -> std::optional<index_type>
+  {
+    auto found_index_iter = entity_index_map_.find(entity);
+    if (found_index_iter == entity_index_map_.end())
+      return std::nullopt;
+
+    return found_index_iter->second;
+  }
+
+  // NOTE must be used only within access functions' scope and lifetime.
+  auto get_entity_attrset_ptr(entity_type entity) noexcept
+    -> AttrSetT*
+  {
+    const auto index_opt = get_entity_index(entity);
+    if (!index_opt.has_value())
+      return nullptr;
+
+    return std::addressof(vector_[index_opt.value()].attrset);
+  }
 };
 
 }  // namespace gvizard

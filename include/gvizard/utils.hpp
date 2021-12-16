@@ -181,12 +181,12 @@ class OptionalRef {
   constexpr pointer_type       operator->()       noexcept { return ptr_; }
   constexpr const_pointer_type operator->() const noexcept { return ptr_; }
 
-  constexpr bool operator==(const Ref other) const noexcept
+  constexpr bool operator==(const OptionalRef other) const noexcept
   {
     return ptr_ == other.ptr_;
   }
 
-  constexpr bool operator!=(const Ref other) const noexcept
+  constexpr bool operator!=(const OptionalRef other) const noexcept
   {
     return ptr_ == other.ptr_;
   }
