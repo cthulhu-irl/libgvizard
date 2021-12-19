@@ -1,6 +1,7 @@
 #ifndef GVIZARD_MTPUTILS_HPP_
 #define GVIZARD_MTPUTILS_HPP_
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -9,7 +10,7 @@ namespace mtp {
 
 namespace impl {
     template <typename T, typename... Ts>
-    inline constexpr bool unique_in = (0 + ... + std::is_same_v<T, Ts>) == 1;
+    constexpr inline bool unique_in = (0 + ... + std::is_same_v<T, Ts>) == 1;
 }  // namespace impl
 
 template <typename... Ts>
@@ -17,7 +18,7 @@ struct all_unique
  : std::bool_constant<(true && ... && impl::unique_in<Ts, Ts...>)> {};
 
 template <typename... Ts>
-inline constexpr bool all_unique_v = all_unique<Ts...>::value;
+constexpr inline bool all_unique_v = all_unique<Ts...>::value;
 
 
 template <typename Base, typename... Ts>
@@ -25,7 +26,7 @@ struct all_derive_from
  : std::bool_constant<(true && ... && std::is_base_of_v<Base, Ts>)> {};
 
 template <typename... Ts>
-inline constexpr bool all_derive_from_v = all_derive_from<Ts...>::value;
+constexpr inline bool all_derive_from_v = all_derive_from<Ts...>::value;
 
 struct identity {
   template <typename T>
@@ -134,13 +135,54 @@ struct PackDrop<I, T, Ts...> {
     >::type;
 };
 
+namespace impl {
+
+template <std::size_t I, typename X, typename ...Ts>
+struct find_type_index_in_impl {
+  static constexpr std::size_t value = 0;
+};
+
+template <std::size_t I, typename X, typename T, typename ...Ts>
+struct find_type_index_in_impl<I, X, T, Ts...> {
+  static constexpr std::size_t value =
+      std::is_same_v<X, T>
+      ? I
+      : find_type_index_in_impl<I, X, Ts...>::value;
+};
+
+} // namespace detail
+
+template <typename X, typename ...Ts>
+struct find_type_index_in {
+  static constexpr std::size_t value =
+     impl::find_type_index_in_impl<1, X, Ts...>::value;
+};
+
+template <typename X, typename ...Ts>
+constexpr inline std::size_t find_type_index_in_v =
+                                find_type_index_in<X, Ts...>::value;
+
 template <typename X, typename ...Ts>
 struct has_type_in
   : std::bool_constant<(true && ... && std::is_same_v<X, Ts>)>
 {};
 
 template <typename X, typename ...Ts>
-inline constexpr bool has_type_in_v = has_type_in<X, Ts...>::value;
+constexpr inline bool has_type_in_v = has_type_in<X, Ts...>::value;
+
+template <typename T,
+          std::size_t StartI, std::size_t EndI, std::size_t StepI = 1>
+struct array_atoi_ct {
+  constexpr static std::size_t size = (EndI - StartI) / StepI;
+
+  T array[size];
+
+  constexpr array_atoi_ct()
+  {
+    for (auto i = 0; i < size; ++i)
+      array[i] = T(i * StepI);
+  }
+};
 
 }  // namespace mtp
 }  // namespace gvizard
