@@ -255,7 +255,7 @@ class DynamicAttrSet final {
     if (!index.has_value())
       return utils::nulloptref;
 
-    return vector_[index.value()].attr;
+    return std::any_cast<Attr>(vector_[index.value()].attr);
   }
 
   template <typename Attr>
