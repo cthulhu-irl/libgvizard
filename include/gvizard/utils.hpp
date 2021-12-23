@@ -207,7 +207,9 @@ class OptionalRef {
     noexcept(noexcept(func(std::declval<T&>())))
     -> std::optional<std::invoke_result_t<F, const T&>>
   {
-    if (!has_value()) return U();
+    if (!has_value())
+      return std::nullopt;
+
     return U(func(value()));
   }
 
