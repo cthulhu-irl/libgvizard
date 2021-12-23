@@ -13,6 +13,7 @@
 #include "gvizard/utils.hpp"
 
 namespace gvizard {
+namespace registry {
 
 template <typename AttrSetT>
 class AttrSetRegistry {
@@ -197,6 +198,7 @@ class AttrSetRegistry {
   }
 };
 
+}  // namespace registry
 }  // namespace gvizard
 
 #endif  // GVIZARD_ATTRSET_REGISTRY_HPP_

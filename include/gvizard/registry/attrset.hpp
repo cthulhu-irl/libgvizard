@@ -9,6 +9,7 @@
 #include "gvizard/mtputils.hpp"
 
 namespace gvizard {
+namespace registry {
 
 template <typename ...Ts>
 class AttrSet {
@@ -123,6 +124,7 @@ class AttrSet {
   constexpr auto remove() { get<Attr>() = Attr(); }
 };
 
+}  // namespace registry
 }  // namespace gvizard
 
 #endif  // GVIZARD_ATTRIBUTESET_HPP_

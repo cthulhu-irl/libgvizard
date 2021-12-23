@@ -17,6 +17,7 @@
 #include "gvizard/mtputils.hpp"
 
 namespace gvizard {
+namespace registry {
 
 template <typename ...Attrs>
 class LimitedTypeSet final {
@@ -346,6 +347,7 @@ class DynamicAttrSet final {
   }
 };
 
+}  // namespace registry
 }  // namespace gvizard
 
 #endif  // GVIZARD_DYNAMIC_ATTRSET_HPP_
