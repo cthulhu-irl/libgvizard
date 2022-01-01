@@ -1,5 +1,5 @@
-#ifndef GVIZARD_ATTRIBUTESET_HPP_
-#define GVIZARD_ATTRIBUTESET_HPP_
+#ifndef GVIZARD_REGISTRY_ATTRIBUTESET_HPP_
+#define GVIZARD_REGISTRY_ATTRIBUTESET_HPP_
 
 #include <cstddef>
 #include <tuple>
@@ -127,4 +127,4 @@ class AttrSet {
 }  // namespace registry
 }  // namespace gvizard
 
-#endif  // GVIZARD_ATTRIBUTESET_HPP_
+#endif  // GVIZARD_REGISTRY_ATTRIBUTESET_HPP_

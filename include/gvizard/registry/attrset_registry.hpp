@@ -1,5 +1,5 @@
-#ifndef GVIZARD_ATTRSET_REGISTRY_HPP_
-#define GVIZARD_ATTRSET_REGISTRY_HPP_
+#ifndef GVIZARD_REGISTRY_ATTRSET_REGISTRY_HPP_
+#define GVIZARD_REGISTRY_ATTRSET_REGISTRY_HPP_
 
 #include <cstddef>
 #include <initializer_list>
@@ -201,4 +201,4 @@ class AttrSetRegistry {
 }  // namespace registry
 }  // namespace gvizard
 
-#endif  // GVIZARD_ATTRSET_REGISTRY_HPP_
+#endif  // GVIZARD_REGISTRY_ATTRSET_REGISTRY_HPP_

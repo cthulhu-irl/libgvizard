@@ -1,5 +1,5 @@
-#ifndef GVIZARD_DYNAMIC_ATTRSET_HPP_
-#define GVIZARD_DYNAMIC_ATTRSET_HPP_
+#ifndef GVIZARD_REGISTRY_DYNAMIC_ATTRSET_HPP_
+#define GVIZARD_REGISTRY_DYNAMIC_ATTRSET_HPP_
 
 #include <cstddef>
 #include <cstdint>
@@ -350,4 +350,4 @@ class DynamicAttrSet final {
 }  // namespace registry
 }  // namespace gvizard
 
-#endif  // GVIZARD_DYNAMIC_ATTRSET_HPP_
+#endif  // GVIZARD_REGISTRY_DYNAMIC_ATTRSET_HPP_
