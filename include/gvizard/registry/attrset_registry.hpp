@@ -114,7 +114,18 @@ class AttrSetRegistry {
   // -- AttrSet access (lookup/modify) methods --
 
   template <typename Attr>
-  auto get(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
+  auto get(entity_type entity) noexcept -> utils::OptionalRef<Attr>
+  {
+    auto attrsetopt = get_entity_attrset(entity);
+    if (!attrsetopt)
+      return std::nullopt;
+
+    return attrsetopt->template get<Attr>();
+  }
+
+  template <typename Attr>
+  auto get(entity_type entity) const noexcept
+    -> utils::OptionalRef<const Attr>
   {
     auto attrsetopt = get_entity_attrset(entity);
     if (!attrsetopt)
