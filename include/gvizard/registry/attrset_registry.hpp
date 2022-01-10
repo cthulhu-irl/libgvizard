@@ -124,11 +124,11 @@ class AttrSetRegistry {
   }
 
   template <typename Attr>
-  auto has(entity_type entity) const noexcept -> utils::OptionalRef<Attr>
+  auto has(entity_type entity) const noexcept -> bool
   {
     auto attrsetopt = get_entity_attrset(entity);
     if (!attrsetopt)
-      return std::nullopt;
+      return false;
 
     return attrsetopt->template has<Attr>();
   }
@@ -165,11 +165,11 @@ class AttrSetRegistry {
   }
 
   template <typename Attr>
-  auto remove(entity_type entity) -> utils::OptionalRef<Attr>
+  auto remove(entity_type entity) -> bool
   {
     auto attrsetopt = get_entity_attrset(entity);
     if (!attrsetopt)
-      return std::nullopt;
+      return false;
 
     return attrsetopt->template remove<Attr>();
   }
