@@ -5,6 +5,9 @@ compile_commands.json
 # vim swp files
 *.swp
 
+# clangd
+.cache/
+
 # Prerequisites
 *.d
 
