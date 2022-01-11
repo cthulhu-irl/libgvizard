@@ -121,7 +121,11 @@ class AttrSet {
   }
 
   template <typename Attr>
-  constexpr auto remove() { get<Attr>() = Attr(); }
+  constexpr auto remove() -> bool
+  {
+    get<Attr>() = Attr();
+    return true;
+  }
 };
 
 }  // namespace registry
