@@ -14,6 +14,9 @@
 namespace gvizard {
 namespace utils {
 
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
 template <typename T, typename U>
 struct Converter final {
   static_assert(
