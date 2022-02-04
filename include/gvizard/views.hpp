@@ -1,6 +1,7 @@
 #ifndef GVIZARD_VIEWS_HPP_
 #define GVIZARD_VIEWS_HPP_
 
+#include <iterator>
 #include <optional>
 #include <type_traits>
 #include <utility>
@@ -72,15 +73,21 @@ class CallbackViewIterator {
 };
 
 template <typename T, typename F>
-struct CallbackView {
+class CallbackView {
   using AdvanceCallback = F;
 
-  AdvanceCallback advance;
-  T init;
+  AdvanceCallback  advance;
+  std::optional<T> init;
+
+ public:
+  CallbackView(AdvanceCallback callback)
+    : advance(std::move(callback))
+    , init(advance(T()))
+  {}
 
   CallbackView(AdvanceCallback callback, T init)
-    : advance{ std::move(callback) }
-    , init{ std::move(init) }
+    : advance(std::move(callback))
+    , init(std::move(init))
   {}
 
   auto begin() & -> CallbackViewIterator<T, F>
@@ -110,8 +117,8 @@ struct CallbackView {
 };
 
 template <typename T,
-          typename Iter = T*,
-          typename Sentinel = T*,
+          typename Iter = decltype(std::begin(std::declval<T&>())),
+          typename Sentinel = decltype(std::end(std::declval<T&>())),
           bool Const = false>
 class IteratorView {
  public:
