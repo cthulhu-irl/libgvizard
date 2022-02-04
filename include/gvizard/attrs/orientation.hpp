@@ -8,7 +8,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using OrientationType = std::variant<double, std::string>;
 
@@ -42,6 +42,6 @@ struct Orientation final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_ORIENTATION_HPP_

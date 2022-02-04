@@ -6,7 +6,7 @@
 
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 struct ViewPortXY final {
   PointType<double> size = {0., 0.};
@@ -50,6 +50,6 @@ struct ViewPortS final {
 
 using ViewPortType = std::variant<ViewPortXY, ViewPortS>;
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_VIEWPORT_HPP_

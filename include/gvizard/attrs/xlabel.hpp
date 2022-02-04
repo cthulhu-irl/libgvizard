@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct XLabel final : public AttributeBase<XLabel, std::string> {
   using value_type = std::string;
@@ -26,6 +26,6 @@ struct XLabel final : public AttributeBase<XLabel, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_XLABEL_HPP_

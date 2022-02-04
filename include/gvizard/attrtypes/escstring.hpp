@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 struct EscNameSetRef final {
   const std::string_view graph="";
@@ -217,11 +217,11 @@ class EscString final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 constexpr auto operator "" _escstr(const char *str, std::size_t size)
 {
-  return gvizard::attrtypes::EscString<std::string_view>(str, size);
+  return gviz::attrtypes::EscString<std::string_view>(str, size);
 }
 
 #endif  // GVIZARD_ATTRTYPES_ESCSTRING_HPP_

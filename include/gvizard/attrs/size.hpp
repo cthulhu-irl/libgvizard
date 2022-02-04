@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using SizeType =
   std::optional<std::variant<double, attrtypes::PointType<double>>>;
@@ -38,6 +38,6 @@ struct Size final : public AttributeBase<Size, SizeType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  /// GVIZARD_ATTRS_SIZE_HPP_

@@ -5,7 +5,7 @@
 #include <string>
 #include <optional>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class CompassPoint : uint8_t {
   _default = 0,
@@ -38,6 +38,6 @@ struct PortPos final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_PORTPOS_HPP_

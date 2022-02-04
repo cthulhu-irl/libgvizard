@@ -5,7 +5,7 @@
 #include <tuple>
 #include <array>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class ArrowPrimaryShape : uint8_t {
   none = 0,
@@ -364,6 +364,6 @@ struct arrowshapes {
 
 };  // static struct arrowshapes
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_ARROWTYPE_HPP_

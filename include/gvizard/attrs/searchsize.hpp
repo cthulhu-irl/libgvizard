@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct SearchSize final : public AttributeBase<SearchSize, int> {
   using value_type = int;
@@ -23,6 +23,6 @@ struct SearchSize final : public AttributeBase<SearchSize, int> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SEARCHSIZE_HPP_

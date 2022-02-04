@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct MaxIter final
   : public AttributeBase<MaxIter, std::optional<int>>
@@ -30,6 +30,6 @@ struct MaxIter final
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_MAXITER_HPP_

@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct NodeSep final : public AttributeBase<NodeSep, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct NodeSep final : public AttributeBase<NodeSep, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_NODESEP_HPP_

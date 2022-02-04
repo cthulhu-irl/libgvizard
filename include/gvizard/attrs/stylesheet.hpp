@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct StyleSheet final : public AttributeBase<StyleSheet, std::string> {
   using value_type = std::string;
@@ -28,6 +28,6 @@ struct StyleSheet final : public AttributeBase<StyleSheet, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_STYLESHEET_HPP_

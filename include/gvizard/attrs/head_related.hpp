@@ -9,7 +9,7 @@
 #include "gvizard/attrtypes/label.hpp"
 #include "gvizard/attrtypes/portpos.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct HeadLP final
   : public AttributeBase<HeadLP, attrtypes::PointType<double>>
@@ -200,6 +200,6 @@ struct HeadURL final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_HEAD_RELATED_HPP_

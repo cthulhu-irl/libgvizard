@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/dirtype.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Dir final : public AttributeBase<Dir, attrtypes::DirType> {
   using value_type = attrtypes::DirType;
@@ -27,6 +27,6 @@ struct Dir final : public AttributeBase<Dir, attrtypes::DirType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DIR_HPP_

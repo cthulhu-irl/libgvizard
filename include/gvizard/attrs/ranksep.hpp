@@ -9,7 +9,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using RankSepType =
   std::optional<std::variant<double, std::vector<double>>>;
@@ -42,6 +42,6 @@ struct RankSep final : public AttributeBase<RankSep, RankSepType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_RANKSEP_HPP_

@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using NormalizeType = std::variant<bool, double>;
 
@@ -27,6 +27,6 @@ struct Normalize final : public AttributeBase<Normalize, NormalizeType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_NORMALIZE_HPP_

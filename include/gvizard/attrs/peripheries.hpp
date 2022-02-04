@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Peripheries final : public AttributeBase<Peripheries, int> {
   using value_type = int;
@@ -26,6 +26,6 @@ struct Peripheries final : public AttributeBase<Peripheries, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PERIPHERIES_HPP_

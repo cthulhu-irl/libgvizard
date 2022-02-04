@@ -7,7 +7,7 @@
 #include "gvizard/attrtypes/addible.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using EsepType =
   std::variant<attrtypes::AddDouble,
@@ -42,6 +42,6 @@ struct Esep final : public AttributeBase<Esep, EsepType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_ESEP_HPP_

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class SmoothType : uint8_t {
   none = 0,
@@ -15,6 +15,6 @@ enum class SmoothType : uint8_t {
   triangle
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_SMOOTHTYPE_HPP_

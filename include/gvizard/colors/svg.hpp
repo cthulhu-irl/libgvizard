@@ -8,7 +8,7 @@
 #include "gvizard/colors/general.hpp"
 #include "gvizard/colors/rgb.hpp"
 
-namespace gvizard::colors {
+namespace gviz::colors {
 
 enum class SVGColorEnum : uint16_t {
   aliceblue,
@@ -335,6 +335,6 @@ class SVGColor final {
   };
 };  // struct SVGColor
 
-}  // namespace gvizard::colors
+}  // namespace gviz::colors
 
 #endif  // GVIZARD_COLORS_SVG_HPP_

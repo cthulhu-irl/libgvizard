@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Skew final : public AttributeBase<Skew, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct Skew final : public AttributeBase<Skew, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SKEW_HPP_

@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRTYPES_OUTPUTMODE_HPP_
 #define GVIZARD_ATTRTYPES_OUTPUTMODE_HPP_
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class OutputMode {
   breadthfirst = 0,
@@ -9,6 +9,6 @@ enum class OutputMode {
   edgesfirst
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_OUTPUTMODE_HPP_

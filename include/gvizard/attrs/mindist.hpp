@@ -3,7 +3,7 @@
   
 #include "gvizard/attribute.hpp"
   
-namespace gvizard::attrs {  
+namespace gviz::attrs {  
   
 struct MinDist final : public AttributeBase<MinDist, double> {
   using value_type = double;  
@@ -26,6 +26,6 @@ struct MinDist final : public AttributeBase<MinDist, double> {
   }  
 };  
   
-}  // namespace gvizard::attrs 
+}  // namespace gviz::attrs 
   
 #endif  // GVIZARD_ATTRS_MINDIST_HPP_

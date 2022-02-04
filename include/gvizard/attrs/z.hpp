@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ZCoord final : public AttributeBase<ZCoord, double> {
   using value_type = double;
@@ -28,6 +28,6 @@ struct ZCoord final : public AttributeBase<ZCoord, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_Z_HPP_

@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/clustermode.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ClusterRank final
   : public AttributeBase<ClusterRank, attrtypes::ClusterMode>
@@ -29,6 +29,6 @@ struct ClusterRank final
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_CLUSTERRANK_HPP_

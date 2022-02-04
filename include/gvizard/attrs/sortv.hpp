@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct SortV final : public AttributeBase<SortV, int> {
   using value_type = int;
@@ -26,6 +26,6 @@ struct SortV final : public AttributeBase<SortV, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SORTV_HPP_

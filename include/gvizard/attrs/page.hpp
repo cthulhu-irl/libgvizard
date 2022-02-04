@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using PageType =
   std::optional<std::variant<double, attrtypes::PointType<double>>>;
@@ -36,6 +36,6 @@ struct Page final : public AttributeBase<Page, PageType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  /// GVIZARD_ATTRS_PAGE_HPP_

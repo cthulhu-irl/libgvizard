@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ShapeFile final : public AttributeBase<ShapeFile, std::string> {
   using value_type = std::string;
@@ -28,6 +28,6 @@ struct ShapeFile final : public AttributeBase<ShapeFile, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SHAPEFILE_HPP_

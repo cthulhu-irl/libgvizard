@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/escstring.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Target final
   : public AttributeBase<Target, attrtypes::EscString<std::string>>
@@ -32,6 +32,6 @@ struct Target final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_TARGET_HPP_

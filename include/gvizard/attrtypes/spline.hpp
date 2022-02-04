@@ -7,7 +7,7 @@
 
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 using spline_point_type = PointType<double>;
 using spline_triple_type =
@@ -91,6 +91,6 @@ struct SplineType final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_SPLINE_HPP_

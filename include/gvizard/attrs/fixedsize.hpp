@@ -6,7 +6,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using FixedSizeType = std::variant<bool, std::string>;
 
@@ -31,6 +31,6 @@ struct FixedSize final : public AttributeBase<FixedSize, FixedSizeType> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_FIXEDSIZE_HPP_

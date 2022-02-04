@@ -12,7 +12,7 @@
 
 #include "gvizard/colors/color.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 template <typename ColorT>
 using ColorValType = std::variant<ColorT, attrtypes::ColorList<ColorT>>;
@@ -49,6 +49,6 @@ struct Color final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_COLOR_HPP_

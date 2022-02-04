@@ -8,7 +8,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 template <typename T>
 struct Point2D {
@@ -168,6 +168,6 @@ struct PointType final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_POINT_HPP_

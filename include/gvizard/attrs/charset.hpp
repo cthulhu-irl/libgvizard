@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Charset final : public AttributeBase<Charset, std::string> {
   using value_type = std::string;
@@ -31,6 +31,6 @@ struct Charset final : public AttributeBase<Charset, std::string> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_CHARSET_HPP_

@@ -9,7 +9,7 @@
 #include "gvizard/attrtypes/point.hpp"
 #include "gvizard/attrtypes/spline.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using PosType =
   std::optional<
@@ -35,6 +35,6 @@ struct Pos final : public AttributeBase<Pos, PosType> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_POS_HPP_

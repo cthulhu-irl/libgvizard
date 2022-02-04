@@ -11,18 +11,18 @@
 
 #include "gvizard/colors/general.hpp"
 
-using gvizard::colors::HSV;
-using gvizard::colors::RGB;
-using gvizard::colors::RGBA;
-using gvizard::colors::X11Color;
-using gvizard::colors::SVGColor;
-using gvizard::colors::X11ColorEnum;
-using gvizard::colors::SVGColorEnum;
-using gvizard::colors::SchemeColor;
+using gviz::colors::HSV;
+using gviz::colors::RGB;
+using gviz::colors::RGBA;
+using gviz::colors::X11Color;
+using gviz::colors::SVGColor;
+using gviz::colors::X11ColorEnum;
+using gviz::colors::SVGColorEnum;
+using gviz::colors::SchemeColor;
 
 constexpr static inline const HSV hsv_zero_default{0., 0., 0.};
 
-namespace gvizard {
+namespace gviz {
 namespace utils {
 
 template <>
@@ -238,7 +238,7 @@ struct Converter<SVGColorEnum, SVGColor> final {
 
 namespace colors {
 
-using gvizard::utils::Converter;
+using gviz::utils::Converter;
 
 template <typename To>
 struct ColorConverterCallable final {
@@ -250,6 +250,6 @@ struct ColorConverterCallable final {
 };
 
 }  // namespace colors
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_COLORS_CONVERTER_HPP_

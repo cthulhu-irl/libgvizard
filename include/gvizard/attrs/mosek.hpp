@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Mosek final : public AttributeBase<Mosek, bool> {
   using value_type = bool;
@@ -23,6 +23,6 @@ struct Mosek final : public AttributeBase<Mosek, bool> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_MOSEK_HPP_

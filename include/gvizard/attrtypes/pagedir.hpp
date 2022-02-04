@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRTYPES_PAGEDIR_HPP_
 #define GVIZARD_ATTRTYPES_PAGEDIR_HPP_
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class PageDir {
   BL = 0,
@@ -14,6 +14,6 @@ enum class PageDir {
   LT
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_PAGEDIR_HPP_

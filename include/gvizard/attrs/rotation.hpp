@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Rotation final : public AttributeBase<Rotation, double> {
   using value_type = double;
@@ -23,6 +23,6 @@ struct Rotation final : public AttributeBase<Rotation, double> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_ROTATION_HPP_

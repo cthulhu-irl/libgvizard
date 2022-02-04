@@ -8,7 +8,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/colors/general.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ColorScheme final
   : public AttributeBase<ColorScheme, colors::SchemeEnum>
@@ -43,6 +43,6 @@ struct ColorScheme final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_COLORSCHEME_HPP_

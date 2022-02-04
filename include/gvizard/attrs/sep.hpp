@@ -7,7 +7,7 @@
 #include "gvizard/attrtypes/addible.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using SepType =
   std::variant<
@@ -42,6 +42,6 @@ struct Sep final : public AttributeBase<Sep, SepType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SEP_HPP_

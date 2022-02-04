@@ -8,7 +8,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/escstring.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using DirEdgeConstraintsType = std::variant<std::string, bool>;
 
@@ -124,6 +124,6 @@ struct EdgeURL final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_EDGE_RELATED_HPP_

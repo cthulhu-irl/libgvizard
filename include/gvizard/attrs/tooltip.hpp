@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/escstring.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Tooltip final
   : public AttributeBase<Tooltip, attrtypes::EscString<std::string>>
@@ -32,6 +32,6 @@ struct Tooltip final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_TOOLTIP_HPP_

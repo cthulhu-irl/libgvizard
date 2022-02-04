@@ -7,7 +7,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using RatioType = std::optional<std::variant<double, std::string>>;
 
@@ -32,6 +32,6 @@ struct Ratio final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_RATIO_HPP_

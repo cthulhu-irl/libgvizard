@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ShadowBoxes final : public AttributeBase<ShadowBoxes, int> {
   using value_type = int;
@@ -26,6 +26,6 @@ struct ShadowBoxes final : public AttributeBase<ShadowBoxes, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SHADOWBOXES_HPP_

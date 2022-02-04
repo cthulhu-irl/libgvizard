@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using PadType = std::variant<double, attrtypes::PointType<double>>;
 
@@ -31,6 +31,6 @@ struct Pad final : public AttributeBase<Pad, PadType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  /// GVIZARD_ATTRS_PAD_HPP_

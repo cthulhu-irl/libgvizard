@@ -9,7 +9,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class CommonStyle : uint8_t {
   none = 0,
@@ -141,6 +141,6 @@ struct Style final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_STYLE_HPP_

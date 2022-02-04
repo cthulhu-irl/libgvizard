@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Dim final : public AttributeBase<Dim, int> {
   using value_type = int;
@@ -29,6 +29,6 @@ struct Dim final : public AttributeBase<Dim, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DIM_HPP_

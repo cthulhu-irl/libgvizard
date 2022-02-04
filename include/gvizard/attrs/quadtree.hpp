@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/quadtype.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using QuadTreeType = std::variant<attrtypes::QuadType, bool>;
 
@@ -31,6 +31,6 @@ struct QuadTree final : public AttributeBase<QuadTree, QuadTreeType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_QUADTREE_HPP_

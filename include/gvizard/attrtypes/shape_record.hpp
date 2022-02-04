@@ -5,7 +5,7 @@
 #include <vector>
 #include <variant>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 template <typename NameT = std::string, typename PortT = std::string>
 struct RecordFieldId final {
@@ -37,6 +37,6 @@ struct RecordShape final {
   {}
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_SHAPE_RECORD_HPP_

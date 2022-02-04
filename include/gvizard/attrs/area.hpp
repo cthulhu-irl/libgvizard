@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Area final : public AttributeBase<Area, double> {
   using value_type = double;
@@ -29,6 +29,6 @@ struct Area final : public AttributeBase<Area, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_AREA_HPP_

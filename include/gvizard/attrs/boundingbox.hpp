@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/rect.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct BoundingBox final
   : public AttributeBase<BoundingBox, std::optional<attrtypes::Rect>>
@@ -36,6 +36,6 @@ struct BoundingBox final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_BOUNDINGBOX_HPP_

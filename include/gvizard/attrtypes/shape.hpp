@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class ShapeType : uint8_t {
   ellipse = 0,
@@ -70,6 +70,6 @@ enum class ShapeType : uint8_t {
   Mrecord  // record-based shape with rounded edges
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_SHAPE_HPP_

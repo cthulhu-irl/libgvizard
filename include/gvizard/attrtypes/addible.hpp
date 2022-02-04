@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class AddibleSign : bool {
   neutral = false,
@@ -22,9 +22,24 @@ struct Addible {
     , addible(sign)
   {}
 
+  static constexpr auto make(T value, AddibleSign sign = AddibleSign::neutral)
+  {
+    return Addible(std::move(value), sign);
+  }
+
   constexpr T map(T other) const
   {
     return bool(addible) ? (value + std::move(other)) : other;
+  }
+
+  constexpr bool operator==(const Addible& other) const noexcept
+  {
+    return value == other.value && addible == other.addible;
+  }
+
+  constexpr bool operator!=(const Addible& other) const noexcept
+  {
+    return value != other.value || addible != other.addible;
   }
 
   constexpr operator value_type() const { return value; }
@@ -34,6 +49,6 @@ struct AddDouble : public Addible<double> {
   using Addible::Addible;
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_ADDIBLE_HPP_

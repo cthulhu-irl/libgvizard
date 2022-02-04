@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Group final : public AttributeBase<Group, std::string> {
   using value_type = std::string;
@@ -26,6 +26,6 @@ struct Group final : public AttributeBase<Group, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_GROUP_HPP_

@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct MCLimit final : public AttributeBase<MCLimit, double> {
   using value_type = double;
@@ -23,6 +23,6 @@ struct MCLimit final : public AttributeBase<MCLimit, double> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_MCLIMIT_HPP_

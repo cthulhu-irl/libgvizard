@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/packmode.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct PackMode final
   : public AttributeBase<PackMode, attrtypes::PackMode>
@@ -31,6 +31,6 @@ struct PackMode final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PACKMODE_HPP_

@@ -12,7 +12,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard {
+namespace gviz {
 namespace registry {
 
 template <typename AttrSetT>
@@ -43,12 +43,12 @@ class AttrSetRegistry {
     : vector_(lst)
   {}
 
-  auto size() noexcept -> std::size_t
+  auto size() const noexcept -> std::size_t
   {
     return entity_index_map_.size();
   }
 
-  constexpr auto max_size() -> std::size_t
+  constexpr auto max_size() const -> std::size_t
   {
     return std::numeric_limits<std::size_t>::max();
   }
@@ -59,7 +59,7 @@ class AttrSetRegistry {
     vector_.clear();
   }
 
-  auto create(attrset_type attrset = {}) noexcept -> entity_type
+  auto create() noexcept -> entity_type
   {
     const auto index = vector_.size();
 
@@ -67,7 +67,7 @@ class AttrSetRegistry {
     // that it wouldn't find any available number.
     while (!entity_index_map_.try_emplace(++last_entity_, index).second);
 
-    vector_.push_back(AttrSetPair{ last_entity_, std::move(attrset) });
+    vector_.push_back(AttrSetPair{ last_entity_, AttrSetT{} });
 
     return last_entity_;
   }
@@ -106,10 +106,10 @@ class AttrSetRegistry {
   }
 
   auto begin() noexcept { return vector_.begin(); }
-  auto end() noexcept   { return vector_.end();   }
+  auto end()   noexcept { return vector_.end();   }
 
   auto cbegin() const noexcept { return vector_.cbegin(); }
-  auto cend() const noexcept   { return vector_.cend();   }
+  auto cend()   const noexcept { return vector_.cend();   }
 
   // -- AttrSet access (lookup/modify) methods --
 
@@ -210,6 +210,6 @@ class AttrSetRegistry {
 };
 
 }  // namespace registry
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_REGISTRY_ATTRSET_REGISTRY_HPP_

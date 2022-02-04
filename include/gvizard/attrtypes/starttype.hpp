@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class StartTypeStyle : uint8_t {
   none = 0,
@@ -27,6 +27,6 @@ struct StartType final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_STARTTYPE_HPP_

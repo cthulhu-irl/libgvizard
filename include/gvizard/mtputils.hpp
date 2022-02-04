@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace gvizard {
+namespace gviz {
 namespace mtp {
 
 namespace impl {
@@ -185,6 +185,6 @@ struct array_atoi_ct {
 };
 
 }  // namespace mtp
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_MTPUTILS_HPP_

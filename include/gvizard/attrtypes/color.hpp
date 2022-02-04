@@ -3,7 +3,7 @@
 
 #include "gvizard/colors.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 using ColorType = colors::Color;
 
@@ -12,6 +12,6 @@ template <typename ColorT = colors::RGB,
           typename ...VecArgs>
 using ColorList = Vec<colors::WeightedColor<ColorT>>;
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_COLOR_HPP_

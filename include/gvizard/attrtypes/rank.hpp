@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class RankDir : uint8_t {
   top_bottom = 0,
@@ -21,6 +21,6 @@ enum class RankType : uint8_t {
   sink
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_RANK_HPP_

@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/viewport.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ViewPort final
   : public AttributeBase<ViewPort, attrtypes::ViewPortType>
@@ -30,6 +30,6 @@ struct ViewPort final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_VIEWPORT_HPP_

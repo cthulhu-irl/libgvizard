@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ForceLabels final : public AttributeBase<ForceLabels, bool> {
   using value_type = bool;
@@ -25,6 +25,6 @@ struct ForceLabels final : public AttributeBase<ForceLabels, bool> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_FORCELABELS_HPP_

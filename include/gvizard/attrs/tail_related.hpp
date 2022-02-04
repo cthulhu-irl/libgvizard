@@ -10,7 +10,7 @@
 #include "gvizard/attrtypes/label.hpp"
 #include "gvizard/attrtypes/portpos.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using TailLPType = std::optional<attrtypes::PointType<double>>;
 
@@ -217,6 +217,6 @@ struct TailURL final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_TAIL_RELATED_HPP_

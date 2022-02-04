@@ -5,7 +5,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard {
+namespace gviz {
 namespace attrtypes {
 
 enum class QuadType : uint8_t {
@@ -41,6 +41,6 @@ struct Converter<bool, attrtypes::QuadType> final {
 
 }  // namespace utils
 
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_ATTRTYPES_QUADTYPE_HPP_

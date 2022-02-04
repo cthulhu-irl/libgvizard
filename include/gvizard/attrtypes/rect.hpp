@@ -4,7 +4,7 @@
 #include <optional>
 #include <stdexcept>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 class Rect final {
   double llx_{};
@@ -93,6 +93,6 @@ class Rect final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_RECT_HPP_

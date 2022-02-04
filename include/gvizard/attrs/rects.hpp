@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/rect.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using RectsType = std::optional<attrtypes::Rect>;
 
@@ -37,6 +37,6 @@ struct Rects final : public AttributeBase<Rects, RectsType>
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_RECTS_HPP_

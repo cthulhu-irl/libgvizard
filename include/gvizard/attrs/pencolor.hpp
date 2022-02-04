@@ -5,7 +5,7 @@
 #include "gvizard/attrtypes/color.hpp"
 #include "gvizard/colors/x11.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct PenColor final
   : public AttributeBase<PenColor, attrtypes::ColorType>
@@ -33,6 +33,6 @@ struct PenColor final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PENCOLOR_HPP_

@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct XDotVersion final : public AttributeBase<XDotVersion, std::string> {
   using value_type = std::string;
@@ -31,6 +31,6 @@ struct XDotVersion final : public AttributeBase<XDotVersion, std::string> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_XDOTVERSION_HPP_

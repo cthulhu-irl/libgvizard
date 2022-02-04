@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Quantum final : public AttributeBase<Quantum, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct Quantum final : public AttributeBase<Quantum, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_QUANTUM_HPP_

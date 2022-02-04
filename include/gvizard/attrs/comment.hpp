@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Comment final : public AttributeBase<Comment, std::string> {
   using value_type = std::string;
@@ -31,6 +31,6 @@ struct Comment final : public AttributeBase<Comment, std::string> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_COMMENT_HPP_

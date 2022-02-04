@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Decorate final : public AttributeBase<Decorate, bool> {
   using value_type = bool;
@@ -26,6 +26,6 @@ struct Decorate final : public AttributeBase<Decorate, bool> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DECORATE_HPP_

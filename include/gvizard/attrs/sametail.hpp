@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct SameTail final : public AttributeBase<SameTail, std::string> {
   using value_type = std::string;
@@ -26,6 +26,6 @@ struct SameTail final : public AttributeBase<SameTail, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SAMETAIL_HPP_

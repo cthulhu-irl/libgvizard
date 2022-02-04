@@ -16,7 +16,7 @@
 #include "gvizard/utils.hpp"
 #include "gvizard/mtputils.hpp"
 
-namespace gvizard {
+namespace gviz {
 namespace registry {
 
 template <typename ...Attrs>
@@ -197,7 +197,12 @@ class UnlimitedTypeSet final {
 
   auto pop_type_index_bykey(typekey_type typekey) -> bool
   {
-    return bool(map_.erase(typekey));
+    auto found = map_.find(typekey);
+    if (found == map_.end())
+      return false;
+
+    map_.erase(found);
+    return true;
   }
 
   template <typename T>
@@ -348,6 +353,6 @@ class DynamicAttrSet final {
 };
 
 }  // namespace registry
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_REGISTRY_DYNAMIC_ATTRSET_HPP_

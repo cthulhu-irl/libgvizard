@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct SamplePoints final
   : public AttributeBase<SamplePoints, std::optional<int>>
@@ -35,6 +35,6 @@ struct SamplePoints final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SAMPLEPOINTS_HPP_

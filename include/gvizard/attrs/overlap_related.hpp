@@ -6,7 +6,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using OverlapType = std::variant<bool, std::string>;
 
@@ -75,6 +75,6 @@ struct OverlapShrink final : public AttributeBase<OverlapShrink, double> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_OVERLAP_RELATED_HPP_

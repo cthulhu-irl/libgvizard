@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/layers.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Layer final : public AttributeBase<Layer, attrtypes::LayerRange> {
   using value_type = attrtypes::LayerRange;
@@ -116,6 +116,6 @@ struct LayerSep final : public AttributeBase<LayerSep, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_LAYER_RELATED_HPP_

@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <optional>
 
-namespace gvizard::colors {
+namespace gviz::colors {
 
 struct RGB {
   using octet_t = uint8_t;
@@ -56,6 +56,6 @@ struct RGB {
   }
 };
 
-}  // namespace gvizard::colors
+}  // namespace gviz::colors
 
 #endif  // GVIZARD_COLORS_RGB_HPP_

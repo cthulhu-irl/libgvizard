@@ -7,7 +7,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using SplinesType = std::optional<std::variant<bool, std::string>>;
 
@@ -30,6 +30,6 @@ struct Splines final : public AttributeBase<Splines, SplinesType> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SPLINES_HPP_

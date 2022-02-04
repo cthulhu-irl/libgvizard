@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct LHead final : public AttributeBase<LHead, std::string> {
   using value_type = std::string;
@@ -121,6 +121,6 @@ struct LPosition final : public AttributeBase<LPosition, LPositionType>
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_LOGICAL_RELATED_HPP_

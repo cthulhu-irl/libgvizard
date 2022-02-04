@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Pin final : public AttributeBase<Pin, bool> {
   using value_type = bool;
@@ -23,6 +23,6 @@ struct Pin final : public AttributeBase<Pin, bool> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PIN_HPP_

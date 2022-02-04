@@ -3,10 +3,10 @@
 
 #include "gvizard/colors/general.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 using ColorSchemeType = colors::SchemeEnum;
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_COLORSCHEMES_HPP_

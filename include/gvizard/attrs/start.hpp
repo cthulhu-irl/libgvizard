@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/starttype.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Start final : public AttributeBase<Start, attrtypes::StartType> {
   using value_type = attrtypes::StartType;
@@ -27,6 +27,6 @@ struct Start final : public AttributeBase<Start, attrtypes::StartType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_START_HPP_

@@ -5,11 +5,11 @@
 
 #include "gvizard/attrtypes/escstring.hpp"
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 template <typename Str = std::string>
 using Label = EscString<Str>;
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_LABEL_HPP_

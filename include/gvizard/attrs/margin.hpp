@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using MarginType =
   std::optional<std::variant<double, attrtypes::PointType<double>>>;
@@ -38,6 +38,6 @@ struct Margin final : public AttributeBase<Margin, MarginType> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  /// GVIZARD_ATTRS_MARGIN_HPP_

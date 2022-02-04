@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct MinLen final : public AttributeBase<MinLen, int> {
   using value_type = int;
@@ -26,6 +26,6 @@ struct MinLen final : public AttributeBase<MinLen, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_MINLEN_HPP_

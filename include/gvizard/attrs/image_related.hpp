@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/imagepos.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Image final : public AttributeBase<Image, std::string> {
   using value_type = std::string;
@@ -99,6 +99,6 @@ struct ImageScale final : public AttributeBase<ImageScale, ImageScaleType>
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_IMAGE_RELATED_HPP_

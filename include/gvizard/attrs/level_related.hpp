@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Levels final : public AttributeBase<Levels, unsigned int> {
   using value_type = unsigned int;
@@ -50,6 +50,6 @@ struct LevelsGap final : public AttributeBase<LevelsGap, double> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_LEVEL_RELATED_HPP_

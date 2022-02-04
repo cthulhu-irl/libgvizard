@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/escstring.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Id final
   : public AttributeBase<Id, attrtypes::EscString<std::string>>
@@ -29,6 +29,6 @@ struct Id final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_HREF_HPP_

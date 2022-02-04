@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/rank.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Rank final : public AttributeBase<Rank, attrtypes::RankType> {
   using value_type = attrtypes::RankType;
@@ -27,6 +27,6 @@ struct Rank final : public AttributeBase<Rank, attrtypes::RankType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_RANK_HPP_

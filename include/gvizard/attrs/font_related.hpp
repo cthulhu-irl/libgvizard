@@ -7,7 +7,7 @@
 #include "gvizard/attrtypes/color.hpp"
 #include "gvizard/colors/x11.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct FontColor final
   : public AttributeBase<FontColor, attrtypes::ColorType>
@@ -123,6 +123,6 @@ struct FontSize final : public AttributeBase<FontSize, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_FONT_RELATED_HPP_

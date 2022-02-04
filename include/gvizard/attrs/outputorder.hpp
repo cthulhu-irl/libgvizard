@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/outputmode.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct OutputOrder final
   : public AttributeBase<OutputOrder, attrtypes::OutputMode>
@@ -29,6 +29,6 @@ struct OutputOrder final
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_OUTPUTORDER_HPP_

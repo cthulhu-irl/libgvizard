@@ -11,7 +11,7 @@
 
 #include <magic_enum.hpp>
 
-namespace gvizard {
+namespace gviz {
 namespace utils {
 
 template <typename T>
@@ -28,68 +28,8 @@ struct Converter final {
   constexpr static T convert(U&& obj) { return T(std::move(obj)); }
 };
 
-template <typename T, auto ...constraints>
-class Contract {
-  static_assert(
-    (std::is_same_v<
-        std::invoke_result_t<decltype(constraints), const T&>, bool>
-      && ... && true),
-    "given constraints as template parameter must be callable"
-    "by given value type and return bool."
-  );
-
- protected:
-  T value_;
-
-  constexpr static void throw_if_invalid(const T& value)
-  {
-    if (!check(value))
-      throw std::invalid_argument("given value didn't pass all constraints");
-  }
-
- public:
-  constexpr Contract() : value_{} { throw_if_invalid(value_); }
-  constexpr Contract(const T& v) : value_{v} { throw_if_invalid(value_); }
-  constexpr Contract(T&& v) : value_{std::move(v)} { throw_if_invalid(value_); }
-
-  constexpr T value() const { return value_; }
-
-  constexpr operator T() const { return value_; }
-
-  constexpr bool assign(const T& value)
-  {
-    if (!check(value)) return false;
-    value_ = value;
-    return true;
-  }
-
-  constexpr bool assign(T&& value)
-  {
-    if (!check(value)) return false;
-    value_ = std::move(value);
-    return true;
-  }
-
-  constexpr static bool check(const T& value)
-  {
-    return (constraints(value) && ... && true);
-  }
-
-  constexpr static std::optional<T> constrain(const T& value)
-  {
-    if (!check(value)) return std::nullopt;
-    return value;
-  }
-
-  constexpr static std::optional<T> constrain(T&& value)
-  {
-    if (!check(value)) return std::nullopt;
-    return std::move(value);
-  }
-};
-
 template <typename T,
-          typename U = std::size_t,
+          typename U = std::underlying_type_t<T>,
           std::enable_if_t<std::is_enum_v<T>, bool> = true>
 struct EnumHelper final {
   constexpr static auto to_str(const T& value) -> const std::string_view
@@ -120,10 +60,9 @@ struct EnumHelper final {
   {
     return magic_enum::enum_cast<T>(std::move(str));
   }
-
-  static auto from_str(const std::string str) -> std::optional<T>
+  static auto from_str(const std::string& str) -> std::optional<T>
   {
-    return magic_enum::enum_cast<T>(std::move(str));
+    return magic_enum::enum_cast<T>(str);
   }
 
   constexpr static std::size_t size()
@@ -164,56 +103,14 @@ class OptionalRef {
   constexpr auto&       value() noexcept       { return *ptr_; }
   constexpr const auto& value() const noexcept { return *ptr_; }
 
-  template <typename U>
-  constexpr auto& value_or(U& other) noexcept
+  constexpr auto& value_or(T& other) noexcept
   {
-    if (ptr_) return *ptr_;
-    else      return other;
+    return bool(ptr_) ? *ptr_ : other;
   }
 
-  template <typename U>
-  constexpr const auto& value_or(const U& other) const noexcept
+  constexpr const auto& value_or(const T& other) const noexcept
   {
-    if (ptr_) return *ptr_;
-    else      return other;
-  }
-
-  template <typename F>
-  constexpr auto map(F&& func)
-    noexcept(noexcept(func(std::declval<T&>())))
-    -> std::optional<std::invoke_result_t<F, T&>>
-  {
-    if (!has_value()) return std::nullopt;
-    return { func(value()) };
-  }
-
-  template <typename F>
-  constexpr auto map(F&& func) const
-    noexcept(noexcept(func(std::declval<T&>())))
-    -> std::optional<std::invoke_result_t<F, const T&>>
-  {
-    if (!has_value()) return std::nullopt;
-    return { func(value()) };
-  }
-
-  template <typename U, typename F>
-  constexpr auto map_into(F&& func)
-    noexcept(noexcept(U(func(std::declval<T&>()))))
-    -> std::optional<std::invoke_result_t<F, T&>>
-  {
-    if (!has_value()) return U();
-    return U(func(value()));
-  }
-
-  template <typename U, typename F>
-  constexpr auto map_into(F&& func) const
-    noexcept(noexcept(func(std::declval<T&>())))
-    -> std::optional<std::invoke_result_t<F, const T&>>
-  {
-    if (!has_value())
-      return std::nullopt;
-
-    return U(func(value()));
+    return bool(ptr_) ? *ptr_ : other;
   }
 
   constexpr reference_type       operator*()       noexcept { return *ptr_; }
@@ -229,7 +126,7 @@ class OptionalRef {
 
   constexpr bool operator!=(const OptionalRef other) const noexcept
   {
-    return ptr_ == other.ptr_;
+    return ptr_ != other.ptr_;
   }
 
   constexpr operator bool() const noexcept { return bool(ptr_); }
@@ -238,6 +135,6 @@ class OptionalRef {
 inline constexpr auto nulloptref = nullptr;
 
 }  // namespace utils
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_UTILS_HPP_

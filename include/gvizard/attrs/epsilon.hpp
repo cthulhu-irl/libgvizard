@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Epsilon final : public AttributeBase<Epsilon, std::optional<double>>
 {
@@ -29,6 +29,6 @@ struct Epsilon final : public AttributeBase<Epsilon, std::optional<double>>
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_EPSILON_HPP_

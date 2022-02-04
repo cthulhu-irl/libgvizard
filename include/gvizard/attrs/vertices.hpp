@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/point.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using VerticesType = std::vector<attrtypes::PointType<double>>;
 
@@ -33,6 +33,6 @@ struct Vertices final : public AttributeBase<Vertices, VerticesType>
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_VERTICES_HPP_

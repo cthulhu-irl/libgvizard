@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct DefaultDist final : public AttributeBase<DefaultDist, double> {
   using value_type = double;
@@ -31,6 +31,6 @@ struct DefaultDist final : public AttributeBase<DefaultDist, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DEFAULTDIST_HPP_

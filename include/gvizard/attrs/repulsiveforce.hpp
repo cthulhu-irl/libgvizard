@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct RepulsiveForce final : public AttributeBase<RepulsiveForce, double>
 {
@@ -29,6 +29,6 @@ struct RepulsiveForce final : public AttributeBase<RepulsiveForce, double>
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_REPULSIVEFORCE_HPP_

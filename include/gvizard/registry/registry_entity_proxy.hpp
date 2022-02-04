@@ -1,10 +1,10 @@
-#ifndef GVIZARD_REGISTRY_PROXY_HPP_
-#define GVIZARD_REGISTRY_PROXY_HPP_
+#ifndef GVIZARD_REGISTRY_REGISTRY_ENTITY_PROXY_HPP_
+#define GVIZARD_REGISTRY_REGISTRY_ENTITY_PROXY_HPP_
 
 #include "gvizard/utils.hpp"
 #include <utility>
 
-namespace gvizard::registry {
+namespace gviz::registry {
 
 template <typename Registry>
 class RegistryEntityProxy {
@@ -52,6 +52,6 @@ class RegistryEntityProxy {
   auto remove() { return registry_->template remove<Attr>(entity_); }
 };
 
-}  // namespace gvizard::registry
+}  // namespace gviz::registry
 
-#endif  // GVIZARD_REGISTRY_PROXY_HPP_
+#endif  // GVIZARD_REGISTRY_REGISTRY_ENTITY_PROXY_HPP_

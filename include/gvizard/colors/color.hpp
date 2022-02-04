@@ -13,7 +13,7 @@
 #include "gvizard/colors/general.hpp"
 #include "gvizard/colors/converter.hpp"
 
-namespace gvizard {
+namespace gviz {
 
 namespace colors {
 
@@ -87,6 +87,6 @@ struct Converter<T, colors::Color> final {
 
 }  // namespace utils
 
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_COLORS_COLOR_HPP_

@@ -5,7 +5,7 @@
 #include <string_view>
 #include <optional>
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 class IAttribute {
  public:
@@ -77,6 +77,6 @@ class AttributeBase : public IAttribute {
   value_type value_;
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRIBUTE_HPP_

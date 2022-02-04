@@ -5,7 +5,7 @@
 #include <cstring>
 #include <stdexcept>
 
-namespace gvizard::colors {
+namespace gviz::colors {
 
 enum class SchemeEnum : uint8_t {
   X11,
@@ -85,6 +85,6 @@ class WeightedColor final {
   }
 };
 
-}  // namespace gvizard::colors
+}  // namespace gviz::colors
 
 #endif  // GVIZARD_COLORS_GENERAL_HPP_

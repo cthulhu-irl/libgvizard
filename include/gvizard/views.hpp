@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace gvizard {
+namespace gviz {
 
 template <typename T, typename F>
 class CallbackViewIterator {
@@ -28,7 +28,8 @@ class CallbackViewIterator {
     , current_{ std::move(init) }
   {}
 
-  constexpr auto has_value() noexcept -> bool {
+  constexpr auto has_value() noexcept -> bool
+  {
     return current_.has_value();
   }
 
@@ -59,8 +60,8 @@ class CallbackViewIterator {
     return temp;
   }
 
-  constexpr auto operator->() -> T* { return std::addressof(current_); }
-  constexpr auto operator*() -> T { return current_.value(); }
+  constexpr auto operator->() { return current_; }
+  constexpr auto operator*() const { return current_.value(); }
 
   constexpr auto operator==(const CallbackViewIterator& other)
   {
@@ -77,7 +78,7 @@ struct CallbackView {
   AdvanceCallback advance;
   T init;
 
-  explicit CallbackView(AdvanceCallback callback, T init)
+  CallbackView(AdvanceCallback callback, T init)
     : advance{ std::move(callback) }
     , init{ std::move(init) }
   {}
@@ -122,7 +123,7 @@ class IteratorView {
   sentinel_t iter_end_;
 
  public:
-  constexpr explicit IteratorView(iter_t iter_begin, sentinel_t iter_end)
+  constexpr IteratorView(iter_t iter_begin, sentinel_t iter_end)
     : iter_begin_(std::move(iter_begin))
     , iter_end_(std::move(iter_end))
   {}
@@ -131,6 +132,6 @@ class IteratorView {
   constexpr auto end() -> sentinel_t { return iter_end_; }
 };
 
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_VIEWS_HPP_

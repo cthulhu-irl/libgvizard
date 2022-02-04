@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/style.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Style final : public AttributeBase<Style, attrtypes::Style> {
   using value_type = attrtypes::Style;
@@ -25,6 +25,6 @@ struct Style final : public AttributeBase<Style, attrtypes::Style> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_STYLE_HPP_

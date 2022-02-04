@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Distortion final : public AttributeBase<Distortion, double> {
   using value_type = double;
@@ -29,6 +29,6 @@ struct Distortion final : public AttributeBase<Distortion, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DISTORTION_HPP_

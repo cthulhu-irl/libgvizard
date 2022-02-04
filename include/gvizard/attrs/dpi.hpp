@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Dpi final : public AttributeBase<Dpi, double> {
   using value_type = double;
@@ -29,6 +29,6 @@ struct Dpi final : public AttributeBase<Dpi, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DPI_HPP_

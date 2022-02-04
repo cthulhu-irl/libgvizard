@@ -7,7 +7,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/color.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 template <typename GradientType = attrtypes::ColorType>
 using BGColorValueType =
@@ -44,6 +44,6 @@ struct BGColor final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_BGCOLOR_HPP_

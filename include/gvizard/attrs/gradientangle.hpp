@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct GradientAngle final : public AttributeBase<GradientAngle, int> {
   using value_type = int;
@@ -31,6 +31,6 @@ struct GradientAngle final : public AttributeBase<GradientAngle, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_GRADIENTANGLE_HPP_

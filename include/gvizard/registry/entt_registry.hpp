@@ -12,7 +12,7 @@
 
 #include "gvizard/utils.hpp"
 
-namespace gvizard {
+namespace gviz {
 namespace registry {
 
 class EnTTRegistry {
@@ -23,7 +23,7 @@ class EnTTRegistry {
   entt::registry registry_;
 
  public:
-  constexpr std::size_t size() const noexcept
+  std::size_t size() const noexcept
   {
     return registry_.size();
   }
@@ -34,15 +34,15 @@ class EnTTRegistry {
     return std::numeric_limits<uint32_t>::max();
   }
 
-  constexpr auto& raw_registry() noexcept { return registry_; }
-  constexpr const auto& raw_registry() const noexcept { return registry_; }
+  auto& raw_registry() noexcept { return registry_; }
+  const auto& raw_registry() const noexcept { return registry_; }
 
-  constexpr entity_type create()
+  entity_type create()
   {
     return registry_.create();
   }
 
-  constexpr bool destroy(entity_type entity)
+  bool destroy(entity_type entity)
   {
     return registry_.destroy(entity);
   }
@@ -50,7 +50,6 @@ class EnTTRegistry {
   void clear()
   {
     std::vector<entity_type> entities{};
-
     entities.reserve(registry_.size());
 
     registry_.each([&entities](auto entity) {
@@ -63,62 +62,61 @@ class EnTTRegistry {
   // -- Registry access (lookup/modify) methods --
 
   template <typename Attr>
-  constexpr auto get(entity_type entity) noexcept
-    -> utils::OptionalRef<Attr>
+  auto get(entity_type entity) noexcept -> utils::OptionalRef<Attr>
   {
-    return registry_.get<Attr>(entity);
+    return registry_.template get<Attr>(entity);
   }
 
   template <typename Attr>
-  constexpr auto get(entity_type entity) const noexcept
-    -> utils::OptionalRef<const Attr>
+  auto get(entity_type entity) const noexcept -> utils::OptionalRef<const Attr>
   {
-    return registry_.get<Attr>(entity);
+    return registry_.template get<Attr>(entity);
   }
 
   template <typename Attr, typename ...Rest>
-  constexpr auto has(entity_type entity) const noexcept -> bool
+  bool has(entity_type entity) const noexcept
   {
     return registry_.valid(entity)
-        && registry_.all_of<Attr, Rest...>(entity);
+        && registry_.template all_of<Attr, Rest...>(entity);
   }
 
   template <typename Attr, typename F>
-  constexpr auto update(entity_type entity, F&& func)
-    -> utils::OptionalRef<Attr>
+  void update(entity_type entity, F&& func)
   {
-    auto& attr = registry_.get<Attr>(entity);
+    auto& attr = registry_.template get<Attr>(entity);
     func(attr);
-    return attr;
   }
 
   template <typename Attr, typename ValT>
-  constexpr auto set(entity_type entity, ValT&& value)
-    -> utils::OptionalRef<Attr>
+  void set(entity_type entity, ValT&& value)
   {
-    return
-      registry_.emplace_or_replace<Attr>(entity, std::forward<ValT>(value));
+    registry_.template emplace_or_replace<Attr>(
+      entity,
+      std::forward<ValT>(value)
+    );
   }
 
   template <typename Attr, typename ...Args>
-  constexpr auto emplace(entity_type entity, Args&&... args)
-    -> utils::OptionalRef<Attr>
+  void emplace(entity_type entity, Args&&... args)
   {
-    return registry_.emplace<Attr>(entity, std::forward<Args>(args)...);
+    registry_.template emplace<Attr>(
+      entity,
+      std::forward<Args>(args)...
+    );
   }
 
   template <typename Attr>
-  constexpr auto remove(entity_type entity) -> bool
+  bool remove(entity_type entity)
   {
     if (!has<Attr>(entity))
       return false;
 
-    registry_.clear<Attr>(entity);
+    registry_.template clear<Attr>(entity);
     return true;
   }
 };
 
 }  // namespace registry
-}  // namespace gvizard
+}  // namespace gviz
 
 #endif  // GVIZARD_REGISTRY_ENTT_REGISTRY_HPP_

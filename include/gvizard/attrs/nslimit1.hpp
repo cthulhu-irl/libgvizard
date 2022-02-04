@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct NSLimit1 final
   : public AttributeBase<NSLimit1, std::optional<double>>
@@ -30,6 +30,6 @@ struct NSLimit1 final
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_NSLIMIT1_HPP_

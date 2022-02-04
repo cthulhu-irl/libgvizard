@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/pagedir.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct PageDir final : public AttributeBase<PageDir, attrtypes::PageDir>
 {
@@ -33,6 +33,6 @@ struct PageDir final : public AttributeBase<PageDir, attrtypes::PageDir>
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PAGEDIR_HPP_

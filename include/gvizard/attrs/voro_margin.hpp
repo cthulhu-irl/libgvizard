@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct VoroMargin final : public AttributeBase<VoroMargin, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct VoroMargin final : public AttributeBase<VoroMargin, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_VORO_MARGIN_HPP_

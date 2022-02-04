@@ -8,7 +8,7 @@
 #include "gvizard/colors/general.hpp"
 #include "gvizard/colors/rgb.hpp"
 
-namespace gvizard::colors {
+namespace gviz::colors {
 
 enum class X11ColorEnum : uint16_t {
   aliceblue,
@@ -1357,6 +1357,6 @@ class X11Color final {
   };
 };  // struct X11Color
 
-}  // namespace gvizard::colors
+}  // namespace gviz::colors
 
 #endif  // GVIZARD_COLORS_X11_HPP_

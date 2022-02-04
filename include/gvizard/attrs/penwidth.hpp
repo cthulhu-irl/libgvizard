@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct PenWidth final : public AttributeBase<PenWidth, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct PenWidth final : public AttributeBase<PenWidth, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_PENWIDTH_HPP_

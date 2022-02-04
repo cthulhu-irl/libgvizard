@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Len final : public AttributeBase<Len, double> {
   using value_type = double;
@@ -23,6 +23,6 @@ struct Len final : public AttributeBase<Len, double> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_LEN_HPP_

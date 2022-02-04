@@ -1,5 +1,5 @@
-#ifndef GVIZARD_REGISTRY_ATTRIBUTESET_HPP_
-#define GVIZARD_REGISTRY_ATTRIBUTESET_HPP_
+#ifndef GVIZARD_REGISTRY_ATTRSET_HPP_
+#define GVIZARD_REGISTRY_ATTRSET_HPP_
 
 #include <cstddef>
 #include <tuple>
@@ -8,7 +8,7 @@
 
 #include "gvizard/mtputils.hpp"
 
-namespace gvizard {
+namespace gviz {
 namespace registry {
 
 template <typename ...Ts>
@@ -111,7 +111,6 @@ class AttrSet {
     );  
 
     ((std::get<Attrs>(attrs_) = std::forward<UAttrs>(attrs)), ...);
-    return *this;
   }
 
   template <typename Attr>
@@ -129,6 +128,6 @@ class AttrSet {
 };
 
 }  // namespace registry
-}  // namespace gvizard
+}  // namespace gviz
 
-#endif  // GVIZARD_REGISTRY_ATTRIBUTESET_HPP_
+#endif  // GVIZARD_REGISTRY_ATTRSET_HPP_

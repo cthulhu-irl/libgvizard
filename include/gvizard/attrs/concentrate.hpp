@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Concentrate final : public AttributeBase<Concentrate, bool> {
   using value_type = bool;
@@ -23,6 +23,6 @@ struct Concentrate final : public AttributeBase<Concentrate, bool> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_CONCENTRATE_HPP_

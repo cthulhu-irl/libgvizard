@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Height final : public AttributeBase<Height, double> {
   using value_type = double;
@@ -29,6 +29,6 @@ struct Height final : public AttributeBase<Height, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_HEIGHT_HPP_

@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Width final : public AttributeBase<Width, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct Width final : public AttributeBase<Width, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_WIDTH_HPP_

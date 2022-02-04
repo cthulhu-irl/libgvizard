@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Damping final : public AttributeBase<Damping, double> {
   using value_type = double;
@@ -29,6 +29,6 @@ struct Damping final : public AttributeBase<Damping, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_DAMPING_HPP_

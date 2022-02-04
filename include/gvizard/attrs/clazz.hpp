@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Clazz final : public AttributeBase<Clazz, std::string> {
   using value_type = std::string;
@@ -25,6 +25,6 @@ struct Clazz final : public AttributeBase<Clazz, std::string> {
   static bool constraint(const value_type& value) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_CLAZZ_HPP_

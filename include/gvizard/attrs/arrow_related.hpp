@@ -6,7 +6,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/arrowtype.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct ArrowHead final
   : public AttributeBase<ArrowHead, attrtypes::ArrowType>
@@ -90,6 +90,6 @@ struct ArrowSize final : public AttributeBase<ArrowSize, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_ARROWS_HPP_

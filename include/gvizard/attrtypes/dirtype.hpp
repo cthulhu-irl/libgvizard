@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRTYPES_DIRTYPE_HPP_
 #define GVIZARD_ATTRTYPES_DIRTYPE_HPP_
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class DirType {
   none = 0,
@@ -10,6 +10,6 @@ enum class DirType {
   both
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_DIRTYPE_HPP_

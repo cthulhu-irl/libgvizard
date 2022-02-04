@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct InputScale final
   : public AttributeBase<InputScale, std::optional<double>>
@@ -33,6 +33,6 @@ struct InputScale final
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_INPUTSCALE_HPP_

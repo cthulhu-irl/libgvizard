@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class PackModeEnum : uint8_t {
   node = 0,
@@ -53,6 +53,6 @@ struct PackMode final {
   }
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_PACKMODE_HPP_

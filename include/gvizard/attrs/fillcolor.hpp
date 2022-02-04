@@ -5,7 +5,7 @@
 #include "gvizard/attrtypes/color.hpp"
 #include "gvizard/colors/x11.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using FillColorType =
   std::variant<
@@ -38,6 +38,6 @@ struct FillColor final : public AttributeBase<FillColor, FillColorType> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_FILLCOLOR_HPP_

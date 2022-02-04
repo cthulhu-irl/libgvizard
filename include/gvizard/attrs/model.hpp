@@ -5,7 +5,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Model final : public AttributeBase<Model, std::string> {
   using value_type = std::string;
@@ -26,6 +26,6 @@ struct Model final : public AttributeBase<Model, std::string> {
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_MODEL_HPP_

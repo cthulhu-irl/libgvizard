@@ -7,7 +7,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 using RootType = std::optional<std::variant<double, std::string>>;
 
@@ -31,6 +31,6 @@ struct Root final : public AttributeBase<Root, RootType>
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_ROOT_HPP_

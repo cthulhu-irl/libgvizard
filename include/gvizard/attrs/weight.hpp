@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Weight final : public AttributeBase<Weight, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct Weight final : public AttributeBase<Weight, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_WEIGHT_HPP_

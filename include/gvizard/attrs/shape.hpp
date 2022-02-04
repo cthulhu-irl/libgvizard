@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/shape.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Shape final : public AttributeBase<Shape, attrtypes::ShapeType> {
   using value_type = attrtypes::ShapeType;
@@ -27,6 +27,6 @@ struct Shape final : public AttributeBase<Shape, attrtypes::ShapeType> {
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SHAPE_HPP_

@@ -10,7 +10,7 @@
 
 #include "gvizard/colors/x11.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Label final
   : public AttributeBase<Label, attrtypes::Label<std::string>>
@@ -368,6 +368,6 @@ struct LabelURL final
   static bool constraint(const value_type&) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_LABEL_RELATED_HPP_

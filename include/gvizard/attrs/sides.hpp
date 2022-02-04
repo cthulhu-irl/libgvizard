@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Sides final : public AttributeBase<Sides, int> {
   using value_type = int;
@@ -26,6 +26,6 @@ struct Sides final : public AttributeBase<Sides, int> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SIDES_HPP_

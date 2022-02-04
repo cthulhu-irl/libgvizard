@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/rank.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct RankDir final : public AttributeBase<RankDir, attrtypes::RankDir>
 {
@@ -28,6 +28,6 @@ struct RankDir final : public AttributeBase<RankDir, attrtypes::RankDir>
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_RANKDIR_HPP_

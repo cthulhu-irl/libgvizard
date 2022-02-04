@@ -1,7 +1,7 @@
 #ifndef GVIZARD_ATTRTYPES_CLUSTERMODE_HPP_
 #define GVIZARD_ATTRTYPES_CLUSTERMODE_HPP_
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class ClusterMode {
   none = 0,
@@ -9,6 +9,6 @@ enum class ClusterMode {
   global,
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_CLUSTERMODE_HPP_

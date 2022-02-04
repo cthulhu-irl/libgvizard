@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace gvizard::attrtypes {
+namespace gviz::attrtypes {
 
 enum class ImagePosEnum : uint8_t {
   mc = 0, // middle-center
@@ -17,6 +17,6 @@ enum class ImagePosEnum : uint8_t {
   br,     // bottom-right
 };
 
-}  // namespace gvizard::attrtypes
+}  // namespace gviz::attrtypes
 
 #endif  // GVIZARD_ATTRTYPES_IMAGEPOS_HPP_

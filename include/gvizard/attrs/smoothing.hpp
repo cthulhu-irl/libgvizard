@@ -4,7 +4,7 @@
 #include "gvizard/attribute.hpp"
 #include "gvizard/attrtypes/smoothtype.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Smoothing final
   : public AttributeBase<Smoothing, attrtypes::SmoothType>
@@ -29,6 +29,6 @@ struct Smoothing final
   constexpr static bool constraint(value_type) noexcept { return true; }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_SMOOTHING_HPP_

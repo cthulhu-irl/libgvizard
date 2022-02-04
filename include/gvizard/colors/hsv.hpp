@@ -4,14 +4,14 @@
 #include <stdexcept>
 #include <optional>
 
-namespace gvizard::detail::hsv {
+namespace gviz::detail::hsv {
   [[noreturn]] inline void invalid_argument(const char *reason)
   {
     throw std::invalid_argument(reason);
   }
 }
 
-namespace gvizard::colors {
+namespace gviz::colors {
 
 struct HSV {
   using octet_t = double;
@@ -67,6 +67,6 @@ struct HSV {
   octet_t v{};
 };
 
-}  // namespace gvizard::colors
+}  // namespace gviz::colors
 
 #endif  // GVIZARD_COLORS_HSV_HPP_

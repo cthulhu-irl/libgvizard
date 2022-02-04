@@ -3,7 +3,7 @@
 
 #include "gvizard/attribute.hpp"
 
-namespace gvizard::attrs {
+namespace gviz::attrs {
 
 struct Kvalue final : public AttributeBase<Kvalue, double> {
   using value_type = double;
@@ -26,6 +26,6 @@ struct Kvalue final : public AttributeBase<Kvalue, double> {
   }
 };
 
-}  // namespace gvizard::attrs
+}  // namespace gviz::attrs
 
 #endif  // GVIZARD_ATTRS_K_HPP_
