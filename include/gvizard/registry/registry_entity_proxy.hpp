@@ -1,8 +1,9 @@
 #ifndef GVIZARD_REGISTRY_REGISTRY_ENTITY_PROXY_HPP_
 #define GVIZARD_REGISTRY_REGISTRY_ENTITY_PROXY_HPP_
 
-#include "gvizard/utils.hpp"
 #include <utility>
+
+#include "gvizard/utils.hpp"
 
 namespace gviz::registry {
 
@@ -12,44 +13,50 @@ class RegistryEntityProxy {
   using entity_type = typename Registry::entity_type;
 
  private:
-  utils::Ref<Registry> registry_;
-  entity_type          entity_;
+  Registry&   registry_;
+  entity_type entity_;
 
  public:
-  RegistryEntityProxy(utils::Ref<Registry> registry, entity_type entity)
-    : registry_(std::move(registry))
+  RegistryEntityProxy(Registry& registry, entity_type entity)
+    : registry_(registry)
     , entity_(std::move(entity_))
   {}
 
   template <typename Attr>
-  auto& get() { return registry_->template get<Attr>(entity_); }
+  auto get() -> utils::OptionalRef<Attr>
+  {
+    return registry_.template get<Attr>(entity_);
+  }
 
   template <typename Attr>
-  const auto& get() const { return registry_->template get<Attr>(entity_); }
+  auto get() const -> utils::OptionalRef<const Attr>
+  {
+    return registry_.template get<Attr>(entity_);
+  }
 
   template <typename Attr>
-  bool has() const { return registry_->template has<Attr>(entity_); }
+  bool has() const { return registry_.template has<Attr>(entity_); }
 
   template <typename Attr, typename F>
-  auto update(F&& func)
+  auto update(F&& func) -> utils::OptionalRef<Attr>
   {
-    return registry_->template update<Attr>(entity_, std::forward<F>(func));
+    return registry_.template update<Attr>(entity_, std::forward<F>(func));
   }
 
   template <typename Attr, typename ValT>
-  auto set(ValT&& value)
+  auto set(ValT&& value) -> utils::OptionalRef<Attr>
   {
-    return registry_->template set<Attr>(entity_, std::forward<ValT>(value));
+    return registry_.template set<Attr>(entity_, std::forward<ValT>(value));
   }
 
   template <typename Attr, typename ...Args>
-  auto emplace(Args&&... args)
+  auto emplace(Args&&... args) -> utils::OptionalRef<Attr>
   {
-    return registry_->template emplace(entity_, std::forward<Args>(args)...);
+    return registry_.template emplace(entity_, std::forward<Args>(args)...);
   }
 
   template <typename Attr>
-  auto remove() { return registry_->template remove<Attr>(entity_); }
+  bool remove() { return registry_.template remove<Attr>(entity_); }
 };
 
 }  // namespace gviz::registry

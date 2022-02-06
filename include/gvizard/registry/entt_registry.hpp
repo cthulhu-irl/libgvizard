@@ -42,9 +42,9 @@ class EnTTRegistry {
     return registry_.create();
   }
 
-  bool destroy(entity_type entity)
+  void destroy(entity_type entity)
   {
-    return registry_.destroy(entity);
+    registry_.destroy(entity);
   }
 
   void clear()
@@ -64,12 +64,18 @@ class EnTTRegistry {
   template <typename Attr>
   auto get(entity_type entity) noexcept -> utils::OptionalRef<Attr>
   {
+    if (!has<Attr>(entity))
+      return utils::nulloptref;
+
     return registry_.template get<Attr>(entity);
   }
 
   template <typename Attr>
   auto get(entity_type entity) const noexcept -> utils::OptionalRef<const Attr>
   {
+    if (!has<Attr>(entity))
+      return utils::nulloptref;
+
     return registry_.template get<Attr>(entity);
   }
 
@@ -81,25 +87,34 @@ class EnTTRegistry {
   }
 
   template <typename Attr, typename F>
-  void update(entity_type entity, F&& func)
+  auto update(entity_type entity, F&& func) -> utils::OptionalRef<Attr>
   {
+    if (!registry_.valid(entity))
+      return utils::nulloptref;
+
     auto& attr = registry_.template get<Attr>(entity);
-    func(attr);
+    return func(attr);
   }
 
   template <typename Attr, typename ValT>
-  void set(entity_type entity, ValT&& value)
+  auto set(entity_type entity, ValT&& value) -> utils::OptionalRef<Attr>
   {
-    registry_.template emplace_or_replace<Attr>(
+    if (!registry_.valid(entity))
+      return utils::nulloptref;
+
+    return registry_.template emplace_or_replace<Attr>(
       entity,
       std::forward<ValT>(value)
     );
   }
 
   template <typename Attr, typename ...Args>
-  void emplace(entity_type entity, Args&&... args)
+  auto emplace(entity_type entity, Args&&... args) -> utils::OptionalRef<Attr>
   {
-    registry_.template emplace<Attr>(
+    if (!registry_.valid(entity))
+      return utils::nulloptref;
+
+    return registry_.template emplace<Attr>(
       entity,
       std::forward<Args>(args)...
     );
