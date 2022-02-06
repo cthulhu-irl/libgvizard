@@ -8,7 +8,8 @@
 
 namespace gviz {
 
-template <typename T, typename F>
+template <typename T, typename F,
+          std::enable_if_t<std::is_invocable_v<F, T>, bool> = true>
 class CallbackViewIterator {
  public:
   using AdvanceCallback = F;
@@ -19,14 +20,14 @@ class CallbackViewIterator {
 
  public:
   constexpr explicit CallbackViewIterator(AdvanceCallback callback)
-    : advance_{ std::move(callback) }
-    , current_{ std::nullopt }
+    : advance_(std::move(callback))
+    , current_(std::nullopt)
   {}
 
   constexpr explicit CallbackViewIterator(
         AdvanceCallback callback, std::optional<T> init)
-    : advance_{ std::move(callback) }
-    , current_{ std::move(init) }
+    : advance_(std::move(callback))
+    , current_(std::move(init))
   {}
 
   constexpr auto has_value() noexcept -> bool
@@ -69,10 +70,16 @@ class CallbackViewIterator {
     return current_ == other.current_;
   }
 
+  constexpr auto operator!=(const CallbackViewIterator& other)
+  {
+    return current_.has_value(); // only check for end
+  }
+
   constexpr operator bool() noexcept { return current_.has_value(); }
 };
 
-template <typename T, typename F>
+template <typename T, typename F,
+          std::enable_if_t<std::is_invocable_v<F, T>, bool> = true>
 class CallbackView {
   using AdvanceCallback = F;
 
