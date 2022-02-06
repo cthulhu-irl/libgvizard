@@ -36,12 +36,12 @@ target_link_libraries(${PROJECT_NAME} INTERFACE EnTT::EnTT)
 # --
 
 if(LIBGVIZARD_OPT_GENERATE_DOCS)
-  add_subdirectory("doc")
+  add_subdirectory("docs")
 endif()
 
 if(LIBGVIZARD_OPT_BUILD_TEST)
   enable_testing()
-  add_subdirectory("test")
+  add_subdirectory("tests")
 endif()
 
 if(LIBGVIZARD_OPT_INSTALL)
