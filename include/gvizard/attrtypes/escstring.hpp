@@ -88,8 +88,7 @@ class EscString final {
   constexpr StringT        get_format()     const { return format_; }
   constexpr const StringT& get_format_ref() const { return format_; }
 
-  constexpr Occurences
-  get_occurences() const noexcept { return occurences; }
+  constexpr Occurences get_occurences() const noexcept { return occurences; }
 
   constexpr bool operator==(const EscString& other) const
   {
@@ -114,8 +113,8 @@ class EscString final {
 
   template <typename Iterator>
   constexpr std::size_t apply(
-      const EscNameSetRef& nameset,
-      Iterator dstbegin, Iterator dstend) const
+      Iterator dstbegin, Iterator dstend,
+      const EscNameSetRef& nameset = {}) const
   {
     std::size_t idx = 0;
     auto iterator_appender =
@@ -141,8 +140,8 @@ class EscString final {
   template <typename OutStringT = std::string,
             typename Fappend = decltype(default_outstring_append<OutStringT>)>
   constexpr OutStringT apply_into(
-      const EscNameSetRef& nameset,
       OutStringT output,
+      const EscNameSetRef& nameset = {},
       Fappend append = default_outstring_append<OutStringT>) const
   {
     return apply<OutStringT>(
@@ -156,7 +155,7 @@ class EscString final {
             typename Finit = decltype(default_outstring_init<OutStringT>),
             typename Fappend = decltype(default_outstring_append<OutStringT>)>
   constexpr OutStringT apply(
-      const EscNameSetRef& nameset,
+      const EscNameSetRef& nameset = {},
       Finit init = default_outstring_init<OutStringT>,
       Fappend append = default_outstring_append<OutStringT>) const
   {
