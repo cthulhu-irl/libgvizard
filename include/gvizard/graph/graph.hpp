@@ -3,15 +3,15 @@
 
 #include <cstddef>
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 
-#include "gvizard/registry/attrset.hpp"
-#include "gvizard/registry/attrset_registry.hpp"
 #include "gvizard/views.hpp"
 #include "gvizard/utils.hpp"
 
@@ -24,16 +24,18 @@ namespace gviz::graph {
 
 struct no_view_t {};
 
-enum class EntityTypeEnum { node, edge, cluster, graph };
+enum class EntityTypeEnum { unknown, node, edge, cluster };
 
 enum class GraphDir : int { undirected = 0, directed = 1 };
 enum class EdgeDir  : int { in = 1, out = 2, inout = 3 };
 
 template <typename Registry, GraphDir DirV = GraphDir::undirected>
 class Graph {
+ public:
   using entity_type = typename Registry::entity_type;
 
- public:
+  using registry_type = Registry;
+
   using NodeId    = entity_type;
   using EdgeId    = entity_type;
   using ClusterId = entity_type;
@@ -52,7 +54,7 @@ class Graph {
     NodeId node_b_id;
   };
 
-  struct ClusterItem {};
+  struct ClusterItem final {};
 
   class Item final {
     EntityTypeEnum type_;
@@ -63,7 +65,7 @@ class Graph {
     };
 
    public:
-    Item() {} // undefined behavior
+    Item() : type_(EntityTypeEnum::unknown) {}
 
     constexpr Item(NodeItem node) noexcept
       : type_(EntityTypeEnum::node), node_(std::move(node))
@@ -104,10 +106,6 @@ class Graph {
     constexpr const ClusterItem& as_cluster() const { return cluster_; }
   };
 
-  // iterators declarations, defined after public methods in private section
-  class ClusterNodesIterator;
-  class NodeEdgesIterator;
-
  private:
   constexpr static bool is_undirected = DirV == GraphDir::undirected;
 
@@ -120,7 +118,6 @@ class Graph {
       detail::DynamicHalfSquareMatrix<optional_entity_type>
     >;
   using map_type = std::unordered_map<entity_type, Item>;
-  using registry_type = Registry;
 
   matrix_type   matrix_{};
   map_type      entities_map_{};
@@ -131,6 +128,58 @@ class Graph {
   std::size_t clusters_count_ = 0;
 
  public:
+  auto&       get_raw_registry()       { return registry_; }
+  const auto& get_raw_registry() const { return registry_; }
+
+  constexpr bool is_directed_graph() const { return !is_undirected; }
+  constexpr bool is_undirected_graph() const { return is_undirected; }
+
+  // registry attribute accessor/modifier methods
+
+  template <typename Attr>
+  auto get_entity_attr(entity_type entity_id) -> utils::OptionalRef<Attr>
+  {
+    return registry_.template get<Attr>(entity_id);
+  }
+
+  template <typename Attr>
+  auto get_entity_attr(entity_type entity_id) const
+    -> utils::OptionalRef<const Attr>
+  {
+    return registry_.template get<Attr>(entity_id);
+  }
+
+  template <typename Attr>
+  bool has_entity_attr(entity_type entity_id) const
+  {
+    return registry_.template has<Attr>(entity_id);
+  }
+
+  template <typename Attr, typename ValT>
+  auto set_entity_attr(entity_type entity_id, ValT&& value)
+    -> utils::OptionalRef<Attr>
+  {
+    return registry_.template set<Attr>(entity_id, std::forward<ValT>(value));
+  }
+
+  template <typename Attr, typename ...Args>
+  auto emplace_entity_attr(entity_type entity_id, Args&&... args)
+    -> utils::OptionalRef<Attr>
+  {
+    return registry_.template emplace<Attr>(
+      entity_id,
+      std::forward<Args>(args)...
+    );
+  }
+
+  template <typename Attr>
+  bool remove_entity_attr(entity_type entity_id)
+  {
+    return registry_.template remove<Attr>(entity_id);
+  }
+
+  // graph data structure methods
+
   auto create_cluster() -> ClusterId
   {
     auto cluster_id = registry_.create();
@@ -223,21 +272,34 @@ class Graph {
   }
 
   auto get_cluster_nodes(ClusterId cluster_id) const
-    -> IteratorView<NodeId, ClusterNodesIterator>
   {
+    constexpr auto lambda_empty =
+      [](NodeId) -> std::optional<NodeId> { return std::nullopt; };
+      
     // empty view for invalid cluster_id
-    if (entities_map_.find(cluster_id) == entities_map_.end()) {
-      auto empty_iter = ClusterNodesIterator(entities_map_.end());
-      return { empty_iter, empty_iter };
-    }
+    if (entities_map_.find(cluster_id) == entities_map_.end())
+      return CallbackView<NodeId, decltype(lambda_empty)>(lambda_empty);
 
-    auto iter = ClusterNodeIteratorCallback(
-      entities_map_.begin(),
-      entities_map_.end(),
-      cluster_id
-    );
+    auto& iter = entities_map_.begin();
+    auto& end = entities_map_.end();
 
-    return { iter.begin(), iter.end() };
+    auto lambda =
+      [iter_=iter, end_=end, cluster_id_=cluster_id](NodeId)
+        mutable -> std::optional<NodeId>
+      {
+        for (; iter_ != end_; ++iter_)
+        {
+          if (!iter_.second.is_node()) continue;
+
+          auto opt_cluster_id = iter_.second.as_node().cluster_id;
+          if (opt_cluster_id && *opt_cluster_id == cluster_id_)
+            return iter_.first;
+        }
+
+        return std::nullopt;
+      };
+
+    return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
   }
 
   auto get_edge_id(NodeId node_a_id, NodeId node_b_id) const
@@ -270,7 +332,7 @@ class Graph {
     return *matrix_.at(node_a_idx, node_b_idx);
   }
 
-  auto get_edge_nodes(EdgeId edge_id)
+  auto get_edge_nodes(EdgeId edge_id) const
     -> std::optional<std::pair<NodeId, NodeId>>
   {
     auto edge_iter = entities_map_.find(edge_id);
@@ -281,7 +343,7 @@ class Graph {
     const auto node_b_id = edge_iter->second.as_edge().node_b_id;
 
     // order (node_a_idx > node_a_idx) must be ensured by design.
-    return { node_a_id, node_b_id };
+    return std::pair<NodeId, NodeId>{ node_a_id, node_b_id };
   }
 
   bool remove_cluster(ClusterId cluster_id)
@@ -402,275 +464,134 @@ class Graph {
 
   // returns a view to iterator of EdgeId elements.
   // to get 1st order neighbours of a node, combine this with get_edge_nodes.
-  auto get_edges(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
+  auto get_edges_of(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
   {
+    constexpr auto lambda_empty =
+      [](EdgeId) -> std::optional<EdgeId> { return std::nullopt; };
+
     auto node_iter = entities_map_.find(node_id);
     if (node_iter == entities_map_.end() || !node_iter->second.is_node())
-      return NodeEdgesIterator{};
+      return CallbackView<EdgeId, decltype(lambda_empty)>(lambda_empty);
 
-    return NodeEdgesIterator(matrix_, node_id, dir);
+    auto node_idx = node_iter->second.as_node().idx;
+
+    if constexpr (is_undirected) {
+      auto lambda_undirected =
+        [&matrix_=matrix_, i_=0, node_idx_=node_idx](EdgeId)
+          mutable -> std::optional<EdgeId>
+        {
+          // in/out/inout edge directions are all same here...
+
+          for (; i_ < node_idx_; ++i_) {
+            const auto opt_edge_id = matrix_.at(node_idx_, i_);
+            if (opt_edge_id)
+              return *opt_edge_id;
+          }
+
+          if (i_ == node_idx_) ++i_;
+
+          for (; i_ < matrix_.size(); ++i_) {
+            const auto opt_edge_id = matrix_.at(i_, node_idx_);
+            if (opt_edge_id)
+              return *opt_edge_id;
+          }
+
+          return std::nullopt;
+        };
+
+      return CallbackView<EdgeId, decltype(lambda_undirected)>(
+                                              std::move(lambda_undirected));
+    } else {
+      auto lambda_directed =
+        [&matrix_=matrix_, i_=0, j_=0, node_idx_=node_idx, dir_=dir](EdgeId)
+          mutable -> std::optional<EdgeId>
+        {
+          if (dir_ != EdgeDir::in) // dir_ is EdgeDir::out or EdgeDir::inout
+          {
+            for (; i_ < matrix_.size(); ++i_) {
+              const auto opt_edge_id = matrix_.at(node_idx_, i_);
+              if (opt_edge_id)
+                return *opt_edge_id;
+            }
+          }
+
+          if (dir_ != EdgeDir::out) // dir_ is EdgeDir::in or EdgeDir::inout
+          {
+            for (; j_ < matrix_.size(); ++j_) {
+              const auto opt_edge_id = matrix_.at(j_, node_idx_);
+              if (opt_edge_id && j_ != node_idx_)
+                return *opt_edge_id;
+            }
+          }
+
+          return std::nullopt;
+        };
+
+      return CallbackView<EdgeId, decltype(lambda_directed)>(
+                                              std::move(lambda_directed));
+    }
   }
 
   auto nodes_view() const
   {
-    const auto lambda = [this](NodeId)
+    auto lambda =
+      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](NodeId)
+        mutable -> std::optional<NodeId>
       {
-        for (const auto& [item_id, item] : entities_map_)
-          if (item.is_node())
-            return item_id;
+        for (; iter_ != end_; ++iter_)
+          if (iter_->second.is_node()) {
+            auto node_id = iter_->first;
+            ++iter_; // avoid infinite-loop
+            return node_id;
+          }
 
         return std::nullopt;
       };
 
-    return CallbackView<NodeId, decltype(lambda)>(lambda, NodeId{});
+    return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
   }
 
   auto edges_view() const
   {
-    const auto lambda = [this](EdgeId)
+    auto lambda =
+      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](EdgeId)
+        mutable -> std::optional<EdgeId>
       {
-        for (const auto& [item_id, item] : entities_map_)
-          if (item.is_edge())
-            return item_id;
+        for (; iter_ != end_; ++iter_)
+          if (iter_->second.is_edge()) {
+            auto edge_id = iter_->first;
+            ++iter_; // avoid infinite-loop
+            return edge_id;
+          }
 
         return std::nullopt;
       };
 
-    return CallbackView<EdgeId, decltype(lambda)>(lambda, EdgeId{});
+    return CallbackView<EdgeId, decltype(lambda)>(std::move(lambda));
   }
 
   auto clusters_view() const
   {
-    const auto lambda = [this](ClusterId)
+    auto lambda =
+      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](ClusterId)
+        mutable -> std::optional<ClusterId>
       {
-        for (const auto& [item_id, item] : entities_map_)
-          if (item.is_cluster())
-            return item_id;
+        for (; iter_ != end_; ++iter_)
+          if (iter_->second.is_cluster()) {
+            auto cluster_id = iter_->first;
+            ++iter_; // avoid infinite-loop
+            return cluster_id;
+          }
 
         return std::nullopt;
       };
 
-    return CallbackView<ClusterId, decltype(lambda)>(lambda, ClusterId{});
+    return CallbackView<ClusterId, decltype(lambda)>(std::move(lambda));
   }
 
   std::size_t node_count()    const noexcept { return nodes_count_;    }
   std::size_t edge_count()    const noexcept { return edges_count_;    }
   std::size_t cluster_count() const noexcept { return clusters_count_; }
-
-  template <typename Callable>
-  auto traversal(Callable&& func) -> CallbackView<NodeId, Callable>;
-
-  template <typename Callable>
-  auto traversal(Callable&& func, NodeId node_id)
-    -> CallbackView<NodeId, Callable>;
-
-  template <typename Callable>
-  void traversal(no_view_t, Callable&& func, NodeId node_id);
-
- private:
-
-  class ClusterNodesIterator final {
-    using const_iterator = typename map_type::const_iterator;
-
-    const_iterator iter_;
-    const_iterator end_;
-    ClusterId      target_cluster_id_;
-
-    std::optional<NodeId> current_;
-
-   public:
-    // empty iterator
-    explicit ClusterNodesIterator(const_iterator end)
-      : iter_(std::move(end))
-      , end_(iter_)
-      , target_cluster_id_{} // dummy, other == *this won't pass.
-      , current_(std::nullopt)
-    {}
-
-    ClusterNodesIterator(const_iterator iter,
-                         const_iterator end,
-                         ClusterId cluster_id)
-      : iter_(std::move(iter))
-      , end_(std::move(end_))
-      , target_cluster_id_(cluster_id)
-    {
-      current_ = next();
-    }
-
-    auto begin() { return *this; }
-    auto end()
-    {
-      return ClusterNodesIterator(end_, end_, target_cluster_id_);
-    }
-
-    ClusterNodesIterator& operator++()
-    {
-      if (!current_.has_value())
-        return *this;
-
-      current_ = next();
-      return *this;
-    }
-
-    ClusterNodesIterator operator++(int)
-    {
-      if (!current_.has_value())
-        return *this;
-
-      auto tmp = *this;
-      operator++();
-      return tmp;
-    }
-
-    NodeId operator*() const { return *current_; }
-
-    bool operator==(const ClusterNodesIterator& other) const
-    {
-      return iter_ == other.iter_ 
-          && target_cluster_id_ == other.target_cluster_id_
-          || (!current_ && !other.current_);
-    }
-
-    bool operator!=(const ClusterNodesIterator& other) const
-    {
-      return !(*this == other);
-    }
-
-   private:
-    auto next() -> std::optional<NodeId>
-    {
-      for (; iter_ != end_; ++iter_)
-      {
-        if (!iter_.second.is_node()) continue;
-
-        auto opt_cluster_id = iter_.second.as_node().cluster_id;
-        if (opt_cluster_id && *opt_cluster_id == target_cluster_id_)
-          return iter_.first;
-      }
-
-      return std::nullopt;
-    }
-  };
-
-  class NodeEdgesIterator final {
-    utils::OptionalRef<const matrix_type> matrix_;
-    std::size_t                           node_idx_;
-    EdgeDir                               dir_;
-
-    std::size_t i_ = 0; // for rows
-    std::size_t j_ = 0; // for cols
-
-    std::optional<EdgeId> current_;
-
-   public:
-    // empty or end iterator
-    explicit NodeEdgesIterator(std::size_t node_idx = {})
-      : matrix_(utils::nulloptref)
-      , node_idx_(node_idx)
-      , current_(std::nullopt)
-    {}
-
-    NodeEdgesIterator(const matrix_type& matrix,
-                      std::size_t node_idx,
-                      EdgeDir dir)
-      : matrix_(std::addressof(matrix))
-      , node_idx_(node_idx)
-      , dir_(dir)
-    {
-      if constexpr (is_undirected) {
-        current_ = next_undirected();
-      } else {
-        current_ = next_directed();
-      }
-    }
-
-    auto begin() { return *this; }
-    auto end()
-    {
-      return NodeEdgesIterator(node_idx_);
-    }
-
-    NodeEdgesIterator& operator++()
-    {
-      if (!current_.has_value())
-        return *this;
-
-      if constexpr (is_undirected)
-        current_ = next_undirected();
-      else
-        current_ = next_directed();
-
-      return *this;
-    }
-
-    NodeEdgesIterator operator++(int)
-    {
-      if (!current_.has_value())
-        return *this;
-
-      auto tmp = *this;
-      operator++();
-      return tmp;
-    }
-
-    auto operator->() const { return current_; }
-    NodeId operator*() const { return *current_; }
-
-    bool operator==(const NodeEdgesIterator& other) const
-    {
-      return current_ == other.current_ && node_idx_ == other.node_idx_;
-    }
-
-    bool operator!=(const ClusterNodesIterator& other) const
-    {
-      return current_ != other.current_ || node_idx_ != other.node_idx_;
-    }
-
-   private:
-    auto next_directed() -> std::optional<EdgeId>
-    {
-      if (dir_ != EdgeDir::in) // dir_ is EdgeDir::out or EdgeDir::inout
-      {
-        for (; i_ < matrix_->size(); ++i_) {
-          const auto opt_edge_id = matrix_.at(node_idx_, i_);
-          if (opt_edge_id)
-            return *opt_edge_id;
-        }
-      }
-
-      if (dir_ != EdgeDir::out) // dir_ is EdgeDir::in or EdgeDir::inout
-      {
-        for (; j_ < matrix_->size(); ++j_) {
-          const auto opt_edge_id = matrix_.at(j_, node_idx_);
-          if (opt_edge_id && j_ != node_idx_)
-            return *opt_edge_id;
-        }
-      }
-
-      return std::nullopt;
-    }
-
-    auto next_undirected() -> std::optional<EdgeId>
-    {
-      // in/out/inout edge directions are all same here...
-
-      for (; i_ < node_idx_; ++i_) {
-        const auto opt_edge_id = matrix_.at(node_idx_, i_);
-        if (opt_edge_id)
-          return *opt_edge_id;
-      }
-
-      if (i_ == node_idx_) ++i_;
-
-      for (; i_ < matrix_->size(); ++i_) {
-        const auto opt_edge_id = matrix_.at(i_, node_idx_);
-        if (opt_edge_id)
-          return *opt_edge_id;
-      }
-
-      return std::nullopt;
-    }
-  };
 };
 
 }  // namespace gviz::graph

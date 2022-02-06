@@ -93,6 +93,9 @@ class DynamicHalfSquareMatrix {
   constexpr auto begin() { return std::begin(vec_); }
   constexpr auto end()   { return std::end(vec_);   }
 
+  constexpr const auto begin() const { return std::begin(vec_); }
+  constexpr const auto end()   const { return std::end(vec_);   }
+
   constexpr const auto cbegin() const { return std::cbegin(vec_); }
   constexpr const auto cend()   const { return std::cend(vec_);   }
 
