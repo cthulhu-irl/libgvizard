@@ -7,6 +7,7 @@
 #include <string_view>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 #include <variant>
 
 #include <magic_enum.hpp>
@@ -78,9 +79,9 @@ template <typename ...Ts>
 LambdaVisitor(Ts...) -> LambdaVisitor<Ts...>;
 
 template <typename T, typename ...Fs>
-constexpr auto LambdaVisit(const T& arg, Fs... fs)
+constexpr auto LambdaVisit(const T& arg, Fs&&... fs)
 {
-  return std::visit(LambdaVisitor{fs...}, arg);
+  return std::visit(LambdaVisitor{std::forward<Fs>(fs)...}, arg);
 }
 
 template <typename T>
