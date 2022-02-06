@@ -12,11 +12,7 @@ target_link_libraries(tests PRIVATE
                       Catch2::Catch2WithMain
                       libgvizard::libgvizard)
 
-find_package(fmt CONFIG REQUIRED)
-target_link_libraries(tests PRIVATE fmt::fmt)
-
 include(CTest)
 include(Catch)
 
 catch_discover_tests(tests)
-

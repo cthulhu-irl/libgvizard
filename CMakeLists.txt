@@ -24,14 +24,11 @@ target_include_directories(
 
 # -- external libraries
 
-find_package(magic_enum CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} INTERFACE magic_enum::magic_enum)
-
 find_package(EnTT CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} INTERFACE EnTT::EnTT)
 
-#find_package(Boost REQUIRED graph)
-#target_link_libraries(${PROJECT_NAME} INTERFACE Boost::boost Boost::graph)
+find_package(magic_enum CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} INTERFACE magic_enum::magic_enum)
 
 # --
 
