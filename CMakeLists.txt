@@ -46,3 +46,5 @@ endif()
 
 if(LIBGVIZARD_OPT_INSTALL)
 endif()
+
+add_subdirectory("examples")
