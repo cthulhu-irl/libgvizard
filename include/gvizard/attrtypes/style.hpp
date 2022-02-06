@@ -64,6 +64,12 @@ struct BuiltinStyleItem final {
   builtin_style_type name;
   std::vector<std::string> args;
 
+  BuiltinStyleItem(builtin_style_type style,
+                    std::vector<std::string> vecargs = {})
+    : name(style)
+    , args(std::move(vecargs))
+  {}
+
   bool operator==(const BuiltinStyleItem& other) const
   {
     return name == other.name && args == other.args;
@@ -107,7 +113,19 @@ struct Style final {
       );
     };
 
-  std::vector<item_type> items;
+  std::vector<item_type> items{};
+
+  Style() : items{} {}
+
+  Style(CommonStyle style)      : Style(BuiltinStyleItem(style)) {}
+  Style(NodeStyleOnly style)    : Style(BuiltinStyleItem(style)) {}
+  Style(EdgeStyleOnly style)    : Style(BuiltinStyleItem(style)) {}
+  Style(ClusterStyleOnly style) : Style(BuiltinStyleItem(style)) {}
+
+  Style(StyleItem styleitem)        { items.push_back(styleitem); }
+  Style(BuiltinStyleItem styleitem) { items.push_back(styleitem); }
+
+  Style(std::vector<item_type> vector) : items(std::move(vector)) {}
 
   bool operator==(const Style& other) const
   {
