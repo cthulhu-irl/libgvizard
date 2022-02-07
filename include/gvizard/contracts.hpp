@@ -8,6 +8,10 @@
 
 namespace gviz::contracts {
 
+/** Contract is a (monad-like) single container that ensures
+ *  its holding value of type `T` is satisfied
+ *  by given `constraints` callable protectes.
+ */
 template <typename T, auto ...constraints>
 class Contract {
   static_assert(
@@ -87,28 +91,30 @@ class Contract {
   constexpr operator T() const { return value_; }
 };
 
-template <typename T, T min, T max>
-constexpr auto ranged_constraint =
-  +[](const T& val) { return (min <= val) && (val <= max); };
+namespace detail {
 
 template <typename T, T min, T max>
-using Ranged = Contract<T, ranged_constraint<T, min, max>>;
-
-
-template <typename T, T base>
-constexpr auto lesseqed_constraint =
-  +[](const T& val) { return base >= val; };
+constexpr bool ranged_constraint(const T& val)
+{
+  return (min <= val) && (val <= max);
+};
 
 template <typename T, T base>
-using LessEqed = Contract<T, lesseqed_constraint<T, base>>;
-
-
-template <typename T, T base>
-constexpr auto greatereqed_constraint =
-  +[](const T& val) { return base <= val; };
+constexpr bool lesseqed_constraint(const T& val) { return base >= val; };
 
 template <typename T, T base>
-using GreaterEqed = Contract<T, greatereqed_constraint<T, base>>;
+constexpr bool greatereqed_constraint(const T& val) { return base <= val; };
+
+}  // namespace detail
+
+template <typename T, T min, T max>
+using Ranged = Contract<T, detail::ranged_constraint<T, min, max>>;
+
+template <typename T, T base>
+using LessEqed = Contract<T, detail::lesseqed_constraint<T, base>>;
+
+template <typename T, T base>
+using GreaterEqed = Contract<T, detail::greatereqed_constraint<T, base>>;
 
 }  // namespace gviz::contracts
 
