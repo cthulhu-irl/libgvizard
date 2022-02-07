@@ -87,7 +87,7 @@ struct TypeInfo<T, Ts...> : public Expandable<T, Ts...> {
   using first = T;
   constexpr static auto rest = TypeInfo<Ts...>{};
 
-  constexpr static auto size = sizeof...(Ts);
+  constexpr static auto size = 1 + sizeof...(Ts);
 };
 
 
