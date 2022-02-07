@@ -18,8 +18,6 @@
 #include "gvizard/graph/dynamic_square_matrix.hpp"
 #include "gvizard/graph/dynamic_half_square_matrix.hpp"
 
-/** an adjancency-matrix implementation of graph with internal registry.
- */
 namespace gviz::graph {
 
 struct no_view_t {};
@@ -29,6 +27,19 @@ enum class EntityTypeEnum { unknown, node, edge, cluster };
 enum class GraphDir : int { undirected = 0, directed = 1 };
 enum class EdgeDir  : int { in = 1, out = 2, inout = 3 };
 
+
+/** an adjancency-matrix implementation of graph using registry for
+ * id generation and attribute management, with support of clustering nodes.
+ *
+ * node, edge, and cluster are called entity.
+ *
+ * creating any kind of entity returns a unqiue id of type NodeId, EdgeId,
+ * ClusterId respectively for node, edge, cluster.
+ * using a removed id results in undefined behavior.
+ *
+ * NOTE: use proxy methods to get/set/emplace/remove an entity's attribute
+ *       instead of get_raw_registry.
+ */
 template <typename Registry, GraphDir DirV = GraphDir::undirected>
 class Graph {
  public:
@@ -36,9 +47,9 @@ class Graph {
 
   using registry_type = Registry;
 
-  using NodeId    = entity_type;
-  using EdgeId    = entity_type;
-  using ClusterId = entity_type;
+  using NodeId    = entity_type; /// always convertible to entity_type
+  using EdgeId    = entity_type; /// always convertible to entity_type
+  using ClusterId = entity_type; /// always convertible to entity_type
 
  private:
   struct NodeItem final {
@@ -76,7 +87,7 @@ class Graph {
     {}
 
     constexpr Item(ClusterItem cluster) noexcept
-      : type_(EntityTypeEnum::edge), cluster_(std::move(cluster))
+      : type_(EntityTypeEnum::cluster), cluster_(std::move(cluster))
     {}
 
     constexpr EntityTypeEnum type() const noexcept { return type_; }
@@ -136,12 +147,24 @@ class Graph {
 
   // registry attribute accessor/modifier methods
 
+  /** get an `entity_id` entity's attribute `Attr`
+   *
+   * @returns an optional reference to `Attr` of `entity_id`
+   *          if `entity_id` exists and `Attr` is set
+   *          or otherwise `utils::nulloptref`.
+   */
   template <typename Attr>
   auto get_entity_attr(entity_type entity_id) -> utils::OptionalRef<Attr>
   {
     return registry_.template get<Attr>(entity_id);
   }
 
+  /** get an `entity_id` entity's attribute `Attr`
+   *
+   * @returns a const optional reference to `Attr` of `entity_id`
+   *          if `entity_id` exists and `Attr` is set
+   *          or otherwise `utils::nulloptref`.
+   */
   template <typename Attr>
   auto get_entity_attr(entity_type entity_id) const
     -> utils::OptionalRef<const Attr>
@@ -149,12 +172,25 @@ class Graph {
     return registry_.template get<Attr>(entity_id);
   }
 
+  /** checks if `entity_id` is valid and has its attribute `Attr` set.
+   *
+   * @param entity_id entity's id.
+   * @returns true if `entity_id` exists and `Attr` is set, otherwise false.
+   */
   template <typename Attr>
   bool has_entity_attr(entity_type entity_id) const
   {
     return registry_.template has<Attr>(entity_id);
   }
 
+  /** sets an entity's attribute if `entity_id` is valid.
+   *
+   * @param entity_id entity's id.
+   * @param value the value to be set, it'll be converted to `Attr` explicitly.
+   * @returns utils::nulloptref if `entity_id` is invalid, otherwise
+   *          an optional reference to the residing `Attr` which was set
+   *          in registry.
+   */
   template <typename Attr, typename ValT>
   auto set_entity_attr(entity_type entity_id, ValT&& value)
     -> utils::OptionalRef<Attr>
@@ -162,6 +198,15 @@ class Graph {
     return registry_.template set<Attr>(entity_id, std::forward<ValT>(value));
   }
 
+  /** constructs an entity's attribute in-place
+   *  by given `args` if `entity_id` is valid.
+   *
+   * @param entity_id entity's id.
+   * @param args arguments to be passed to `Attr` constructor.
+   * @returns utils::nulloptref if `entity_id` is invalid, otherwise
+   *          an optional reference to the constructed `Attr` which was placed
+   *          in registry.
+   */
   template <typename Attr, typename ...Args>
   auto emplace_entity_attr(entity_type entity_id, Args&&... args)
     -> utils::OptionalRef<Attr>
@@ -172,6 +217,13 @@ class Graph {
     );
   }
 
+  /** unsets/removes `Attr` attribute of entity
+   *  if `entity_id` is valid and has `Attr`.
+   *
+   * @param entity_id entity's id.
+   * @param args arguments to be passed to `Attr` constructor.
+   * @returns true if `entity_id` is valid or has `Attr`, otherwise false.
+   */
   template <typename Attr>
   bool remove_entity_attr(entity_type entity_id)
   {
@@ -180,6 +232,10 @@ class Graph {
 
   // graph data structure methods
 
+  /** creates a new cluster.
+   *
+   * @returns id of created cluster.
+   */
   auto create_cluster() -> ClusterId
   {
     auto cluster_id = registry_.create();
@@ -189,6 +245,16 @@ class Graph {
     return cluster_id;
   }
 
+  /** adds a node to a cluster.
+   *
+   * if node was already in a cluster, it'll be detached and added to
+   * given cluster.
+   *
+   * @param cluster_id target cluster's id to add node to.
+   * @param node_id node's id to add to cluster.
+   * @returns true if `cluster_id` and `node_id` are both valid,
+   *          otherwise false.
+   */
   bool add_to_cluster(ClusterId cluster_id, NodeId node_id)
   {
     auto node_iter = entities_map_.find(node_id);
@@ -196,7 +262,7 @@ class Graph {
       return false;
 
     const auto cluster_iter = entities_map_.find(cluster_id);
-    if (cluster_id == entities_map_.end() || !cluster_iter->second.is_cluster())
+    if (cluster_iter == entities_map_.end() || !cluster_iter->second.is_cluster())
       return false;
 
     auto& node_item = node_iter->second.as_node();
@@ -205,6 +271,10 @@ class Graph {
     return true;
   }
 
+  /** creates a new node.
+   *
+   * @returns id of the created node.
+   */
   auto create_node() -> NodeId
   {
     auto node_id = registry_.create();
@@ -216,8 +286,18 @@ class Graph {
     return node_id;
   }
 
-  auto create_node_in(ClusterId cluster_id) -> NodeId
+  /** creates a node in the given cluster.
+   *
+   * @param cluster_id cluster's id to create node in.
+   * @returns an optional containing NodeId if `cluster_id` is valid,
+   *          otherwise std::nullopt.
+   */
+  auto create_node_in(ClusterId cluster_id) -> std::optional<NodeId>
   {
+    const auto cluster_iter = entities_map_.find(cluster_id);
+    if (cluster_iter == entities_map_.end() || !cluster_iter->second.is_cluster())
+      return std::nullopt;
+
     auto node_id = registry_.create();
     const auto idx = matrix_.size();
 
@@ -227,6 +307,18 @@ class Graph {
     return node_id;
   }
 
+  /** creates an edge between two given nodes.
+   *
+   * if graph is directed, first node is source and second is dest.
+   *
+   * if the same edge existed between these two nodes,
+   * the id of existing edge will be returned.
+   *
+   * @param node_a_id first (or source) node's id.
+   * @param node_b_id second (or dest) node's id.
+   * @returns an optional containing EdgeId if both nodes' id are valid,
+   *          otherwise std::nullopt.
+   */
   auto create_edge(NodeId node_a_id, NodeId node_b_id)
     -> std::optional<EdgeId>
   {
@@ -257,6 +349,10 @@ class Graph {
       }
     }
 
+    auto optref_edge = matrix_.at(node_a_idx, node_b_idx);
+    if (optref_edge) // is there already an edge?
+      return *optref_edge;
+
     auto edge_id = registry_.create();
 
     entities_map_[edge_id] = EdgeItem{
@@ -271,6 +367,12 @@ class Graph {
     return edge_id;
   }
 
+  /** returns an iterable view to node ids of given cluster.
+   *
+   * @param cluster_id target cluster's id.
+   * @returns an iterable view to cluster's nodes.
+   *          if `cluster_id` is invalid, the view will be empty.
+   */
   auto get_cluster_nodes(ClusterId cluster_id) const
   {
     constexpr auto lambda_empty =
@@ -302,6 +404,15 @@ class Graph {
     return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
   }
 
+  /** retrieves given two nodes' edge.
+   * direction is determined by order of given arguments.
+   *
+   * @param node_a_id first node's id.
+   * @param node_b_id second node's id.
+   * @returns an optional containing EdgeId if both nodes' id are valid
+   *          and an edge (desired direction) is between them,
+   *          otherwise std::nullopt.
+   */
   auto get_edge_id(NodeId node_a_id, NodeId node_b_id) const
     -> std::optional<EdgeId>
   {
@@ -332,6 +443,12 @@ class Graph {
     return *matrix_.at(node_a_idx, node_b_idx);
   }
 
+  /** retrieves given edge's pair of nodes.
+   *
+   * @param edge_id target edge's id.
+   * @returns an optional containing a pair of NodeId if `edge_id` is valid,
+   *          otherwise std::nullopt.
+   */
   auto get_edge_nodes(EdgeId edge_id) const
     -> std::optional<std::pair<NodeId, NodeId>>
   {
@@ -346,6 +463,11 @@ class Graph {
     return std::pair<NodeId, NodeId>{ node_a_id, node_b_id };
   }
 
+  /** detaches given cluster's nodes from it, and then removes the cluster.
+   *
+   * @param cluster_id target cluster's id.
+   * @returns true if `cluster_id` is valid, otherwise false.
+   */
   bool remove_cluster(ClusterId cluster_id)
   {
     for (auto& [entity_id, item] : entities_map_) {
@@ -365,6 +487,11 @@ class Graph {
     return true;
   }
 
+  /** removes a node.
+   *
+   * @param node_id target node's id.
+   * @returns true if `node_id` is valid, otherwise false.
+   */
   bool remove_node(NodeId node_id)
   {
     auto node_iter = entities_map_.find(node_id);
@@ -388,6 +515,31 @@ class Graph {
     return true;
   }
 
+  /** detaches a node from its cluster if it is attached to one.
+   *
+   * @param node_id target node's id.
+   * @returns true if `node_id` is valid, otherwise false.
+   */
+  bool detach_clustered_node(NodeId node_id)
+  {
+    auto node_iter = entities_map_.find(node_id);
+    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+      return false;
+
+    node_iter->second.as_node().cluster_id = std::nullopt;
+
+    return true;
+  }
+
+  /** removes an edge between given two nodes.
+   *
+   * if directed graph, first node is source and second is dest of the edge.
+   *
+   * @param node_a_id first (source) node's id.
+   * @param node_b_id second (dest) node's id.
+   * @returns true if both nodes' id are valid and an edge exists between,
+   *          otherwise false.
+   */
   bool remove_edge(NodeId node_a_id, NodeId node_b_id)
   {
     auto opt_edge_id = get_edge_id(node_a_id, node_b_id);
@@ -406,6 +558,11 @@ class Graph {
     return true;
   }
 
+  /** removes an edge by given id.
+   *
+   * @param edge_id target edge's id.
+   * @returns true if `edge_id` is valid, otherwise false.
+   */
   bool remove_edge(EdgeId edge_id)
   {
     auto edge_iter = entities_map_.find(edge_id);
@@ -424,6 +581,14 @@ class Graph {
     return true;
   }
 
+  /** count of edges of given node's `node_id` in given direction `dir`.
+   *
+   * direction `dir` is irrelevant when graph is undirected.
+   *
+   * @param node_id target node's id.
+   * @returns an optional containing size_t count number if `node_id` is valid,
+   *          otherwise std::nullopt.
+   */
   auto get_degree(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
     -> std::optional<std::size_t>
   {
@@ -462,8 +627,14 @@ class Graph {
     return count;
   }
 
-  // returns a view to iterator of EdgeId elements.
-  // to get 1st order neighbours of a node, combine this with get_edge_nodes.
+  /** returns view of edges of a given node's `node_id` in direction `dir`.
+   *
+   * to get 1st order neighbours of a node, combine this with get_edge_nodes.
+   *
+   * @param node_id target node's id.
+   * @returns a CallbackView to edges of target node, if `node_id` is valid,
+   *          otherwise an empty CallbackView.
+   */
   auto get_edges_of(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
   {
     constexpr auto lambda_empty =
@@ -532,6 +703,10 @@ class Graph {
     }
   }
 
+  /** view of all nodes in graph.
+   *
+   * @returns a CallbackView to all nodes in graph.
+   */
   auto nodes_view() const
   {
     auto lambda =
@@ -551,6 +726,10 @@ class Graph {
     return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
   }
 
+  /** view of all edges in graph.
+   *
+   * @returns a CallbackView to all edges in graph.
+   */
   auto edges_view() const
   {
     auto lambda =
@@ -570,6 +749,10 @@ class Graph {
     return CallbackView<EdgeId, decltype(lambda)>(std::move(lambda));
   }
 
+  /** view of all clusters in graph.
+   *
+   * @returns a CallbackView to all clusters in graph.
+   */
   auto clusters_view() const
   {
     auto lambda =
