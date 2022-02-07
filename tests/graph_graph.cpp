@@ -20,8 +20,15 @@ TEST_CASE("[Graph:undirected]")
 
   auto node_a = graph.create_node();
   auto node_b = graph.create_node();
-  auto node_c = graph.create_node_in(cluster_a);
-  auto node_d = graph.create_node_in(cluster_b);
+
+  auto opt_node_c = graph.create_node_in(cluster_a);
+  auto opt_node_d = graph.create_node_in(cluster_b);
+
+  REQUIRE(opt_node_c.has_value());
+  REQUIRE(opt_node_d.has_value());
+
+  auto node_c = *opt_node_c;
+  auto node_d = *opt_node_d;
 
   auto edge_a_b = graph.create_edge(node_a, node_b).value();
   auto edge_c_d = graph.create_edge(node_c, node_d).value();
