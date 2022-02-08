@@ -8,7 +8,7 @@
 #include <optional>
 #include <tuple>
 #include <type_traits>
-#include <unordered_map>
+#include <map>
 #include <utility>
 #include <variant>
 
@@ -128,7 +128,7 @@ class Graph {
       detail::DynamicSquareMatrix<optional_entity_type>,
       detail::DynamicHalfSquareMatrix<optional_entity_type>
     >;
-  using map_type = std::unordered_map<entity_type, Item>;
+  using map_type = std::map<entity_type, Item>;
 
   matrix_type   matrix_{};
   map_type      entities_map_{};
@@ -344,8 +344,8 @@ class Graph {
 
       // mirroring triangle
       if (node_a_idx < node_b_idx) {
-        std::swap(node_a_id, node_b_id);
         std::swap(node_a_idx, node_b_idx);
+        std::swap(node_a_id, node_b_id);
       }
     }
 
