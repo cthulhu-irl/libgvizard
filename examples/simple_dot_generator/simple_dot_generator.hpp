@@ -1,6 +1,7 @@
 #ifndef SIMPLE_DOT_GENERATOR_HPP_
 #define SIMPLE_DOT_GENERATOR_HPP_
 
+#include <array>
 #include <ostream>
 #include <sstream>
 #include <string>
@@ -19,10 +20,6 @@ struct NodeName final { std::string str; };
 
 class SimpleDotGenerator final {
   constexpr static const char *str_indent = "    "; // 4 spaces
-
-  // supported attributes, just for demonstration
-  using attribte_variant_type =
-    std::variant<gviz::attrs::Label, gviz::attrs::Style>;
 
  public:
   SimpleDotGenerator() {}
@@ -51,10 +48,10 @@ class SimpleDotGenerator final {
                              << (style ? " " : "");
         if (style) strstream << node_attr_to_string(*style);
 
-        strstream << "];";
+        strstream << "]";
       }
 
-      strstream << '\n';
+      strstream << ";\n";
     }
 
     for (auto edge_id : graph.graph.edges_view()) {
@@ -71,7 +68,7 @@ class SimpleDotGenerator final {
       // format: "   {node_a_name} {-- or ->} {node_b_name}\n"
       strstream << str_indent << node_a_name->str << ' '
                 << (graph.is_undirected() ? "--" : "->")
-                << ' ' << node_b_name->str << '\n';
+                << ' ' << node_b_name->str << ";\n";
     }
 
     strstream << "}";
@@ -80,32 +77,22 @@ class SimpleDotGenerator final {
   }
 
  private:
-  std::string node_attr_to_string(const attribte_variant_type& attr) const
+  std::string node_attr_to_string(const gviz::attrs::Label& label) const
   {
-    auto [key, value] = node_attr_to_string_pair(attr);
-    return key + "=" + value;
+    return
+      std::string(label.get_name())
+      + "="
+      + std::string("\"") + label.get_value().get_format() + "\"";
   }
 
-  std::pair<std::string, std::string>
-  node_attr_to_string_pair(const attribte_variant_type& attr) const
+  std::string node_attr_to_string(const gviz::attrs::Style& style) const
   {
-    auto visitor = gviz::utils::LambdaVisitor{
-      [](const gviz::attrs::Label& label) {
-        return std::pair<std::string, std::string>(
-          label.get_name(),
-          std::string("\"") + label.get_value().get_format() + "\""
-        );
-      },
-      [](const gviz::attrs::Style& style) {
-        return std::pair<std::string, std::string>(
-          style.get_name(),
-          "dotted"
-          //style.get_value().to_style_item_vector()[0].name
-        );
-      }
-    };
-
-    return std::visit(visitor, attr);
+    return
+      std::string(style.get_name())
+      + "="
+      + std::get<gviz::attrtypes::BuiltinStyleItem>(
+            style.get_value().items[0]
+        ).to_style_item().name;
   }
 };
 

@@ -24,7 +24,7 @@ auto make_graph()
   ret.graph.create_edge(node_c, node_d);
 
   ret.set_node_label(node_a, gviz::attrtypes::Label<>("This is Node A"));
-  ret.set_node_label(node_a, gviz::attrtypes::Label<>("This is Node D"));
+  ret.set_node_label(node_d, gviz::attrtypes::Label<>("This is Node D"));
 
   ret.set_node_style(node_a, gviz::attrtypes::CommonStyle::bold);
   ret.set_node_style(node_b, gviz::attrtypes::CommonStyle::dashed);
