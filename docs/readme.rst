@@ -56,6 +56,17 @@ to run a specific example:
 
    ./examples/simple_dot_generator/simple_dot_generator
 
+to generate docs add ``-DLIBGVIZARD_OPT_GENERATE_DOCS=1`` as it’s not
+targeted by default:
+
+::
+
+   mkdir build && cd build
+   cmake .. -DLIBGVIZARD_OPT_GENERATE_DOCS=1
+   make
+
+now the html files will be at ``./docs/sphinx/``.
+
 Usage exampe
 ------------
 
