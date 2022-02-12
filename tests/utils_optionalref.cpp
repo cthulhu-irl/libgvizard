@@ -17,10 +17,6 @@ TEST_CASE("[OptionalRef] basic value functionalities")
   OptionalRef<std::optional<int>> optref_optnull = opt_num_null;
   OptionalRef<std::optional<int>> optref_optval = opt_num_val;
 
-  OptionalRef<std::optional<int>> optref_null_copy = optref_null;
-  OptionalRef<std::optional<int>> optref_optnull_copy = optref_optnull;
-  OptionalRef<std::optional<int>> optref_optval_copy = optref_optval;
-
   REQUIRE(!optref_null);
   REQUIRE(optref_optnull);
   REQUIRE(optref_optval);

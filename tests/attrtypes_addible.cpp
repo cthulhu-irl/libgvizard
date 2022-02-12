@@ -4,7 +4,7 @@
 
 using gviz::attrtypes::AddDouble;
 
-TEST_CASE("primary operators", "[AddDouble]")
+TEST_CASE("[AddDouble] primary operators")
 {
   AddDouble a = 3;
   AddDouble b = 4;

@@ -45,7 +45,7 @@ TEST_CASE("[Graph:undirected]")
 
   REQUIRE(node_a != cluster_a);
 
-  Graph::ClusterId clusters[] = { cluster_a, cluster_b };
+  //Graph::ClusterId clusters[] = { cluster_a, cluster_b };
   Graph::NodeId    nodes[] = { node_a, node_b, node_c, node_d };
   Graph::EdgeId    edges[] = { edge_a_b, edge_c_d, edge_a_d };
 
@@ -90,7 +90,7 @@ TEST_CASE("[Graph:undirected]")
     for (const auto edge_id : edges) {
       const auto [local_node_a, local_node_b] = *graph.get_edge_nodes(edge_id);
       bool is_found = false;
-      for (const auto [pair_a, pair_b] : node_pairs)
+      for (const auto& [pair_a, pair_b] : node_pairs)
         if (pair_a == local_node_b && pair_b == local_node_a) {
           is_found = true;
           break;
