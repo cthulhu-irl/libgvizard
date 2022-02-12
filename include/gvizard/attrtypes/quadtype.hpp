@@ -24,16 +24,16 @@ constexpr inline QuadType quadtype_from_bool(bool type)
 namespace utils {
 
 template <>
-struct Converter<attrtypes::QuadType, bool> final {
-  constexpr static attrtypes::QuadType convert(bool qtype)
+struct Converter<bool, attrtypes::QuadType> final {
+  constexpr static auto convert(bool qtype) -> attrtypes::QuadType
   {
     return attrtypes::quadtype_from_bool(qtype);
   }
 };
 
 template <>
-struct Converter<bool, attrtypes::QuadType> final {
-  constexpr static bool convert(attrtypes::QuadType qtype)
+struct Converter<attrtypes::QuadType, bool> final {
+  constexpr static auto convert(attrtypes::QuadType qtype) -> bool
   {
     return qtype == attrtypes::QuadType::normal;
   }

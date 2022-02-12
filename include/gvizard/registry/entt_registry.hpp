@@ -21,11 +21,13 @@ class EnTTRegistry {
 
  private:
   entt::registry registry_;
+  std::size_t    count_; /// count of valid entities in registry.
 
  public:
   std::size_t size() const noexcept
   {
-    return registry_.size();
+    // return registry_.size(); // returns entities created so far... so no.
+    return count_;
   }
 
   // this shouldn't be used.
@@ -39,24 +41,22 @@ class EnTTRegistry {
 
   entity_type create()
   {
+    ++count_;
     return registry_.create();
   }
 
   void destroy(entity_type entity)
   {
-    registry_.destroy(entity);
+    if (registry_.valid(entity)) {
+      registry_.destroy(entity);
+      --count_;
+    }
   }
 
   void clear()
   {
-    std::vector<entity_type> entities{};
-    entities.reserve(registry_.size());
-
-    registry_.each([&entities](auto entity) {
-      entities.push_back(entity);
-    });
-
-    registry_.destroy(entities.cbegin(), entities.cend());
+    registry_.clear();
+    count_ = 0;
   }
 
   // -- Registry access (lookup/modify) methods --
@@ -87,13 +87,14 @@ class EnTTRegistry {
   }
 
   template <typename Attr, typename F>
-  auto update(entity_type entity, F&& func) -> utils::OptionalRef<Attr>
+  bool update(entity_type entity, F&& func)
   {
-    if (!registry_.valid(entity))
-      return utils::nulloptref;
+    if (!has<Attr>(entity))
+      return false;
 
     auto& attr = registry_.template get<Attr>(entity);
-    return func(attr);
+    func(attr);
+    return true;
   }
 
   template <typename Attr, typename ValT>
@@ -126,7 +127,7 @@ class EnTTRegistry {
     if (!has<Attr>(entity))
       return false;
 
-    registry_.template clear<Attr>(entity);
+    registry_.template remove<Attr>(entity);
     return true;
   }
 };

@@ -2,6 +2,7 @@
 #define GVIZARD_COLORS_SVG_HPP_
 
 #include <cstdint>
+#include <string_view>
 
 #include "gvizard/utils.hpp"
 
@@ -11,7 +12,7 @@
 namespace gviz::colors {
 
 enum class SVGColorEnum : uint16_t {
-  aliceblue,
+  aliceblue = 0,
   antiquewhite,
   aqua,
   aquamarine,
@@ -167,10 +168,11 @@ class SVGColor final {
  public:                  
   constexpr SVGColor(SVGColorEnum index)                    
     : index_(index), color_(list[uint16_t(index)])               
-  {}                       
-                         
+  {}
+
   constexpr SVGColorEnum     get_enum()  const noexcept { return index_; }
   constexpr SchemeColor<RGB> get_color() const noexcept { return color_; }
+  constexpr std::string_view get_name()  const noexcept { return color_.name; }
 
   constexpr operator SchemeColor<RGB>() const noexcept { return color_; }
 
@@ -183,8 +185,8 @@ class SVGColor final {
   {
     return get_enum() != other.get_enum();
   }
-                             
-  constexpr static SchemeColor<RGB> list[] = {                      
+
+  constexpr static SchemeColor<RGB> list[] = {
     { "aliceblue"            , RGB{ 240,248,255 }, SchemeEnum::SVG },
     { "antiquewhite"         , RGB{ 250,235,215 }, SchemeEnum::SVG },
     { "aqua"                 , RGB{ 0  ,255,255 }, SchemeEnum::SVG },

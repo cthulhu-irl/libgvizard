@@ -18,15 +18,21 @@ namespace utils {
 template <typename T>
 using Ref = std::shared_ptr<T>;
 
-template <typename T, typename U>
+template <typename From, typename To, typename enable_sfinae = void>
 struct Converter final {
   static_assert(
-    std::is_constructible_v<T, U>,
+    std::is_constructible_v<To, From>,
     "given types to converter aren't trivially convertible by constructor."
   );
 
-  constexpr static T convert(const U& obj) { return T(obj); }
-  constexpr static T convert(U&& obj) { return T(std::move(obj)); }
+  constexpr static To convert(const From& obj) { return To(obj); }
+  constexpr static To convert(From&& obj)      { return To(std::move(obj)); }
+};
+
+template <typename T>
+struct Converter<T, T> final {
+  constexpr static T convert(const T& obj) { return obj; }
+  constexpr static T convert(T&& obj)      { return std::move(obj); }
 };
 
 template <typename T,

@@ -17,17 +17,20 @@ class CallbackViewIterator {
  private:
   AdvanceCallback  advance_;
   std::optional<T> current_;
+  bool             is_sentinel_;
 
  public:
   constexpr explicit CallbackViewIterator(AdvanceCallback callback)
     : advance_(std::move(callback))
     , current_(std::nullopt)
+    , is_sentinel_(true)
   {}
 
   constexpr explicit CallbackViewIterator(
         AdvanceCallback callback, std::optional<T> init)
     : advance_(std::move(callback))
     , current_(std::move(init))
+    , is_sentinel_(init.has_value())
   {}
 
   constexpr auto has_value() noexcept -> bool
@@ -67,12 +70,12 @@ class CallbackViewIterator {
 
   constexpr auto operator==(const CallbackViewIterator& other)
   {
-    return current_ == other.current_;
+    return current_ == other.current_ && is_sentinel_ == other.is_sentinel_;
   }
 
   constexpr auto operator!=(const CallbackViewIterator& other)
   {
-    return current_.has_value(); // only check for end
+    return current_ != other.current_ || is_sentinel_ != other.is_sentinel_;
   }
 
   constexpr operator bool() noexcept { return current_.has_value(); }

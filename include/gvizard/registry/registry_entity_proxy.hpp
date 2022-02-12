@@ -19,7 +19,7 @@ class RegistryEntityProxy {
  public:
   RegistryEntityProxy(Registry& registry, entity_type entity)
     : registry_(registry)
-    , entity_(std::move(entity_))
+    , entity_(std::move(entity))
   {}
 
   template <typename Attr>
@@ -38,7 +38,7 @@ class RegistryEntityProxy {
   bool has() const { return registry_.template has<Attr>(entity_); }
 
   template <typename Attr, typename F>
-  auto update(F&& func) -> utils::OptionalRef<Attr>
+  bool update(F&& func)
   {
     return registry_.template update<Attr>(entity_, std::forward<F>(func));
   }

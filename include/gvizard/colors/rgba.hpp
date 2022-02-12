@@ -14,6 +14,14 @@ struct RGBA {
   octet_t b = 0;
   octet_t a = 255;
 
+  constexpr RGBA(octet_t red, octet_t green, octet_t blue,
+                 octet_t alpha = 255) noexcept
+    : r(red)
+    , g(green)
+    , b(blue)
+    , a(alpha)
+  {}
+
   constexpr static std::optional<RGBA>
   make(octet_t red, octet_t green, octet_t blue) noexcept
   {
@@ -39,34 +47,28 @@ struct RGBA {
   constexpr static RGBA from_binary(uint32_t value) noexcept
   {
     return RGBA{
-      octet_t((value >> 24) & 0xff),
       octet_t((value >> 16) & 0xff),
       octet_t((value >>  8) & 0xff),
-      octet_t((value >>  0) & 0xff)
+      octet_t((value >>  0) & 0xff),
+      octet_t((value >> 24) & 0xff) // alpha
     };
   }
 
   constexpr uint32_t to_binary() const noexcept
   {
-    return (r << 24) |
-           (g << 16) |
-           (b <<  8) |
-           (a <<  0);
+    return (a << 24) |
+           (r << 16) |
+           (g <<  8) |
+           (b <<  0);
   }
 
   constexpr bool operator==(const RGBA& other) const noexcept
   {
-    if (a == 0 && other.a == 0)
-      return true; // both are transparent, thus rgb don't apply
-
     return r == other.r && g == other.g && b == other.b && a == other.a;
   }
 
   constexpr bool operator!=(const RGBA& other) const noexcept
   {
-    if (a == 0 && other.a == 0)
-      return false; // both are transparent, thus rgb don't apply
-
     return r != other.r || g != other.g || b != other.b || a != other.a;
   }
 };

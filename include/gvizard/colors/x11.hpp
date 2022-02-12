@@ -2,6 +2,7 @@
 #define GVIZARD_COLORS_X11_HPP_
 
 #include <cstdint>
+#include <string_view>
 
 #include "gvizard/utils.hpp"
 
@@ -11,7 +12,7 @@
 namespace gviz::colors {
 
 enum class X11ColorEnum : uint16_t {
-  aliceblue,
+  aliceblue = 0,
   antiquewhite,
   antiquewhite1,
   antiquewhite2,
@@ -682,6 +683,7 @@ class X11Color final {
 
   constexpr X11ColorEnum     get_enum()  const noexcept { return index_; }
   constexpr SchemeColor<RGB> get_color() const noexcept { return color_; }
+  constexpr std::string_view get_name()  const noexcept { return color_.name; }
 
   constexpr operator SchemeColor<RGB>() const noexcept { return color_; }
 

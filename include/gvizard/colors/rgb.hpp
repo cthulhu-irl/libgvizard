@@ -13,6 +13,12 @@ struct RGB {
   octet_t g = 0;
   octet_t b = 0;
 
+  constexpr RGB(octet_t red, octet_t green, octet_t blue) noexcept
+    : r(red)
+    , g(green)
+    , b(blue)
+  {}
+
   constexpr static std::optional<RGB>
   make(octet_t red, octet_t green, octet_t blue) noexcept
   {

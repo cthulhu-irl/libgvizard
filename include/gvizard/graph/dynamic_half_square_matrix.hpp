@@ -99,12 +99,12 @@ class DynamicHalfSquareMatrix {
   constexpr const auto cbegin() const { return std::cbegin(vec_); }
   constexpr const auto cend()   const { return std::cend(vec_);   }
 
-  constexpr auto operator()(std::size_t n, std::size_t m)
+  constexpr decltype(auto) operator()(std::size_t n, std::size_t m)
   {
     return at(n, m);
   }
 
-  constexpr auto operator()(std::size_t n, std::size_t m) const
+  constexpr decltype(auto) operator()(std::size_t n, std::size_t m) const
   {
     return at(n, m);
   }

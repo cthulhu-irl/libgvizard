@@ -1,6 +1,9 @@
 #ifndef GVIZARD_COLORS_CONVERTER_HPP_
 #define GVIZARD_COLORS_CONVERTER_HPP_
 
+#include <cstdint>
+#include <type_traits>
+
 #include "gvizard/utils.hpp"
 
 #include "gvizard/colors/rgb.hpp"
@@ -11,32 +14,32 @@
 
 #include "gvizard/colors/general.hpp"
 
-using gviz::colors::HSV;
-using gviz::colors::RGB;
-using gviz::colors::RGBA;
-using gviz::colors::X11Color;
-using gviz::colors::SVGColor;
-using gviz::colors::X11ColorEnum;
-using gviz::colors::SVGColorEnum;
-using gviz::colors::SchemeColor;
-
-constexpr static inline const HSV hsv_zero_default{0., 0., 0.};
-
 namespace gviz {
 namespace utils {
 
+namespace detail {
+
+template <typename T, typename U>
+using avoid_same_t = std::enable_if_t<!std::is_same_v<T, U>>;
+
+}  // namespace detail
+
+constexpr static inline const gviz::colors::HSV hsv_zero_default{0., 0., 0.};
+
 template <>
-struct Converter<HSV, RGB> final {
-  constexpr static HSV convert(const RGB& rgb) noexcept
+struct Converter<colors::RGB, colors::HSV> final {
+  constexpr static auto convert(const colors::RGB& rgb) noexcept
+    -> colors::HSV
   {
-    uint8_t min = rgb.min(), max = rgb.max();
+    uint8_t min = rgb.min();
+    uint8_t max = rgb.max();
 
     if (max == 0)
       return hsv_zero_default;
 
-    double v = double(max) / 255;
+    double v = double(max) / 255.;
 
-    double s = long(max - min) / max;
+    double s = double(max - min) / max;
     if (s == 0.)
       return hsv_zero_default;
 
@@ -46,24 +49,25 @@ struct Converter<HSV, RGB> final {
 
     double h = 0;
     if (max == rgb.r)
-      h = double(  0 + 43 * gb_diff / (max - min)) / 255.;
+      h = double(  0.f + 43.f * gb_diff / (max - min)) / 255.;
 
     else if (max == rgb.g)
-      h = double( 83 + 43 * gb_diff / (max - min)) / 255.;
+      h = double( 83.f + 43.f * gb_diff / (max - min)) / 255.;
 
     else // max == rgb.b
-      h = double(171 + 43 * gb_diff / (max - min)) / 255.;
+      h = double(171.f + 43.f * gb_diff / (max - min)) / 255.;
 
-    return HSV::make(h, s, v).value();
+    return colors::HSV::make(h, s, v).value();
   }
 };
 
 template <>
-struct Converter<RGB, HSV> final {
-  constexpr static RGB convert(const HSV& hsv) noexcept
+struct Converter<colors::HSV, colors::RGB> final {
+  constexpr static auto convert(const colors::HSV& hsv) noexcept
+    -> colors::RGB
   {
     if (hsv.saturation() == 0.)
-      return RGB{0, 0, 0};
+      return colors::RGB{0, 0, 0};
 
     uint8_t h = hsv.hue() * 255;
     uint8_t s = hsv.saturation() * 255;
@@ -78,57 +82,66 @@ struct Converter<RGB, HSV> final {
 
     switch (region)
     {
-      case 0:  return RGB{ v, t, p };
-      case 1:  return RGB{ q, v, p };
-      case 2:  return RGB{ p, v, t };
-      case 3:  return RGB{ p, q, v };
-      case 4:  return RGB{ t, p, v };
-      default: return RGB{ v, p, q };
+      case 0:  return colors::RGB{ v, t, p };
+      case 1:  return colors::RGB{ q, v, p };
+      case 2:  return colors::RGB{ p, v, t };
+      case 3:  return colors::RGB{ p, q, v };
+      case 4:  return colors::RGB{ t, p, v };
+      default: return colors::RGB{ v, p, q };
     }
   }
 };
 
 template <>
-struct Converter<RGBA, RGB> final {
-  constexpr static RGBA convert(const RGB& color) noexcept
+struct Converter<colors::RGB, colors::RGBA> final {
+  constexpr static auto convert(const colors::RGB& color) noexcept
+    -> colors::RGBA
   {
-    return RGBA{ color.r, color.g, color.b };
+    return colors::RGBA{ color.r, color.g, color.b };
   }
 };
 
 template <>
-struct Converter<RGB, RGBA> final {
-  constexpr static RGB convert(const RGBA& color) noexcept
+struct Converter<colors::RGBA, colors::RGB> final {
+  constexpr static auto convert(const colors::RGBA& color) noexcept
+    -> colors::RGB
   {
-    return RGB{ color.r, color.g, color.b };
+    return colors::RGB{ color.r, color.g, color.b };
   }
 };
 
 template <>
-struct Converter<HSV, RGBA> final {
-  constexpr static HSV convert(const RGBA& color) noexcept
+struct Converter<colors::HSV, colors::RGBA> final {
+  constexpr static auto convert(const colors::HSV& color) noexcept
+    -> colors::RGBA
   {
-    return Converter<HSV, RGB>::convert(
-        Converter<RGB, RGBA>::convert(color)
+    return Converter<colors::RGB, colors::RGBA>::convert(
+        Converter<colors::HSV, colors::RGB>::convert(color)
     );
   }
 };
 
 template <>
-struct Converter<RGBA, HSV> final {
-  constexpr static RGBA convert(const HSV& color) noexcept
+struct Converter<colors::RGBA, colors::HSV> final {
+  constexpr static auto convert(const colors::RGBA& color) noexcept
+    -> colors::HSV
   {
-    return Converter<RGBA, RGB>::convert(
-        Converter<RGB, HSV>::convert(color)
+    return Converter<colors::RGB, colors::HSV>::convert(
+        Converter<colors::RGBA, colors::RGB>::convert(color)
     );
   }
 };
+
+// -- SchemeColor
 
 template <typename T, typename U>
-struct Converter<SchemeColor<T>, SchemeColor<U>> final {
-  constexpr static SchemeColor<T> convert(const SchemeColor<U>& color)
+struct Converter<colors::SchemeColor<T>, colors::SchemeColor<U>,
+                 detail::avoid_same_t<T, U>> final
+{
+  constexpr static auto convert(const colors::SchemeColor<T>& color)
+    -> colors::SchemeColor<U>
   {
-    return SchemeColor<T>{
+    return colors::SchemeColor<U>{
       color.name,
       Converter<T, U>::convert(color.color),
       color.scheme
@@ -137,119 +150,134 @@ struct Converter<SchemeColor<T>, SchemeColor<U>> final {
 };
 
 template <typename T, typename U>
-struct Converter<T, SchemeColor<U>> final {
-  constexpr static T convert(const SchemeColor<U>& color)
+struct Converter<colors::SchemeColor<T>, U,
+                 detail::avoid_same_t<colors::SchemeColor<T>, U>> final
+{
+  constexpr static auto convert(const colors::SchemeColor<T>& color) -> U
   {
     return Converter<T, U>::convert(color.color);
   }
 };
 
+// -- SVG and X11 colors
+
 template <typename To>
-struct Converter<To, X11Color> final {
-  constexpr static To convert(const X11Color& color)
+struct Converter<colors::X11Color, To,
+                 detail::avoid_same_t<colors::X11Color, To>> final
+{
+  constexpr static auto convert(const colors::X11Color& color) -> To
   {
-    return Converter<To, RGB>::convert(color.get_color());
+    return Converter<colors::RGB, To>::convert(color.get_color());
   }
 };
 
 template <typename To>
-struct Converter<To, SVGColor> final {
-  constexpr static To convert(const SVGColor& color)
+struct Converter<colors::SVGColor, To,
+                 detail::avoid_same_t<colors::SVGColor, To>> final
+{
+  constexpr static auto convert(const colors::SVGColor& color) -> To
   {
-    return Converter<To, RGB>::convert(color.get_color());
+    return Converter<colors::RGB, To>::convert(color.get_color());
+  }
+};
+
+// -- SVG and X11 color enums
+
+template <typename To>
+struct Converter<colors::X11ColorEnum, To,
+                 detail::avoid_same_t<colors::X11ColorEnum, To>> final
+{
+  constexpr static auto convert(colors::X11ColorEnum color) -> To
+  {
+    return Converter<colors::RGB, To>::convert(
+        colors::X11Color::list[uint16_t(color)].color
+    );
   }
 };
 
 template <typename To>
-struct Converter<To, X11ColorEnum> final {
-  constexpr static To convert(X11ColorEnum color)
+struct Converter<colors::SVGColorEnum, To,
+                 detail::avoid_same_t<colors::SVGColorEnum, To>> final
+{
+  constexpr static auto convert(colors::SVGColorEnum color) -> To
   {
-    return Converter<To, RGB>::convert(X11Color::list[uint16_t(color)].color);
-  }
-};
-
-template <typename To>
-struct Converter<To, SVGColorEnum> final {
-  constexpr static To convert(SVGColorEnum color)
-  {
-    return Converter<To, RGB>::convert(X11Color::list[uint16_t(color)].color);
+    return Converter<colors::RGB, To>::convert(
+        colors::SVGColor::list[uint16_t(color)].color
+    );
   }
 };
 
 template <typename T>
-struct Converter<SchemeColor<T>, X11ColorEnum> final {
-  constexpr static SchemeColor<T> convert(X11ColorEnum color)
+struct Converter<colors::X11ColorEnum, colors::SchemeColor<T>> final {
+  constexpr static auto convert(colors::X11ColorEnum color)
+    -> colors::SchemeColor<T>
   {
-    const SchemeColor<RGB> scheme_color = X11Color::list[uint16_t(color)];
-    return SchemeColor<T>{
+    const colors::SchemeColor<colors::RGB> scheme_color =
+        colors::X11Color::list[uint16_t(color)];
+
+    return colors::SchemeColor<T>{
       scheme_color.name,
-      Converter<T, RGB>::convert(scheme_color.color),
+      Converter<colors::RGB, T>::convert(scheme_color.color),
       scheme_color.scheme
     };
   }
 };
 
 template <typename T>
-struct Converter<SchemeColor<T>, SVGColorEnum> final {
-  constexpr static SchemeColor<T> convert(SVGColorEnum color)
+struct Converter<colors::SVGColorEnum, colors::SchemeColor<T>> final {
+  constexpr static auto convert(colors::SVGColorEnum color)
+    -> colors::SchemeColor<T>
   {
-    const SchemeColor<RGB> scheme_color = SVGColor::list[uint16_t(color)];
-    return SchemeColor<T>{
+    const colors::SchemeColor<colors::RGB> scheme_color =
+        colors::SVGColor::list[uint16_t(color)];
+
+    return colors::SchemeColor<T>{
       scheme_color.name,
-      Converter<T, RGB>::convert(scheme_color.color),
+      Converter<colors::RGB, T>::convert(scheme_color.color),
       scheme_color.scheme
     };
   }
 };
 
-template <>
-struct Converter<X11Color, SVGColorEnum> final {
-  constexpr static X11Color convert(X11ColorEnum color) noexcept
-  {
-    return X11Color(color);
-  }
-};
+// -- X11 and SVG colors and enums
 
 template <>
-struct Converter<SVGColor, SVGColorEnum> final {
-  constexpr static SVGColor convert(SVGColorEnum color) noexcept
-  {
-    return SVGColor(color);
-  }
-};
-
-template <>
-struct Converter<X11ColorEnum, X11Color> final {
-  constexpr static X11ColorEnum convert(const X11Color& color) noexcept
+struct Converter<colors::X11Color, colors::X11ColorEnum> final {
+  constexpr static auto convert(const colors::X11Color& color) noexcept
+    -> colors::X11ColorEnum
   {
     return color.get_enum();
   }
 };
 
 template <>
-struct Converter<SVGColorEnum, SVGColor> final {
-  constexpr static SVGColorEnum convert(const SVGColor& color) noexcept
+struct Converter<colors::SVGColor, colors::SVGColorEnum> final {
+  constexpr static auto convert(const colors::SVGColor& color) noexcept
+    -> colors::SVGColorEnum
   {
     return color.get_enum();
+  }
+};
+
+template <>
+struct Converter<colors::X11ColorEnum, colors::X11Color> final {
+  constexpr static auto convert(colors::X11ColorEnum color) noexcept
+    -> colors::X11Color
+  {
+    return colors::X11Color(color);
+  }
+};
+
+template <>
+struct Converter<colors::SVGColorEnum, colors::SVGColor> final {
+  constexpr static auto convert(colors::SVGColorEnum color) noexcept
+    -> colors::SVGColor
+  {
+    return colors::SVGColor(color);
   }
 };
 
 }  // namespace utils
-
-namespace colors {
-
-using gviz::utils::Converter;
-
-template <typename To>
-struct ColorConverterCallable final {
-  template <typename From>
-  constexpr To operator()(const From& color) const
-  {
-    return Converter<To, From>::convert(color);
-  }
-};
-
-}  // namespace colors
 }  // namespace gviz
 
 #endif  // GVIZARD_COLORS_CONVERTER_HPP_
