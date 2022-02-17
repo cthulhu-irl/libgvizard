@@ -9,7 +9,7 @@
 using gviz::IteratorView;
 using gviz::CallbackView;
 
-TEST_CASE("[IteratorView]")
+TEST_CASE("[views::IteratorView]")
 {
   std::vector<int> v   = { 1, 2, 3, 4,  5  };
   const int        u[] = { 1, 4, 9, 16, 25 };
@@ -25,7 +25,7 @@ TEST_CASE("[IteratorView]")
   }
 }
 
-TEST_CASE("[CallbackView] with init value")
+TEST_CASE("[views::CallbackView] with init value")
 {
   constexpr auto callback = [end=10](int i) -> std::optional<int> {
     if (i >= end) return std::nullopt;
@@ -36,12 +36,14 @@ TEST_CASE("[CallbackView] with init value")
 
   int i = 0;
   for (auto val : iter) {
+    REQUIRE(val >= 0);
+    REQUIRE(val <= 10);
     REQUIRE(val == i);
     ++i;
   }
 }
 
-TEST_CASE("[CallbackView] without init value")
+TEST_CASE("[views::CallbackView] without init value")
 {
   const int arr[] = { 0, 1, 4, 9, 16 };
 
@@ -59,6 +61,8 @@ TEST_CASE("[CallbackView] without init value")
 
   int i = 0;
   for (auto val : iter) {
+    REQUIRE(val >= 0);
+    REQUIRE(val <= 16);
     REQUIRE(val == (i*i));
     ++i;
   }
