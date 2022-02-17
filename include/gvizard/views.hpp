@@ -42,6 +42,8 @@ class CallbackViewIterator {
   {
     if (current_.has_value())
       current_ = advance_(std::move(current_).value());
+    else
+      is_sentinel_ = true;
 
     return *this;
   }
@@ -125,6 +127,9 @@ class CallbackView {
     return CallbackViewIterator<T, F>{ advance };
   }
 };
+
+template <typename T, typename F>
+CallbackView(F, T) -> CallbackView<T, F>;
 
 template <typename T,
           typename Iter = decltype(std::begin(std::declval<T&>())),
