@@ -8,7 +8,7 @@ using gviz::utils::EnumHelper;
 
 enum class EdgeDir : uint8_t { in = 1, out = 2, inout = 3 };
 
-TEST_CASE("[EnumHelper] basic functionalities")
+TEST_CASE("[utils::EnumHelper] basic functionalities")
 {
   REQUIRE(EnumHelper<EdgeDir>::from_index(0) == EdgeDir::in);
   REQUIRE(EnumHelper<EdgeDir>::from_index(1) == EdgeDir::out);

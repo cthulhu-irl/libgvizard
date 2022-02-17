@@ -7,7 +7,7 @@
 
 using gviz::utils::OptionalRef;
 
-TEST_CASE("[OptionalRef] basic value functionalities")
+TEST_CASE("[utils::OptionalRef] basic value functionalities")
 {
   int num = 12;
   std::optional<int> opt_num_val = num;
