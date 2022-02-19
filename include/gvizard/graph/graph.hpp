@@ -587,10 +587,10 @@ class Graph {
       std::size_t count = 0;
 
       for (std::size_t i = 0; i < node_idx; ++i)
-        count += matrix_.at(node_idx, i);
+        count += matrix_.at(node_idx, i).has_value();
 
       for (std::size_t i = node_idx+1; i < matrix_.size(); ++i)
-        count += matrix_.at(i, node_idx);
+        count += matrix_.at(i, node_idx).has_value();
 
       return count;
     }
@@ -598,8 +598,8 @@ class Graph {
     // directed graph
     std::size_t count = 0;
 
-    bool is_in    = dir != EdgeDir::out;
-    bool is_out   = !is_in;
+    bool is_in  = dir != EdgeDir::out;
+    bool is_out = !is_in;
 
     for (std::size_t i = 0; i < matrix_.size(); ++i) {
       count += matrix_.at(node_idx, i).has_value() & is_out;
