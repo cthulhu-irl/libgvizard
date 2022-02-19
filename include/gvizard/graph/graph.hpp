@@ -424,7 +424,7 @@ class Graph {
         std::swap(node_a_idx, node_b_idx);
     }
 
-    return *matrix_.at(node_a_idx, node_b_idx);
+    return matrix_.at(node_a_idx, node_b_idx);
   }
 
   /** retrieves given edge's pair of nodes.
@@ -532,7 +532,7 @@ class Graph {
 
     auto edge_item = entities_map_[*opt_edge_id];
 
-    *matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
+    matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
 
     registry_.destroy(*opt_edge_id);
     entities_map_.erase(*opt_edge_id);
@@ -555,7 +555,7 @@ class Graph {
 
     const auto edge_item = edge_iter->second.as_edge();
 
-    *matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
+    matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
 
     registry_.destroy(edge_id);
     entities_map_.erase(edge_iter);
