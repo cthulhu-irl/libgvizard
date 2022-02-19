@@ -159,6 +159,14 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE(i == 2);
   }
 
+  SECTION("check get_degree")
+  {
+    REQUIRE(graph.get_degree(node_a) == 2);
+    REQUIRE(graph.get_degree(node_b) == 1);
+    REQUIRE(graph.get_degree(node_c) == 1);
+    REQUIRE(graph.get_degree(node_d) == 2);
+  }
+
   // TODO implement these?
   // add_to_cluster
   // get_edge_id
@@ -169,10 +177,6 @@ TEST_CASE("[graph::Graph::undirected]")
   // remove_node
   // remove_edge
   // remove_cluster
-  //
-  // nodes_view
-  // edges_view
-  // clusters_view
   //
   // node_count
   // edge_count
