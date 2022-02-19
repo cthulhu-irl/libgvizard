@@ -12,7 +12,11 @@
 #include <utility>
 #include <variant>
 
-#include "gvizard/views.hpp"
+#include <range/v3/view/transform.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/iota.hpp>
+#include <range/v3/view/take.hpp>
+
 #include "gvizard/utils.hpp"
 
 #include "gvizard/graph/dynamic_square_matrix.hpp"
@@ -375,27 +379,13 @@ class Graph {
    */
   auto get_cluster_nodes(ClusterId cluster_id) const
   {
-    auto lambda =
-      [iter_=entities_map_.begin(),
-       end_=entities_map_.end(),
-       cluster_id_=cluster_id] (NodeId) mutable -> std::optional<NodeId>
-      {
-        for (; iter_ != end_; ++iter_)
-        {
-          if (!iter_->second.is_node()) continue;
-
-          auto opt_cluster_id = iter_->second.as_node().cluster_id;
-          if (opt_cluster_id && *opt_cluster_id == cluster_id_) {
-            auto ret = iter_->first;
-            ++iter_;
-            return ret;
+    return entities_map_
+      | ranges::views::filter(
+          [cluster_id=cluster_id](const auto& pair) {
+            return pair.second.is_node() && pair.second.as_node().cluster_id == cluster_id;
           }
-        }
-
-        return std::nullopt;
-      };
- 
-    return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
+        )
+      | ranges::views::transform([](const auto& pair) { return pair.first; });
   }
 
   /** retrieves given two nodes' edge.
@@ -626,152 +616,86 @@ class Graph {
    * to get 1st order neighbours of a node, combine this with get_edge_nodes.
    *
    * @param node_id target node's id.
-   * @returns a CallbackView to edges of target node, if `node_id` is valid,
-   *          otherwise an empty CallbackView.
+   * @returns a range view to edges of target node, if `node_id` is valid,
+   *          otherwise an empty range view.
    */
   auto get_edges_of(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
   {
-    constexpr auto lambda_empty =
-      [](EdgeId) -> std::optional<EdgeId> { return std::nullopt; };
+    auto matrix_size = matrix_.size();
 
     auto node_iter = entities_map_.find(node_id);
     if (node_iter == entities_map_.end() || !node_iter->second.is_node())
-      return CallbackView<EdgeId, decltype(lambda_empty)>(lambda_empty);
+      matrix_size = 0; // iota will be an empty range.
 
     auto node_idx = node_iter->second.as_node().idx;
 
-    if constexpr (is_undirected) {
-      auto lambda_undirected =
-        [&matrix_=matrix_, i_=0, node_idx_=node_idx](EdgeId)
-          mutable -> std::optional<EdgeId>
-        {
-          // in/out/inout edge directions are all same here...
-
-          for (; i_ < node_idx_; ++i_) {
-            const auto opt_edge_id = matrix_.at(node_idx_, i_);
-            if (opt_edge_id) {
-              ++i_;
-              return *opt_edge_id;
-            }
-          }
-
-          if (i_ == node_idx_) ++i_;
-
-          for (; i_ < matrix_.size(); ++i_) {
-            const auto opt_edge_id = matrix_.at(i_, node_idx_);
-            if (opt_edge_id) {
-              ++i_;
-              return *opt_edge_id;
-            }
-          }
-
-          return std::nullopt;
-        };
-
-      return CallbackView<EdgeId, decltype(lambda_undirected)>(
-                                              std::move(lambda_undirected));
-    } else {
-      auto lambda_directed =
-        [&matrix_=matrix_, i_=0, j_=0, node_idx_=node_idx, dir_=dir](EdgeId)
-          mutable -> std::optional<EdgeId>
-        {
-          if (dir_ != EdgeDir::in) // dir_ is EdgeDir::out or EdgeDir::inout
+    return ranges::views::iota(0)
+      | ranges::views::take(matrix_size)
+      | ranges::views::transform(
+          [&matrix=matrix_, node_idx=node_idx, dir=dir](std::size_t idx)
           {
-            for (; i_ < matrix_.size(); ++i_) {
-              const auto opt_edge_id = matrix_.at(node_idx_, i_);
-              if (opt_edge_id) {
-                ++i_;
-                return *opt_edge_id;
-              }
+            if constexpr (is_undirected)
+            {
+              auto i = node_idx, j = idx;
+              if (j == i)
+                return std::optional<entity_type>{};
+
+              if (j > i)
+                std::swap(i, j);
+
+              return matrix.at(i, j);
+            }
+            else // if directed
+            {
+              // if EdgeDir::out or EdgeDir::inout
+              if (dir != EdgeDir::in) return matrix.at(node_idx, idx);
+
+              // if EdgeDir::in or EdgeDir::inout
+              if (dir != EdgeDir::out) return matrix.at(idx, node_idx);
             }
           }
-
-          if (dir_ != EdgeDir::out) // dir_ is EdgeDir::in or EdgeDir::inout
-          {
-            for (; j_ < matrix_.size(); ++j_) {
-              const auto opt_edge_id = matrix_.at(j_, node_idx_);
-              if (opt_edge_id && j_ != node_idx_) {
-                ++j_;
-                return *opt_edge_id;
-              }
-            }
-          }
-
-          return std::nullopt;
-        };
-
-      return CallbackView<EdgeId, decltype(lambda_directed)>(
-                                              std::move(lambda_directed));
-    }
+        )
+      | ranges::views::filter([](auto opt_edge_id) { return opt_edge_id.has_value(); })
+      | ranges::views::transform([](auto opt_edge_id) { return opt_edge_id.value(); });
   }
 
   /** view of all nodes in graph.
    *
-   * @returns a CallbackView to all nodes in graph.
+   * @returns a range view to all nodes in graph.
    */
   auto nodes_view() const
   {
-    auto lambda =
-      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](NodeId)
-        mutable -> std::optional<NodeId>
-      {
-        for (; iter_ != end_; ++iter_)
-          if (iter_->second.is_node()) {
-            auto node_id = iter_->first;
-            ++iter_; // avoid infinite-loop
-            return node_id;
-          }
-
-        return std::nullopt;
-      };
-
-    return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
+    return entities_map_
+      | ranges::views::filter(
+          [](const auto& kvpair) { return kvpair.second.is_node(); }
+        )
+      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
   }
 
   /** view of all edges in graph.
    *
-   * @returns a CallbackView to all edges in graph.
+   * @returns a range view to all edges in graph.
    */
   auto edges_view() const
   {
-    auto lambda =
-      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](EdgeId)
-        mutable -> std::optional<EdgeId>
-      {
-        for (; iter_ != end_; ++iter_)
-          if (iter_->second.is_edge()) {
-            auto edge_id = iter_->first;
-            ++iter_; // avoid infinite-loop
-            return edge_id;
-          }
-
-        return std::nullopt;
-      };
-
-    return CallbackView<EdgeId, decltype(lambda)>(std::move(lambda));
+    return entities_map_
+      | ranges::views::filter(
+          [](const auto& kvpair) { return kvpair.second.is_edge(); }
+        )
+      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
   }
 
   /** view of all clusters in graph.
    *
-   * @returns a CallbackView to all clusters in graph.
+   * @returns a range view to all clusters in graph.
    */
   auto clusters_view() const
   {
-    auto lambda =
-      [iter_=std::cbegin(entities_map_), end_=std::cend(entities_map_)](ClusterId)
-        mutable -> std::optional<ClusterId>
-      {
-        for (; iter_ != end_; ++iter_)
-          if (iter_->second.is_cluster()) {
-            auto cluster_id = iter_->first;
-            ++iter_; // avoid infinite-loop
-            return cluster_id;
-          }
-
-        return std::nullopt;
-      };
-
-    return CallbackView<ClusterId, decltype(lambda)>(std::move(lambda));
+    return entities_map_
+      | ranges::views::filter(
+          [](const auto& kvpair) { return kvpair.second.is_cluster(); }
+        )
+      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
   }
 
   std::size_t node_count()    const noexcept { return nodes_count_;    }

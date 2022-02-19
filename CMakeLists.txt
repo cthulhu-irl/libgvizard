@@ -29,6 +29,12 @@ target_include_directories(
 find_package(EnTT CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} INTERFACE EnTT::EnTT)
 
+find_package(range-v3 CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} INTERFACE range-v3
+                                                range-v3-meta
+                                                range-v3::meta
+                                                range-v3-concepts)
+
 find_package(magic_enum CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} INTERFACE magic_enum::magic_enum)
 
