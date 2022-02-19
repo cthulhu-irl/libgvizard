@@ -338,20 +338,20 @@ class Graph {
     auto node_b_idx = node_b_iter->second.as_node().idx;
 
     if constexpr (is_undirected) {
-      // this must be ensured to be impossible in design, not runtime.
+      // this must be ensured to be impossible in elsewhere.
       //if (node_a_idx == node_b_idx)
       //  return std::nullopt;
 
       // mirroring triangle
       if (node_a_idx < node_b_idx) {
-        std::swap(node_a_idx, node_b_idx);
         std::swap(node_a_id, node_b_id);
+        std::swap(node_a_idx, node_b_idx);
       }
     }
 
-    auto optref_edge = matrix_.at(node_a_idx, node_b_idx);
-    if (optref_edge) // is there already an edge?
-      return *optref_edge;
+    auto& opt_edge = matrix_.at(node_a_idx, node_b_idx);
+    if (opt_edge) // is there already an edge?
+      return *opt_edge;
 
     auto edge_id = registry_.create();
 
@@ -362,7 +362,7 @@ class Graph {
       node_b_id
     };
 
-    *matrix_.at(node_a_idx, node_b_idx) = edge_id;
+    opt_edge = edge_id;
 
     return edge_id;
   }
@@ -375,32 +375,26 @@ class Graph {
    */
   auto get_cluster_nodes(ClusterId cluster_id) const
   {
-    constexpr auto lambda_empty =
-      [](NodeId) -> std::optional<NodeId> { return std::nullopt; };
-      
-    // empty view for invalid cluster_id
-    if (entities_map_.find(cluster_id) == entities_map_.end())
-      return CallbackView<NodeId, decltype(lambda_empty)>(lambda_empty);
-
-    auto& iter = entities_map_.begin();
-    auto& end = entities_map_.end();
-
     auto lambda =
-      [iter_=iter, end_=end, cluster_id_=cluster_id](NodeId)
-        mutable -> std::optional<NodeId>
+      [iter_=entities_map_.begin(),
+       end_=entities_map_.end(),
+       cluster_id_=cluster_id] (NodeId) mutable -> std::optional<NodeId>
       {
         for (; iter_ != end_; ++iter_)
         {
-          if (!iter_.second.is_node()) continue;
+          if (!iter_->second.is_node()) continue;
 
-          auto opt_cluster_id = iter_.second.as_node().cluster_id;
-          if (opt_cluster_id && *opt_cluster_id == cluster_id_)
-            return iter_.first;
+          auto opt_cluster_id = iter_->second.as_node().cluster_id;
+          if (opt_cluster_id && *opt_cluster_id == cluster_id_) {
+            auto ret = iter_->first;
+            ++iter_;
+            return ret;
+          }
         }
 
         return std::nullopt;
       };
-
+ 
     return CallbackView<NodeId, decltype(lambda)>(std::move(lambda));
   }
 
@@ -655,16 +649,20 @@ class Graph {
 
           for (; i_ < node_idx_; ++i_) {
             const auto opt_edge_id = matrix_.at(node_idx_, i_);
-            if (opt_edge_id)
+            if (opt_edge_id) {
+              ++i_;
               return *opt_edge_id;
+            }
           }
 
           if (i_ == node_idx_) ++i_;
 
           for (; i_ < matrix_.size(); ++i_) {
             const auto opt_edge_id = matrix_.at(i_, node_idx_);
-            if (opt_edge_id)
+            if (opt_edge_id) {
+              ++i_;
               return *opt_edge_id;
+            }
           }
 
           return std::nullopt;
@@ -681,8 +679,10 @@ class Graph {
           {
             for (; i_ < matrix_.size(); ++i_) {
               const auto opt_edge_id = matrix_.at(node_idx_, i_);
-              if (opt_edge_id)
+              if (opt_edge_id) {
+                ++i_;
                 return *opt_edge_id;
+              }
             }
           }
 
@@ -690,8 +690,10 @@ class Graph {
           {
             for (; j_ < matrix_.size(); ++j_) {
               const auto opt_edge_id = matrix_.at(j_, node_idx_);
-              if (opt_edge_id && j_ != node_idx_)
+              if (opt_edge_id && j_ != node_idx_) {
+                ++j_;
                 return *opt_edge_id;
+              }
             }
           }
 
