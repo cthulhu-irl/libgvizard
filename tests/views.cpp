@@ -23,6 +23,7 @@ TEST_CASE("[views::IteratorView]")
     REQUIRE(val*val == u[i]);
     ++i;
   }
+  REQUIRE(i == 5);
 }
 
 TEST_CASE("[views::CallbackView] with init value")
@@ -41,6 +42,7 @@ TEST_CASE("[views::CallbackView] with init value")
     REQUIRE(val == i);
     ++i;
   }
+  REQUIRE(i == 11);
 }
 
 TEST_CASE("[views::CallbackView] without init value")
@@ -66,4 +68,5 @@ TEST_CASE("[views::CallbackView] without init value")
     REQUIRE(val == (i*i));
     ++i;
   }
+  REQUIRE(i == 5);
 }
