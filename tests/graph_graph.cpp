@@ -1,14 +1,14 @@
-#include <catch2/catch.hpp>
 #include <cstddef>
-#include <fmt/core.h>
+#include <utility>
+
+#include <catch2/catch.hpp>
 
 #include <gvizard/graph/graph.hpp>
 #include <gvizard/registry/entt_registry.hpp>
-#include <utility>
 
 using namespace gviz;
 
-TEST_CASE("[Graph:undirected]")
+TEST_CASE("[graph::Graph::undirected]")
 {
   using Graph =
     graph::Graph<registry::EnTTRegistry, graph::GraphDir::undirected>;
@@ -34,16 +34,39 @@ TEST_CASE("[Graph:undirected]")
   auto edge_c_d = graph.create_edge(node_c, node_d).value();
   auto edge_a_d = graph.create_edge(node_a, node_d).value();
 
-  REQUIRE(cluster_a != cluster_b);
+  SECTION("entity ids of each type shouldn't overlap (equal to each other)")
+  {
+    REQUIRE(cluster_a != cluster_b);
 
-  REQUIRE(node_a != node_b);
-  REQUIRE(node_b != node_c);
-  REQUIRE(node_c != node_d);
+    REQUIRE(node_a != node_b);
+    REQUIRE(node_b != node_c);
+    REQUIRE(node_c != node_d);
 
-  REQUIRE(edge_a_b != edge_c_d);
-  REQUIRE(edge_c_d != edge_a_d);
+    REQUIRE(edge_a_b != edge_c_d);
+    REQUIRE(edge_c_d != edge_a_d);
 
-  REQUIRE(node_a != cluster_a);
+    REQUIRE(node_a != edge_a_b);
+    REQUIRE(node_a != cluster_a);
+  }
+
+
+  SECTION("create_edge returns same entity id if edge exists")
+  {
+    // if exists, must return same id...
+    // must reorder when undirected... thus exists and must return same id...
+    REQUIRE(edge_a_b == graph.create_edge(node_a, node_b).value());
+    REQUIRE(edge_c_d == graph.create_edge(node_c, node_d).value());
+    REQUIRE(edge_a_d == graph.create_edge(node_a, node_d).value());
+  }
+
+  if constexpr (graph.is_undirected_graph()) {
+    SECTION("create_edge returns same id for same pair of nodes in any order")
+    {
+      REQUIRE(edge_a_b == graph.create_edge(node_b, node_a).value());
+      REQUIRE(edge_c_d == graph.create_edge(node_d, node_c).value());
+      REQUIRE(edge_a_d == graph.create_edge(node_d, node_a).value());
+    }
+  }
 
   //Graph::ClusterId clusters[] = { cluster_a, cluster_b };
   Graph::NodeId    nodes[] = { node_a, node_b, node_c, node_d };
@@ -53,14 +76,16 @@ TEST_CASE("[Graph:undirected]")
     {node_a, node_b}, {node_c, node_d}, {node_a, node_d}
   };
 
-  SECTION("check created clusters against clusters_view") {
+  SECTION("check created clusters against clusters_view")
+  {
     for (const auto cluster_id : graph.clusters_view()) {
       bool is_a_or_b = cluster_id == cluster_a || cluster_id == cluster_b;
       REQUIRE(is_a_or_b);
     }
   }
 
-  SECTION("check created nodes against nodes_view") {
+  SECTION("check created nodes against nodes_view")
+  {
     for (auto local_node_id : nodes) {
       bool is_found = false;
       for (const auto graph_node_id : graph.nodes_view())
@@ -73,7 +98,8 @@ TEST_CASE("[Graph:undirected]")
     }
   }
 
-  SECTION("check created edges against edges_view") {
+  SECTION("check created edges against edges_view")
+  {
     for (auto local_edge_id : edges) {
       bool is_found = false;
       for (const auto graph_edge_id : graph.edges_view())
@@ -86,7 +112,8 @@ TEST_CASE("[Graph:undirected]")
     }
   }
 
-  SECTION("check get_edge_nodes") {
+  SECTION("check get_edge_nodes")
+  {
     for (const auto edge_id : edges) {
       const auto [local_node_a, local_node_b] = *graph.get_edge_nodes(edge_id);
       bool is_found = false;
@@ -98,5 +125,30 @@ TEST_CASE("[Graph:undirected]")
 
       REQUIRE(is_found);
     }
+  }
+
+  SECTION("check get_cluster_nodes")
+  {
+    // cluster_a
+
+    auto view_a = graph.get_cluster_nodes(cluster_a);
+    auto iter_a = view_a.begin();
+
+    REQUIRE(bool(iter_a));
+    REQUIRE(*iter_a == node_c);
+    ++iter_a;
+    REQUIRE(bool(iter_a == view_a.end()));
+    REQUIRE_FALSE(iter_a.has_value());
+
+    // cluster_b
+
+    auto view_b = graph.get_cluster_nodes(cluster_b);
+    auto iter_b = view_b.begin();
+
+    REQUIRE(bool(iter_b));
+    REQUIRE(*iter_b == node_d);
+    ++iter_b;
+    REQUIRE(bool(iter_b == view_b.end()));
+    REQUIRE_FALSE(iter_b.has_value());
   }
 }
