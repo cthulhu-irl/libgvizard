@@ -78,10 +78,13 @@ TEST_CASE("[graph::Graph::undirected]")
 
   SECTION("check created clusters against clusters_view")
   {
+    int i = 0;
     for (const auto cluster_id : graph.clusters_view()) {
       bool is_a_or_b = cluster_id == cluster_a || cluster_id == cluster_b;
       REQUIRE(is_a_or_b);
+      ++i;
     }
+    REQUIRE(i == 2);
   }
 
   SECTION("check created nodes against nodes_view")
@@ -129,26 +132,49 @@ TEST_CASE("[graph::Graph::undirected]")
 
   SECTION("check get_cluster_nodes")
   {
-    // cluster_a
+    int i = 0;
+    for (auto node_id : graph.get_cluster_nodes(cluster_a)) {
+      REQUIRE(node_id == node_c);
+      ++i;
+    }
+    REQUIRE(i == 1);
 
-    auto view_a = graph.get_cluster_nodes(cluster_a);
-    auto iter_a = view_a.begin();
+    i = 0;
+    for (auto node_id : graph.get_cluster_nodes(cluster_b)) {
+      REQUIRE(node_id == node_d);
+      ++i;
+    }
+    REQUIRE(i == 1);
 
-    REQUIRE(bool(iter_a));
-    REQUIRE(*iter_a == node_c);
-    ++iter_a;
-    REQUIRE(bool(iter_a == view_a.end()));
-    REQUIRE_FALSE(iter_a.has_value());
-
-    // cluster_b
-
-    auto view_b = graph.get_cluster_nodes(cluster_b);
-    auto iter_b = view_b.begin();
-
-    REQUIRE(bool(iter_b));
-    REQUIRE(*iter_b == node_d);
-    ++iter_b;
-    REQUIRE(bool(iter_b == view_b.end()));
-    REQUIRE_FALSE(iter_b.has_value());
   }
+
+  SECTION("check get_edges_of")
+  {
+    int i = 0;
+    for (auto edge_id : graph.get_edges_of(node_a)) {
+      bool is_ab_or_ad = edge_id == edge_a_b || edge_id == edge_a_d;
+      REQUIRE(is_ab_or_ad);
+      ++i;
+    }
+    REQUIRE(i == 2);
+  }
+
+  // TODO implement these?
+  // add_to_cluster
+  // get_edge_id
+  // get_degree
+  //
+  // detach_clustered_node
+  //
+  // remove_node
+  // remove_edge
+  // remove_cluster
+  //
+  // nodes_view
+  // edges_view
+  // clusters_view
+  //
+  // node_count
+  // edge_count
+  // cluster_count
 }
