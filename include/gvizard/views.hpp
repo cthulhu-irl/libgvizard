@@ -33,7 +33,7 @@ class CallbackViewIterator {
     , is_sentinel_(init.has_value())
   {}
 
-  constexpr auto has_value() noexcept -> bool
+  constexpr auto has_value() const noexcept -> bool
   {
     return current_.has_value();
   }
@@ -41,7 +41,7 @@ class CallbackViewIterator {
   constexpr auto next() -> CallbackViewIterator
   {
     if (current_.has_value())
-      current_ = advance_(std::move(current_).value());
+      current_ = advance_(std::move(current_.value()));
     else
       is_sentinel_ = true;
 
@@ -53,7 +53,7 @@ class CallbackViewIterator {
     if (current_.has_value())
       return CallbackViewIterator{
         advance_,
-        advance_(std::move(current_).value()),
+        advance_(std::move(current_.value())),
       };
 
     return *this;
@@ -122,7 +122,7 @@ class CallbackView {
     return CallbackViewIterator<T, F>{ std::move(advance), std::move(init) };
   }
 
-  auto end() -> CallbackViewIterator<T, F>
+  auto end() const -> CallbackViewIterator<T, F>
   {
     return CallbackViewIterator<T, F>{ advance };
   }
