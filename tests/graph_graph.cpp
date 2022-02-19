@@ -167,10 +167,26 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE(graph.get_degree(node_d) == 2);
   }
 
+  SECTION("check get_edge_id")
+  {
+    REQUIRE(graph.get_edge_id(node_a, node_b) == edge_a_b);
+    REQUIRE(graph.get_edge_id(node_c, node_d) == edge_c_d);
+    REQUIRE(graph.get_edge_id(node_a, node_d) == edge_a_d);
+
+    if constexpr (graph.is_undirected_graph()) { // check in reverse order.
+      REQUIRE(graph.get_edge_id(node_b, node_a) == edge_a_b);
+      REQUIRE(graph.get_edge_id(node_d, node_c) == edge_c_d);
+      REQUIRE(graph.get_edge_id(node_d, node_a) == edge_a_d);
+    }
+
+    REQUIRE_FALSE(graph.get_edge_id(node_a, node_c).has_value());
+    REQUIRE_FALSE(graph.get_edge_id(node_d, node_b).has_value());
+    REQUIRE_FALSE(graph.get_edge_id(node_c, node_a).has_value());
+    REQUIRE_FALSE(graph.get_edge_id(node_b, node_d).has_value());
+  }
+
   // TODO implement these?
   // add_to_cluster
-  // get_edge_id
-  // get_degree
   //
   // detach_clustered_node
   //
