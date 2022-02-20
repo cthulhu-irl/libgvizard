@@ -185,10 +185,22 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE_FALSE(graph.get_edge_id(node_b, node_d).has_value());
   }
 
+  // add_to_cluster as preparation for modifier methods.
+  auto node_other = graph.create_node();
+  auto cluster_other = graph.create_cluster();
+  REQUIRE(graph.add_to_cluster(cluster_other, node_other));
+  REQUIRE(graph.get_node_cluster(node_other) == cluster_other);
+
+  SECTION("check detach_clustered_node")
+  {
+    REQUIRE(graph.detach_clustered_node(node_other));
+
+    // must return false for unattached nodes.
+    REQUIRE_FALSE(graph.detach_clustered_node(node_a));
+    REQUIRE_FALSE(graph.detach_clustered_node(node_other));
+  }
+
   // TODO implement these?
-  // add_to_cluster
-  //
-  // detach_clustered_node
   //
   // remove_node
   // remove_edge
