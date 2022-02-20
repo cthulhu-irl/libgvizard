@@ -388,6 +388,21 @@ class Graph {
       | ranges::views::transform([](const auto& pair) { return pair.first; });
   }
 
+  /** returns an optional ClusterId that given node is in.
+   *
+   * @param node_id target node's id.
+   * @returns a optional containing ClusterId if node_id is valid and is in a cluster,
+   *          otherwise a std::nullopt.
+   */
+  auto get_node_cluster(NodeId node_id) const -> std::optional<ClusterId>
+  {
+    auto node_iter = entities_map_.find(node_id);
+    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+      return std::nullopt;
+
+    return node_iter->second.as_node().cluster_id;
+  }
+
   /** retrieves given two nodes' edge.
    * direction is determined by order of given arguments.
    *
@@ -510,7 +525,10 @@ class Graph {
     if (node_iter == entities_map_.end() || !node_iter->second.is_node())
       return false;
 
-    node_iter->second.as_node().cluster_id = std::nullopt;
+    if (!node_iter->second.as_node().cluster_id.has_value())
+      return false;
+
+    node_iter->second.as_node().cluster_id.reset();
 
     return true;
   }
