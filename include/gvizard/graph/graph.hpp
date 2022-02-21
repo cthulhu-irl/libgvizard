@@ -67,6 +67,11 @@ class Graph {
 
     NodeId node_a_id;
     NodeId node_b_id;
+
+    constexpr bool is_node_a_or_b(NodeId node_id) const noexcept
+    {
+      return node_id == node_a_id || node_id == node_b_id;
+    }
   };
 
   struct ClusterItem final {};
@@ -246,6 +251,8 @@ class Graph {
 
     entities_map_[cluster_id] = ClusterItem{};
 
+    ++clusters_count_;
+
     return cluster_id;
   }
 
@@ -287,6 +294,8 @@ class Graph {
     matrix_.add_rowcol(1, std::nullopt);
     entities_map_[node_id] = NodeItem{idx};
 
+    ++nodes_count_;
+
     return node_id;
   }
 
@@ -307,6 +316,8 @@ class Graph {
 
     matrix_.add_rowcol(1, std::nullopt);
     entities_map_[node_id] = NodeItem{idx, cluster_id};
+
+    ++nodes_count_;
 
     return node_id;
   }
@@ -367,6 +378,8 @@ class Graph {
     };
 
     opt_edge = edge_id;
+
+    ++edges_count_;
 
     return edge_id;
   }
@@ -501,9 +514,25 @@ class Graph {
 
     matrix_.pop_rowcol(node_item.idx);
 
-    for (auto& [entity_id, item] : entities_map_) {
+    for (auto iter = entities_map_.begin(); iter != entities_map_.end(); ) {
+      auto& [entity_id, item] = *iter;
+
       if (item.is_node() && item.as_node().idx > node_item.idx)
         --item.as_node().idx;
+
+      if (item.is_edge() && item.as_edge().is_node_a_or_b(node_id)) {
+        iter = entities_map_.erase(iter);
+
+        auto edge_item = item.as_edge();
+        auto& opt_edge_id = matrix_.at(edge_item.n, edge_item.m);
+
+        opt_edge_id.reset();
+        --edges_count_;
+
+        continue;
+      }
+
+      ++iter;
     }
 
     registry_.destroy(node_id);
@@ -550,7 +579,7 @@ class Graph {
 
     auto edge_item = entities_map_[*opt_edge_id];
 
-    matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
+    matrix_.at(edge_item.n, edge_item.m).reset();
 
     registry_.destroy(*opt_edge_id);
     entities_map_.erase(*opt_edge_id);
@@ -573,7 +602,7 @@ class Graph {
 
     const auto edge_item = edge_iter->second.as_edge();
 
-    matrix_.at(edge_item.n, edge_item.m) = std::nullopt;
+    matrix_.at(edge_item.n, edge_item.m).reset();
 
     registry_.destroy(edge_id);
     entities_map_.erase(edge_iter);
