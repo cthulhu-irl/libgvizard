@@ -14,6 +14,11 @@ struct RecordFieldId final {
 
   name_type name{};
   port_type port{};
+
+  constexpr RecordFieldId(name_type arg_name = {}, port_type arg_port = {})
+    : name(std::move(arg_name))
+    , port(std::move(arg_port))
+  {}
 };
 
 template <typename FieldIdT = RecordFieldId<std::string, std::string>,
@@ -25,16 +30,6 @@ struct RecordShape final {
   using field_type = std::variant<fieldid_type, fieldid_list_type>;
 
   Vec<field_type, VecArgs...> fields{};
-
-  template <typename ...Args>
-  RecordShape(const field_type& first, Args&& ...args)
-    : fields{first, std::forward<Args>(args)...}
-  {}
-
-  template <typename ...Args>
-  RecordShape(field_type&& first, Args&& ...args)
-    : fields{std::move(first), std::forward<Args>(args)...}
-  {}
 };
 
 }  // namespace gviz::attrtypes

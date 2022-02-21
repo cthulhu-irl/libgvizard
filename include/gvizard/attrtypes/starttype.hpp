@@ -14,7 +14,12 @@ enum class StartTypeStyle : uint8_t {
 
 struct StartType final {
   StartTypeStyle style = StartTypeStyle::none;
-  std::size_t seed = 0;
+  std::size_t    seed  = 0;
+
+  constexpr StartType(StartTypeStyle style = StartTypeStyle::none, std::size_t seed = 0)
+    : style(style)
+    , seed(seed)
+  {}
 
   constexpr bool operator==(StartType other) const
   {

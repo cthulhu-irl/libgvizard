@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <optional>
+#include <utility>
 
 namespace gviz::attrtypes {
 
@@ -24,8 +25,15 @@ template <typename StrT = std::string>
 struct PortPos final {
   using str_type = StrT;
 
-  std::optional<str_type> port = std::nullopt;
-  CompassPoint compass = CompassPoint::_default;
+  std::optional<str_type> port    = std::nullopt;
+  CompassPoint            compass = CompassPoint::_default;
+
+  constexpr PortPos(CompassPoint arg_compass) noexcept : compass(arg_compass) {}
+  constexpr explicit PortPos(std::optional<str_type> arg_port = std::nullopt,
+                             CompassPoint            arg_compass = CompassPoint::_default)
+    : port(std::move(arg_port))
+    , compass(compass)
+  {}
 
   constexpr bool operator==(const PortPos& other) const
   {
