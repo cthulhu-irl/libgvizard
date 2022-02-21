@@ -200,13 +200,52 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE_FALSE(graph.detach_clustered_node(node_other));
   }
 
-  // TODO implement these?
-  //
-  // remove_node
-  // remove_edge
-  // remove_cluster
-  //
-  // node_count
-  // edge_count
-  // cluster_count
+  REQUIRE(graph.add_to_cluster(cluster_other, node_other));
+  auto node_other_other = graph.create_node_in(cluster_other).value();
+
+  SECTION("check remove_cluster")
+  {
+    REQUIRE(graph.remove_cluster(cluster_other));
+
+    REQUIRE_FALSE(graph.get_node_cluster(node_other));
+    REQUIRE_FALSE(graph.get_node_cluster(node_other_other));
+  }
+
+  SECTION("check remove_edge")
+  {
+    auto edge_count = graph.edge_count();
+
+    REQUIRE(graph.remove_edge(edge_a_d));
+    REQUIRE(graph.get_edge_id(node_a, node_b));
+    REQUIRE_FALSE(graph.get_edge_id(node_a, node_d));
+
+    REQUIRE(graph.edge_count() == (edge_count - 1)); // edge_a_d
+  }
+
+  SECTION("check remove_node")
+  {
+    auto node_count = graph.node_count();
+    auto edge_count = graph.edge_count();
+
+    REQUIRE(graph.remove_node(node_c));
+
+    REQUIRE(graph.node_count() == (node_count - 1));
+    REQUIRE(graph.edge_count() == (edge_count - 1)); // edge_c_d
+  }
+
+  SECTION("check node_count, edge_count, and cluster_count")
+  {
+    REQUIRE(graph.remove_edge(edge_a_b));
+    REQUIRE(graph.remove_node(node_c));
+    REQUIRE(graph.remove_cluster(cluster_other));
+
+    // node_a, node_b, node_d, node_other, node_other_other
+    REQUIRE(graph.node_count() == 5);
+
+    // edge_a_d
+    REQUIRE(graph.edge_count() == 1);
+
+    // cluster_a, cluster_b
+    REQUIRE(graph.cluster_count() == 2);
+  }
 }
