@@ -36,6 +36,12 @@ struct ArrowModifier {
   ArrowSide side = ArrowSide::none;
   ArrowOpen open = ArrowOpen::none;
 
+  constexpr ArrowModifier(ArrowSide arg_side = ArrowSide::none,
+                          ArrowOpen arg_open = ArrowOpen::none)
+    : side(arg_side)
+    , open(arg_open)
+  {}
+
   constexpr bool operator==(const ArrowModifier& other) const noexcept
   {
     return side == other.side && open == other.open;
@@ -48,8 +54,14 @@ struct ArrowModifier {
 };
 
 struct ArrowShape final {
-  ArrowPrimaryShape shape = ArrowPrimaryShape::none;
-  ArrowModifier modifier = {};
+  ArrowPrimaryShape shape    = ArrowPrimaryShape::none;
+  ArrowModifier     modifier = {};
+
+  constexpr ArrowShape(ArrowPrimaryShape arg_shape = ArrowPrimaryShape::none,
+                       ArrowModifier     arg_modifier = {})
+    : shape(arg_shape)
+    , modifier(arg_modifier)
+  {}
 
   constexpr bool operator==(const ArrowShape& other) const noexcept
   {
