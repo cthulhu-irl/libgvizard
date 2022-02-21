@@ -126,6 +126,14 @@ struct ArrowType {
   alignas(4) ArrowShape shape3{};
   alignas(4) ArrowShape shape4{};
 
+  constexpr ArrowType(ArrowShape s1 = {}, ArrowShape s2 = {},
+                      ArrowShape s3 = {}, ArrowShape s4 = {})
+    : shape1(s1)
+    , shape2(s2)
+    , shape3(s3)
+    , shape4(s4)
+  {}
+
   constexpr bool operator==(const ArrowType& other) const noexcept
   {
     return shape1 == other.shape1
