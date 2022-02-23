@@ -73,42 +73,6 @@ struct EscOccurences final {
     return graph + node + edge + label + head + tail;
   }
 
-  constexpr EscOccurences& set_graph_occourances_count(std::size_t count)
-  {
-    graph = count;
-    return *this;
-  }
-
-  constexpr EscOccurences& set_node_occourances_count(std::size_t count)
-  {
-    node = count;
-    return *this;
-  }
-
-  constexpr EscOccurences& set_edge_occourances_count(std::size_t count)
-  {
-    edge = count;
-    return *this;
-  }
-
-  constexpr EscOccurences& set_label_occourances_count(std::size_t count)
-  {
-    label = count;
-    return *this;
-  }
-
-  constexpr EscOccurences& set_head_occourances_count(std::size_t count)
-  {
-    head = count;
-    return *this;
-  }
-
-  constexpr EscOccurences& set_tail_occourances_count(std::size_t count)
-  {
-    tail = count;
-    return *this;
-  }
-
   constexpr bool operator==(const EscOccurences& other) const
   {
     return graph == other.graph && node  == other.node
@@ -128,8 +92,6 @@ template <typename StringT = std::string>
 class EscString final {
   using iterator = typename StringT::iterator;
   using const_iterator = typename StringT::const_iterator;
-
-  constexpr static auto backslash_char_sv = std::string_view("\\", 1);
  
   StringT       format_{};
   EscOccurences occurences_{};
@@ -137,21 +99,42 @@ class EscString final {
  public:
   constexpr EscString() : format_{}, occurences_{} {}
 
-  constexpr EscString(StringT format) : format_(std::move(format))
+  template <typename U,
+            std::enable_if_t<!std::is_same_v<U, EscString>
+                             && std::is_constructible_v<StringT, U>, bool> = true>
+  constexpr EscString(U&& format)
+    noexcept(std::is_nothrow_constructible_v<StringT, decltype(std::forward<U>(format))>)
+    : format_(std::forward<U>(format))
   {
-    occurences_
-      = count_occurences(std::cbegin(format_), std::cend(format_));
+    occurences_ = count_occurences(format_);
   }
 
   template <typename U>
   constexpr EscString(const EscString<U>& other)
+    noexcept(std::is_nothrow_constructible_v<StringT, const U&>)
     : format_(other.get_format_ref())
     , occurences_(other.get_occurences())
   {}
 
+  template <typename U, std::enable_if_t<!std::is_same_v<U, EscString>, bool> = true>
+  constexpr EscString& operator=(U format)
+    noexcept(std::is_nothrow_constructible_v<StringT, decltype(std::forward<U>(format))>)
+  {
+    format_ = std::forward<U>(format);
+    occurences_ = count_occurences(format_);
+    return *this;
+  }
 
-  constexpr StringT        get_format()     const { return format_; }
-  constexpr const StringT& get_format_ref() const { return format_; }
+  constexpr StringT        get_format()     const noexcept { return format_; }
+  constexpr const StringT& get_format_ref() const noexcept { return format_; }
+
+  template <typename U>
+  constexpr void set_format(U&& format)
+    noexcept(std::is_nothrow_assignable_v<StringT, decltype(std::forward<U>(format))>)
+  {
+    format_ = std::forward<U>(format);
+    occurences_ = count_occurences(format_);
+  }
 
   constexpr EscOccurences get_occurences() const noexcept
   {
@@ -204,9 +187,9 @@ class EscString final {
         case 'L':  output += nameset.label;     break;
         case 'H':  output += nameset.head;      break;
         case 'T':  output += nameset.tail;      break;
-        case '\\': output += backslash_char_sv; break;
+        case '\\': output += '\\';              break;
         default:
-          output += backslash_char_sv;
+          output += '\\';
           output += *str;
       }
     }
@@ -215,24 +198,26 @@ class EscString final {
   }
 
  private:
-  constexpr static EscOccurences
-  count_occurences(const_iterator str, const_iterator end) noexcept
+  constexpr static EscOccurences count_occurences(const StringT& format) noexcept
   {
     EscOccurences ret{};
 
-    for (; str != end; ++str)
+    char last = '\0';
+    for (const char cur : format)
     {
-      if (*str != '\\') continue;
-
-      switch (*++str)
-      {
-        case 'G': ++ret.graph; break;
-        case 'N': ++ret.node;  break;
-        case 'E': ++ret.edge;  break;
-        case 'L': ++ret.label; break;
-        case 'H': ++ret.head;  break;
-        case 'T': ++ret.tail;  break;
+      if (last == '\\') {
+        switch (cur)
+        {
+          case 'G': ++ret.graph; break;
+          case 'N': ++ret.node;  break;
+          case 'E': ++ret.edge;  break;
+          case 'L': ++ret.label; break;
+          case 'H': ++ret.head;  break;
+          case 'T': ++ret.tail;  break;
+        }
       }
+
+      last = cur;
     }
 
     return ret;
@@ -241,7 +226,7 @@ class EscString final {
 
 }  // namespace gviz::attrtypes
 
-constexpr auto operator "" _escstr(const char *str, std::size_t size)
+constexpr auto operator "" _escsv(const char *str, std::size_t size)
 {
   return gviz::attrtypes::EscString<std::string_view>(
       std::string_view(str, size)
