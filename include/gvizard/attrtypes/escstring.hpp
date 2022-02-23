@@ -3,16 +3,125 @@
 
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 
 namespace gviz::attrtypes {
 
 struct EscNameSetRef final {
-  const std::string_view graph="";
-  const std::string_view node="";
-  const std::string_view edge="";
-  const std::string_view label="";
-  const std::string_view head="";
-  const std::string_view tail="";
+  std::string_view graph{};
+  std::string_view node{};
+  std::string_view edge{};
+  std::string_view label{};
+  std::string_view head{};
+  std::string_view tail{};
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_graph_str(const StrT& str)
+  {
+    graph = str;
+    return *this;
+  }
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_node_str(const StrT& str)
+  {
+    node = str;
+    return *this;
+  }
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_edge_str(const StrT& str)
+  {
+    edge = str;
+    return *this;
+  }
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_label_str(const StrT& str)
+  {
+    label = str;
+    return *this;
+  }
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_head_str(const StrT& str)
+  {
+    head = str;
+    return *this;
+  }
+
+  template <typename StrT>
+  constexpr EscNameSetRef& set_tail_str(const StrT& str)
+  {
+    tail = str;
+    return *this;
+  }
+};
+
+struct EscOccurences final {
+  std::size_t graph = 0;
+  std::size_t node  = 0;
+  std::size_t edge  = 0;
+  std::size_t label = 0;
+  std::size_t head  = 0;
+  std::size_t tail  = 0;
+
+  /* requires too much memory to overflow */
+  constexpr std::size_t sum() const noexcept
+  {
+    return graph + node + edge + label + head + tail;
+  }
+
+  constexpr EscOccurences& set_graph_occourances_count(std::size_t count)
+  {
+    graph = count;
+    return *this;
+  }
+
+  constexpr EscOccurences& set_node_occourances_count(std::size_t count)
+  {
+    node = count;
+    return *this;
+  }
+
+  constexpr EscOccurences& set_edge_occourances_count(std::size_t count)
+  {
+    edge = count;
+    return *this;
+  }
+
+  constexpr EscOccurences& set_label_occourances_count(std::size_t count)
+  {
+    label = count;
+    return *this;
+  }
+
+  constexpr EscOccurences& set_head_occourances_count(std::size_t count)
+  {
+    head = count;
+    return *this;
+  }
+
+  constexpr EscOccurences& set_tail_occourances_count(std::size_t count)
+  {
+    tail = count;
+    return *this;
+  }
+
+  constexpr bool operator==(const EscOccurences& other) const
+  {
+    return graph == other.graph && node  == other.node
+        && edge  == other.edge  && label == other.label
+        && head  == other.head  && tail  == other.tail;
+  }
+
+  constexpr bool operator!=(const EscOccurences& other) const
+  {
+    return graph != other.graph || node  != other.node
+        || edge  != other.edge  || label != other.label
+        || head  != other.head  || tail  != other.tail;
+  }
 };
 
 template <typename StringT = std::string>
@@ -21,147 +130,61 @@ class EscString final {
   using const_iterator = typename StringT::const_iterator;
 
   constexpr static auto backslash_char_sv = std::string_view("\\", 1);
-
-  template <typename StrT = std::string>
-  constexpr static std::decay_t<StrT(std::size_t)> default_outstring_init =
-    +[](std::size_t size) -> StrT
-    {
-      auto ret = StrT{};
-      ret.reserve(size);
-      return ret;
-    };
-
-  template <typename StrT = std::string>
-  constexpr static std::decay_t<void(StrT&, const std::string_view&)>
-  default_outstring_append =
-    +[](StrT& lhs, const std::string_view& rhs)
-    {
-      lhs += rhs;
-    };
-
-  struct Occurences final {
-    std::size_t graph = 0;
-    std::size_t node = 0;
-    std::size_t edge = 0;
-    std::size_t label = 0;
-    std::size_t head = 0;
-    std::size_t tail = 0;
-
-    /* requires too much memory to overflow */
-    constexpr std::size_t sum() const noexcept
-    {
-      return graph + node + edge + label + head + tail;
-    }
-
-    constexpr bool operator==(const Occurences& other) const
-    {
-      return graph == other.graph && node  == other.node
-          && edge  == other.edge  && label == other.label
-          && head  == other.head  && tail  == other.tail;
-    }
-
-    constexpr bool operator!=(const Occurences& other) const
-    {
-      return graph != other.graph || node  != other.node
-          || edge  != other.edge  || label != other.label
-          || head  != other.head  || tail  != other.tail;
-    }
-  };
  
-  Occurences occurences{};
-  StringT format_{};
+  StringT       format_{};
+  EscOccurences occurences_{};
 
  public:
-  constexpr EscString(const char *format, std::size_t size)
-    : format_(format, size)
-  {
-    occurences =
-      count_occurences(std::cbegin(format_), std::cend(format_));
-  }
+  constexpr EscString() : format_{}, occurences_{} {}
 
   constexpr EscString(StringT format) : format_(std::move(format))
   {
-    occurences
+    occurences_
       = count_occurences(std::cbegin(format_), std::cend(format_));
   }
+
+  template <typename U>
+  constexpr EscString(const EscString<U>& other)
+    : format_(other.get_format_ref())
+    , occurences_(other.get_occurences())
+  {}
+
 
   constexpr StringT        get_format()     const { return format_; }
   constexpr const StringT& get_format_ref() const { return format_; }
 
-  constexpr Occurences get_occurences() const noexcept { return occurences; }
+  constexpr EscOccurences get_occurences() const noexcept
+  {
+    return occurences_;
+  }
 
   constexpr bool operator==(const EscString& other) const
   {
-    return occurences == other.occurences && format_ == other.format_;
+    return occurences_ == other.occurences && format_ == other.format_;
   }
 
   constexpr bool operator!=(const EscString& other) const
   {
-    return occurences != other.occurences || format_ != other.format_;
+    return occurences_ != other.occurences || format_ != other.format_;
   }
 
   constexpr std::size_t apply_size(const EscNameSetRef& nameset) const
   {
-    return format_.size() - occurences.sum() * 2
-           + nameset.graph.size() * occurences.graph
-           + nameset.node.size()  * occurences.node
-           + nameset.edge.size()  * occurences.edge
-           + nameset.label.size() * occurences.label
-           + nameset.head.size()  * occurences.head
-           + nameset.tail.size()  * occurences.tail;
+    return format_.size() - 2 * occurences_.sum()
+           + nameset.graph.size() * occurences_.graph
+           + nameset.node.size()  * occurences_.node
+           + nameset.edge.size()  * occurences_.edge
+           + nameset.label.size() * occurences_.label
+           + nameset.head.size()  * occurences_.head
+           + nameset.tail.size()  * occurences_.tail;
   }
 
-  template <typename Iterator>
-  constexpr std::size_t apply(
-      Iterator dstbegin, Iterator dstend,
-      const EscNameSetRef& nameset = {}) const
-  {
-    std::size_t idx = 0;
-    auto iterator_appender =
-      [&dstbegin, &dstend, &idx](const std::string_view& rhs) mutable
-      {
-        auto src = std::begin(rhs);
-        auto dst = dstbegin + idx;
-        auto end = dstend - 1; // NUL-termination
-        for (; src != std::cend(rhs) && dst != end; ++src, ++dst, ++idx)
-          *dst = *src;
-      };
-
-    apply<char>(
-      nameset,
-      [](std::size_t) -> char { return 0; }, // dummy/unused...
-      [&iterator_appender](auto, auto str)
-        mutable { iterator_appender(str); }
-    );
-
-    return idx;
-  }
-
-  template <typename OutStringT = std::string,
-            typename Fappend = decltype(default_outstring_append<OutStringT>)>
-  constexpr OutStringT apply_into(
-      OutStringT output,
-      const EscNameSetRef& nameset = {},
-      Fappend append = default_outstring_append<OutStringT>) const
-  {
-    return apply<OutStringT>(
-        nameset,
-        [&]() -> OutStringT { return output; },
-        append
-    );
-  }
-
-  template <typename OutStringT = std::string,
-            typename Finit = decltype(default_outstring_init<OutStringT>),
-            typename Fappend = decltype(default_outstring_append<OutStringT>)>
-  constexpr OutStringT apply(
-      const EscNameSetRef& nameset = {},
-      Finit init = default_outstring_init<OutStringT>,
-      Fappend append = default_outstring_append<OutStringT>) const
+  std::string apply(const EscNameSetRef& nameset = {}) const
   {
     const auto outsize = apply_size(nameset);
 
-    auto output = init(outsize);
+    std::string output{};
+    output.reserve(outsize);
 
     auto str = std::cbegin(format_);
     auto end = std::cend(format_);
@@ -169,22 +192,22 @@ class EscString final {
     for (; str != end; ++str)
     {
       if (*str != '\\') {
-        append(output, std::string_view(str, 1));
+        output += *str;
         continue;
       }
 
       switch (*++str)
       {
-        case 'G':  append(output, nameset.graph);     break;
-        case 'N':  append(output, nameset.node);      break;
-        case 'E':  append(output, nameset.edge);      break;
-        case 'L':  append(output, nameset.label);     break;
-        case 'H':  append(output, nameset.head);      break;
-        case 'T':  append(output, nameset.tail);      break;
-        case '\\': append(output, backslash_char_sv); break;
+        case 'G':  output += nameset.graph;     break;
+        case 'N':  output += nameset.node;      break;
+        case 'E':  output += nameset.edge;      break;
+        case 'L':  output += nameset.label;     break;
+        case 'H':  output += nameset.head;      break;
+        case 'T':  output += nameset.tail;      break;
+        case '\\': output += backslash_char_sv; break;
         default:
-          append(output, backslash_char_sv);
-          append(output, std::string_view(str, 1));
+          output += backslash_char_sv;
+          output += *str;
       }
     }
 
@@ -192,10 +215,10 @@ class EscString final {
   }
 
  private:
-  constexpr static Occurences
+  constexpr static EscOccurences
   count_occurences(const_iterator str, const_iterator end) noexcept
   {
-    Occurences ret;
+    EscOccurences ret{};
 
     for (; str != end; ++str)
     {
@@ -220,7 +243,9 @@ class EscString final {
 
 constexpr auto operator "" _escstr(const char *str, std::size_t size)
 {
-  return gviz::attrtypes::EscString<std::string_view>(str, size);
+  return gviz::attrtypes::EscString<std::string_view>(
+      std::string_view(str, size)
+  );
 }
 
 #endif  // GVIZARD_ATTRTYPES_ESCSTRING_HPP_

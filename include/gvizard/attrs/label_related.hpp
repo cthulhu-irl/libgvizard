@@ -23,7 +23,7 @@ struct Label final
   explicit Label(const value_type& value) : AttributeBase(value) {}
   explicit Label(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() noexcept { return value_type({}); }
+  static value_type get_default_value() noexcept { return value_type(); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -312,7 +312,7 @@ struct LabelTarget final
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() noexcept { return value_type({}); }
+  static value_type get_default_value() noexcept { return value_type(); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -336,7 +336,7 @@ struct LabelTooltip final
     : AttributeBase(std::move(value))
   {}
 
-  static value_type get_default_value() noexcept { return value_type({}); }
+  static value_type get_default_value() noexcept { return value_type(); }
 
   static bool is_default(const value_type& value) noexcept
   {
@@ -358,7 +358,7 @@ struct LabelURL final
   explicit LabelURL(const value_type& value) : AttributeBase(value) {}
   explicit LabelURL(value_type&& value) : AttributeBase(std::move(value)) {}
 
-  static value_type get_default_value() noexcept { return value_type({}); }
+  static value_type get_default_value() noexcept { return value_type(); }
 
   static bool is_default(const value_type& value) noexcept
   {
