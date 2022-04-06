@@ -169,29 +169,26 @@ class EscString final {
     std::string output{};
     output.reserve(outsize);
 
-    auto str = std::cbegin(format_);
-    auto end = std::cend(format_);
-
-    for (; str != end; ++str)
+    char last = '\0';
+    for (const char cur : format_)
     {
-      if (*str != '\\') {
-        output += *str;
-        continue;
+      if (last == '\\') {
+        switch (cur)
+        {
+          case 'G':  output += nameset.graph;     break;
+          case 'N':  output += nameset.node;      break;
+          case 'E':  output += nameset.edge;      break;
+          case 'L':  output += nameset.label;     break;
+          case 'H':  output += nameset.head;      break;
+          case 'T':  output += nameset.tail;      break;
+          case '\\': output += '\\';              break;
+          default:
+            output += '\\';
+            output += cur;
+        }
       }
 
-      switch (*++str)
-      {
-        case 'G':  output += nameset.graph;     break;
-        case 'N':  output += nameset.node;      break;
-        case 'E':  output += nameset.edge;      break;
-        case 'L':  output += nameset.label;     break;
-        case 'H':  output += nameset.head;      break;
-        case 'T':  output += nameset.tail;      break;
-        case '\\': output += '\\';              break;
-        default:
-          output += '\\';
-          output += *str;
-      }
+      last = cur;
     }
 
     return output;
