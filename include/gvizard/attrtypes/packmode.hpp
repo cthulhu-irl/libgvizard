@@ -23,9 +23,14 @@ enum class PackModeArrayFlag : uint8_t {
 };
 
 struct PackMode final {
-  PackModeEnum mode = PackModeEnum::node;
-  PackModeArrayFlag flag = PackModeArrayFlag::none;
-  std::size_t number = 0;
+  PackModeEnum      mode   = PackModeEnum::node;
+  PackModeArrayFlag flag   = PackModeArrayFlag::none;
+  std::size_t       number = 0;
+
+  constexpr PackMode() noexcept {}
+  constexpr PackMode(PackModeEnum arg_mode) noexcept : mode(arg_mode) {}
+  constexpr PackMode(PackModeEnum arg_mode, PackModeArrayFlag arg_flag, std::size_t arg_num)
+    noexcept : mode(arg_mode), flag(arg_flag), number(arg_num) {}
 
   constexpr PackMode& normalize() noexcept
   {
