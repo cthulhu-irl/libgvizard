@@ -8,7 +8,7 @@
 #include <optional>
 #include <tuple>
 #include <type_traits>
-#include <map>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 
@@ -28,9 +28,8 @@ struct no_view_t {};
 
 enum class EntityTypeEnum { unknown, node, edge, cluster };
 
-enum class GraphDir : int { undirected = 0, directed = 1 };
-enum class EdgeDir  : int { in = 1, out = 2, inout = 3 };
-
+enum class GraphDir : unsigned int { undirected = 0, directed = 1 };
+enum class EdgeDir  : unsigned int { in = 1, out = 2, inout = 3 };
 
 /** an adjancency-matrix implementation of graph using registry for
  * id generation and attribute management, with support of clustering nodes.
@@ -85,7 +84,7 @@ class Graph {
     };
 
    public:
-    Item() : type_(EntityTypeEnum::unknown) {}
+    Item() noexcept : type_(EntityTypeEnum::unknown) {}
 
     constexpr Item(NodeItem node) noexcept
       : type_(EntityTypeEnum::node), node_(std::move(node))
@@ -116,43 +115,51 @@ class Graph {
       return type_ == EntityTypeEnum::cluster;
     }
 
-    constexpr       NodeItem& as_node()       { return node_; }
-    constexpr const NodeItem& as_node() const { return node_; }
+    constexpr       NodeItem& as_node()       noexcept { return node_; }
+    constexpr const NodeItem& as_node() const noexcept { return node_; }
 
-    constexpr       EdgeItem& as_edge()       { return edge_; }
-    constexpr const EdgeItem& as_edge() const { return edge_; }
+    constexpr       EdgeItem& as_edge()       noexcept { return edge_; }
+    constexpr const EdgeItem& as_edge() const noexcept { return edge_; }
 
-    constexpr       ClusterItem& as_cluster()       { return cluster_; }
-    constexpr const ClusterItem& as_cluster() const { return cluster_; }
+    constexpr       ClusterItem& as_cluster()       noexcept { return cluster_; }
+    constexpr const ClusterItem& as_cluster() const noexcept { return cluster_; }
   };
 
  private:
-  constexpr static bool is_undirected = DirV == GraphDir::undirected;
 
   using optional_entity_type = std::optional<entity_type>;
 
   using matrix_type =
     std::conditional_t<
-      is_undirected,
+      DirV == GraphDir::directed,
       detail::DynamicSquareMatrix<optional_entity_type>,
       detail::DynamicHalfSquareMatrix<optional_entity_type>
     >;
-  using map_type = std::map<entity_type, Item>;
+  using map_type = std::unordered_map<entity_type, Item>;
 
   matrix_type   matrix_{};
   map_type      entities_map_{};
   registry_type registry_{};
+
+  std::optional<NodeId> last_created_node_id_ = std::nullopt;
 
   std::size_t nodes_count_    = 0;
   std::size_t edges_count_    = 0;
   std::size_t clusters_count_ = 0;
 
  public:
-  auto&       get_raw_registry()       { return registry_; }
-  const auto& get_raw_registry() const { return registry_; }
+  auto&       get_raw_registry()       noexcept { return registry_; }
+  const auto& get_raw_registry() const noexcept { return registry_; }
 
-  constexpr bool is_directed_graph() const { return !is_undirected; }
-  constexpr bool is_undirected_graph() const { return is_undirected; }
+  constexpr static bool is_directed() noexcept
+  {
+    return DirV == GraphDir::directed;
+  }
+
+  constexpr static bool is_undirected() noexcept
+  {
+    return DirV == GraphDir::undirected;
+  }
 
   // registry attribute accessor/modifier methods
 
@@ -337,7 +344,7 @@ class Graph {
   auto create_edge(NodeId node_a_id, NodeId node_b_id)
     -> std::optional<EdgeId>
   {
-    if constexpr (is_undirected)
+    if constexpr (is_undirected())
       if (node_a_id == node_b_id)
         return std::nullopt;
 
@@ -352,7 +359,7 @@ class Graph {
     auto node_a_idx = node_a_iter->second.as_node().idx;
     auto node_b_idx = node_b_iter->second.as_node().idx;
 
-    if constexpr (is_undirected) {
+    if constexpr (is_undirected()) {
       // this must be ensured to be impossible in elsewhere.
       //if (node_a_idx == node_b_idx)
       //  return std::nullopt;
@@ -428,7 +435,7 @@ class Graph {
   auto get_edge_id(NodeId node_a_id, NodeId node_b_id) const
     -> std::optional<EdgeId>
   {
-    if constexpr (is_undirected)
+    if constexpr (is_undirected())
       if (node_a_id == node_b_id)
         return std::nullopt;
 
@@ -443,7 +450,7 @@ class Graph {
     auto node_a_idx = node_a_iter->second.as_node().idx;
     auto node_b_idx = node_b_iter->second.as_node().idx;
 
-    if constexpr (is_undirected) {
+    if constexpr (is_undirected()) {
       // this must be impossible by design.
       //if (node_a_idx == node_b_idx)
       //  return std::nullopt;
@@ -630,7 +637,7 @@ class Graph {
     std::size_t node_idx = node_iter->second.as_node().idx;
 
     // undirected graph (all dir values are same here)
-    if constexpr (is_undirected) {
+    if constexpr (is_undirected()) {
       std::size_t count = 0;
 
       for (std::size_t i = 0; i < node_idx; ++i)
@@ -681,7 +688,7 @@ class Graph {
       | ranges::views::transform(
           [&matrix=matrix_, node_idx=node_idx, dir=dir](std::size_t idx)
           {
-            if constexpr (is_undirected)
+            if constexpr (is_undirected())
             {
               auto i = node_idx, j = idx;
               if (j == i)
@@ -702,8 +709,12 @@ class Graph {
             }
           }
         )
-      | ranges::views::filter([](auto opt_edge_id) { return opt_edge_id.has_value(); })
-      | ranges::views::transform([](auto opt_edge_id) { return opt_edge_id.value(); });
+      | ranges::views::filter(
+          [](auto opt_edge_id) { return opt_edge_id.has_value(); }
+        )
+      | ranges::views::transform(
+          [](auto opt_edge_id) { return opt_edge_id.value(); }
+        );
   }
 
   /** view of all nodes in graph.
@@ -716,7 +727,9 @@ class Graph {
       | ranges::views::filter(
           [](const auto& kvpair) { return kvpair.second.is_node(); }
         )
-      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
+      | ranges::views::transform(
+          [](const auto& kvpair) { return kvpair.first; }
+        );
   }
 
   /** view of all edges in graph.
@@ -729,7 +742,9 @@ class Graph {
       | ranges::views::filter(
           [](const auto& kvpair) { return kvpair.second.is_edge(); }
         )
-      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
+      | ranges::views::transform(
+          [](const auto& kvpair) { return kvpair.first; }
+        );
   }
 
   /** view of all clusters in graph.
@@ -742,12 +757,29 @@ class Graph {
       | ranges::views::filter(
           [](const auto& kvpair) { return kvpair.second.is_cluster(); }
         )
-      | ranges::views::transform([](const auto& kvpair) { return kvpair.first; });
+      | ranges::views::transform(
+          [](const auto& kvpair) { return kvpair.first; }
+        );
   }
 
   std::size_t node_count()    const noexcept { return nodes_count_;    }
   std::size_t edge_count()    const noexcept { return edges_count_;    }
   std::size_t cluster_count() const noexcept { return clusters_count_; }
+
+  /** traverse as long as given called returns an index and not nullopt.
+   *
+   * @param visitor a callable taking an iterable range of `EdgeId`s
+   *                and returning a `NodeId`.
+   */
+  template <typename F>
+  void traverse(F&& visitor,
+                EdgeDir direction = EdgeDir::inout,
+                std::optional<NodeId> init = std::nullopt) const
+  {
+    if (!init) init = last_created_node_id_;
+
+    while (init) init = visitor(get_edges_of(*init, direction));
+  }
 };
 
 }  // namespace gviz::graph
