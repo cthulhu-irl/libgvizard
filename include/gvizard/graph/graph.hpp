@@ -141,8 +141,6 @@ class Graph {
   map_type      entities_map_{};
   registry_type registry_{};
 
-  std::optional<NodeId> last_created_node_id_ = std::nullopt;
-
   std::size_t nodes_count_    = 0;
   std::size_t edges_count_    = 0;
   std::size_t clusters_count_ = 0;
@@ -776,7 +774,11 @@ class Graph {
                 EdgeDir direction = EdgeDir::inout,
                 std::optional<NodeId> init = std::nullopt) const
   {
-    if (!init) init = last_created_node_id_;
+    if (!init) {
+      auto nodes = nodes_view();
+      if (!nodes.empty())
+        init = nodes.front();
+    }
 
     while (init) init = visitor(get_edges_of(*init, direction));
   }
