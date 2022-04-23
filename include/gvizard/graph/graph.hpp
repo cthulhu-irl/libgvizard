@@ -43,16 +43,18 @@ enum class EdgeDir  : unsigned int { in = 1, out = 2, inout = 3 };
  * NOTE: use proxy methods to get/set/emplace/remove an entity's attribute
  *       instead of get_raw_registry.
  */
-template <typename Registry, GraphDir DirV = GraphDir::undirected>
+template <typename Registry,
+          GraphDir DirV = GraphDir::undirected,
+          template <typename, typename> typename MapT = std::unordered_map>
 class Graph {
  public:
   using entity_type = typename Registry::entity_type;
 
   using registry_type = Registry;
 
-  using NodeId    = entity_type; /// always convertible to entity_type
-  using EdgeId    = entity_type; /// always convertible to entity_type
-  using ClusterId = entity_type; /// always convertible to entity_type
+  using NodeId    = entity_type;
+  using EdgeId    = entity_type;
+  using ClusterId = entity_type;
 
  private:
   struct NodeItem final {
@@ -135,7 +137,7 @@ class Graph {
       detail::DynamicSquareMatrix<optional_entity_type>,
       detail::DynamicHalfSquareMatrix<optional_entity_type>
     >;
-  using map_type = std::unordered_map<entity_type, Item>;
+  using map_type = MapT<entity_type, Item>;
 
   matrix_type   matrix_{};
   map_type      entities_map_{};
