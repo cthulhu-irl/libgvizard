@@ -764,10 +764,17 @@ class Graph {
   std::size_t edge_count()    const noexcept { return edges_count_;    }
   std::size_t cluster_count() const noexcept { return clusters_count_; }
 
-  /** traverse as long as given called returns an index and not nullopt.
+  /** traverse as long as given visitor doesn't return nullopt when called.
    *
-   * @param visitor a callable taking an iterable range of `EdgeId`s
-   *                and returning a `NodeId`.
+   * given current node and its neighbors to visitor, the visitor must return
+   * either next node from given set of neighbors or return nullopt.
+   *
+   * @param visitor   a callable taking a NodeId along
+   *                  an iterable range of `NodeId`s
+   *                  and returning a `NodeId`.
+   * @param direction direction of neighbor edges.
+   * @param init      optional initial node, if not provided (default/nullopt)
+   *                  a random node is selected.
    */
   template <typename F>
   void traverse(F&& visitor,
@@ -780,7 +787,7 @@ class Graph {
         init = nodes.front();
     }
 
-    while (init) init = visitor(get_edges_of(*init, direction));
+    while (init) init = visitor(*init, get_edges_of(*init, direction));
   }
 };
 
