@@ -67,7 +67,7 @@ class Graph {
     NodeId node_a_id;
     NodeId node_b_id;
 
-    constexpr bool is_node_a_or_b(NodeId node_id) const noexcept
+    constexpr bool contains(NodeId node_id) const noexcept
     {
       return node_id == node_a_id || node_id == node_b_id;
     }
@@ -525,7 +525,7 @@ class Graph {
       if (item.is_node() && item.as_node().idx > node_item.idx)
         --item.as_node().idx;
 
-      if (item.is_edge() && item.as_edge().is_node_a_or_b(node_id)) {
+      if (item.is_edge() && item.as_edge().contains(node_id)) {
         iter = entities_map_.erase(iter);
 
         auto edge_item = item.as_edge();
