@@ -59,7 +59,7 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE(edge_a_d == graph.create_edge(node_a, node_d).value());
   }
 
-  if constexpr (graph.is_undirected_graph()) {
+  if constexpr (graph.is_undirected()) {
     SECTION("create_edge returns same id for same pair of nodes in any order")
     {
       REQUIRE(edge_a_b == graph.create_edge(node_b, node_a).value());
@@ -173,7 +173,7 @@ TEST_CASE("[graph::Graph::undirected]")
     REQUIRE(graph.get_edge_id(node_c, node_d) == edge_c_d);
     REQUIRE(graph.get_edge_id(node_a, node_d) == edge_a_d);
 
-    if constexpr (graph.is_undirected_graph()) { // check in reverse order.
+    if constexpr (graph.is_undirected()) { // check in reverse order.
       REQUIRE(graph.get_edge_id(node_b, node_a) == edge_a_b);
       REQUIRE(graph.get_edge_id(node_d, node_c) == edge_c_d);
       REQUIRE(graph.get_edge_id(node_d, node_a) == edge_a_d);
