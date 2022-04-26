@@ -170,11 +170,9 @@ class EscString final {
     output.reserve(outsize);
 
     char last = '\0';
-    for (const char cur : format_)
-    {
+    for (const char cur : format_) {
       if (last == '\\') {
-        switch (cur)
-        {
+        switch (cur) {
           case 'G':  output += nameset.graph;     break;
           case 'N':  output += nameset.node;      break;
           case 'E':  output += nameset.edge;      break;
@@ -187,6 +185,8 @@ class EscString final {
             output += cur;
         }
       }
+      else if (cur != '\\')
+        output += cur;
 
       last = cur;
     }
@@ -200,11 +200,9 @@ class EscString final {
     EscOccurences ret{};
 
     char last = '\0';
-    for (const char cur : format)
-    {
+    for (const char cur : format) {
       if (last == '\\') {
-        switch (cur)
-        {
+        switch (cur) {
           case 'G': ++ret.graph; break;
           case 'N': ++ret.node;  break;
           case 'E': ++ret.edge;  break;
