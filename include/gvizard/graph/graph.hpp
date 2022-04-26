@@ -24,9 +24,7 @@
 
 namespace gviz::graph {
 
-struct no_view_t {};
-
-enum class EntityTypeEnum { unknown, node, edge, cluster };
+enum class EntityTypeEnum : unsigned int { unknown = 0, node, edge, cluster };
 
 enum class GraphDir : unsigned int { undirected = 0, directed = 1 };
 enum class EdgeDir  : unsigned int { in = 1, out = 2, inout = 3 };

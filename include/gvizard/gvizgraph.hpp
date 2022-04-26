@@ -41,8 +41,8 @@ struct GvizGraph {
                 graph.get_raw_registry(), graph.get_raw_registry().create())
   {}
 
-  constexpr bool is_directed()   const { return graph.is_directed_graph();   }
-  constexpr bool is_undirected() const { return graph.is_undirected_graph(); }
+  constexpr bool is_directed()   const { return graph.is_directed();   }
+  constexpr bool is_undirected() const { return graph.is_undirected(); }
 
   // get attribute helper methods
 
