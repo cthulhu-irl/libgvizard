@@ -75,56 +75,6 @@ class Graph {
 
   struct ClusterItem final {};
 
-  class Item final {
-    EntityTypeEnum type_;
-    union {
-      NodeItem    node_;
-      EdgeItem    edge_;
-      ClusterItem cluster_;
-    };
-
-   public:
-    Item() noexcept : type_(EntityTypeEnum::unknown) {}
-
-    constexpr Item(NodeItem node) noexcept
-      : type_(EntityTypeEnum::node), node_(std::move(node))
-    {}
-
-    constexpr Item(EdgeItem edge) noexcept
-      : type_(EntityTypeEnum::edge), edge_(std::move(edge))
-    {}
-
-    constexpr Item(ClusterItem cluster) noexcept
-      : type_(EntityTypeEnum::cluster), cluster_(std::move(cluster))
-    {}
-
-    constexpr EntityTypeEnum type() const noexcept { return type_; }
-
-    constexpr bool is_node() const noexcept
-    {
-      return type_ == EntityTypeEnum::node;
-    }
-
-    constexpr bool is_edge() const noexcept
-    {
-      return type_ == EntityTypeEnum::edge;
-    }
-
-    constexpr bool is_cluster() const noexcept
-    {
-      return type_ == EntityTypeEnum::cluster;
-    }
-
-    constexpr       NodeItem& as_node()       noexcept { return node_; }
-    constexpr const NodeItem& as_node() const noexcept { return node_; }
-
-    constexpr       EdgeItem& as_edge()       noexcept { return edge_; }
-    constexpr const EdgeItem& as_edge() const noexcept { return edge_; }
-
-    constexpr       ClusterItem& as_cluster()       noexcept { return cluster_; }
-    constexpr const ClusterItem& as_cluster() const noexcept { return cluster_; }
-  };
-
  private:
 
   using optional_entity_type = std::optional<entity_type>;
@@ -135,11 +85,12 @@ class Graph {
       detail::DynamicSquareMatrix<optional_entity_type>,
       detail::DynamicHalfSquareMatrix<optional_entity_type>
     >;
-  using map_type = MapT<entity_type, Item>;
 
-  matrix_type   matrix_{};
-  map_type      entities_map_{};
-  registry_type registry_{};
+  matrix_type                    matrix_{};
+  MapT<entity_type, NodeItem>    node_map_{};
+  MapT<entity_type, EdgeItem>    edge_map_{};
+  MapT<entity_type, ClusterItem> cluster_map_{};
+  registry_type                  registry_{};
 
   std::size_t nodes_count_    = 0;
   std::size_t edges_count_    = 0;
@@ -254,7 +205,7 @@ class Graph {
   {
     auto cluster_id = registry_.create();
 
-    entities_map_[cluster_id] = ClusterItem{};
+    cluster_map_[cluster_id] = ClusterItem{};
 
     ++clusters_count_;
 
@@ -273,16 +224,15 @@ class Graph {
    */
   bool add_to_cluster(ClusterId cluster_id, NodeId node_id)
   {
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       return false;
 
-    const auto cluster_iter = entities_map_.find(cluster_id);
-    if (cluster_iter == entities_map_.end() || !cluster_iter->second.is_cluster())
+    const auto cluster_iter = cluster_map_.find(cluster_id);
+    if (cluster_iter == cluster_map_.end())
       return false;
 
-    auto& node_item = node_iter->second.as_node();
-    node_item.cluster_id = cluster_id;
+    node_iter->second.cluster_id = cluster_id;
 
     return true;
   }
@@ -297,7 +247,7 @@ class Graph {
     const auto idx = matrix_.size();
 
     matrix_.add_rowcol(1, std::nullopt);
-    entities_map_[node_id] = NodeItem{idx};
+    node_map_[node_id] = NodeItem{idx};
 
     ++nodes_count_;
 
@@ -312,15 +262,15 @@ class Graph {
    */
   auto create_node_in(ClusterId cluster_id) -> std::optional<NodeId>
   {
-    const auto cluster_iter = entities_map_.find(cluster_id);
-    if (cluster_iter == entities_map_.end() || !cluster_iter->second.is_cluster())
+    const auto cluster_iter = cluster_map_.find(cluster_id);
+    if (cluster_iter == cluster_map_.end())
       return std::nullopt;
 
     auto node_id = registry_.create();
     const auto idx = matrix_.size();
 
     matrix_.add_rowcol(1, std::nullopt);
-    entities_map_[node_id] = NodeItem{idx, cluster_id};
+    node_map_[node_id] = NodeItem{idx, cluster_id};
 
     ++nodes_count_;
 
@@ -346,16 +296,16 @@ class Graph {
       if (node_a_id == node_b_id)
         return std::nullopt;
 
-    auto node_a_iter = entities_map_.find(node_a_id);
-    if (node_a_iter == entities_map_.end() || !node_a_iter->second.is_node())
+    auto node_a_iter = node_map_.find(node_a_id);
+    if (node_a_iter == node_map_.end())
       return std::nullopt;
 
-    auto node_b_iter = entities_map_.find(node_b_id);
-    if (node_b_iter == entities_map_.end() || !node_b_iter->second.is_node())
+    auto node_b_iter = node_map_.find(node_b_id);
+    if (node_b_iter == node_map_.end())
       return std::nullopt;
 
-    auto node_a_idx = node_a_iter->second.as_node().idx;
-    auto node_b_idx = node_b_iter->second.as_node().idx;
+    auto node_a_idx = node_a_iter->second.idx;
+    auto node_b_idx = node_b_iter->second.idx;
 
     if constexpr (is_undirected()) {
       // this must be ensured to be impossible in elsewhere.
@@ -375,7 +325,7 @@ class Graph {
 
     auto edge_id = registry_.create();
 
-    entities_map_[edge_id] = EdgeItem{
+    edge_map_[edge_id] = EdgeItem{
       node_a_idx,
       node_b_idx,
       node_a_id,
@@ -397,10 +347,10 @@ class Graph {
    */
   auto get_cluster_nodes(ClusterId cluster_id) const
   {
-    return entities_map_
+    return node_map_
       | ranges::views::filter(
           [cluster_id=cluster_id](const auto& pair) {
-            return pair.second.is_node() && pair.second.as_node().cluster_id == cluster_id;
+            return pair.second.cluster_id == cluster_id;
           }
         )
       | ranges::views::transform([](const auto& pair) { return pair.first; });
@@ -414,11 +364,11 @@ class Graph {
    */
   auto get_node_cluster(NodeId node_id) const -> std::optional<ClusterId>
   {
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       return std::nullopt;
 
-    return node_iter->second.as_node().cluster_id;
+    return node_iter->second.cluster_id;
   }
 
   /** retrieves given two nodes' edge.
@@ -437,16 +387,16 @@ class Graph {
       if (node_a_id == node_b_id)
         return std::nullopt;
 
-    auto node_a_iter = entities_map_.find(node_a_id);
-    if (node_a_iter == entities_map_.end() || !node_a_iter->second.is_node())
+    auto node_a_iter = node_map_.find(node_a_id);
+    if (node_a_iter == node_map_.end())
       return std::nullopt;
 
-    auto node_b_iter = entities_map_.find(node_b_id);
-    if (node_b_iter == entities_map_.end() || !node_b_iter->second.is_node())
+    auto node_b_iter = node_map_.find(node_b_id);
+    if (node_b_iter == node_map_.end())
       return std::nullopt;
 
-    auto node_a_idx = node_a_iter->second.as_node().idx;
-    auto node_b_idx = node_b_iter->second.as_node().idx;
+    auto node_a_idx = node_a_iter->second.idx;
+    auto node_b_idx = node_b_iter->second.idx;
 
     if constexpr (is_undirected()) {
       // this must be impossible by design.
@@ -469,12 +419,12 @@ class Graph {
   auto get_edge_nodes(EdgeId edge_id) const
     -> std::optional<std::pair<NodeId, NodeId>>
   {
-    auto edge_iter = entities_map_.find(edge_id);
-    if (edge_iter == entities_map_.end() || !edge_iter->second.is_edge())
+    auto edge_iter = edge_map_.find(edge_id);
+    if (edge_iter == edge_map_.end())
       return std::nullopt;
 
-    const auto node_a_id = edge_iter->second.as_edge().node_a_id;
-    const auto node_b_id = edge_iter->second.as_edge().node_b_id;
+    const auto node_a_id = edge_iter->second.node_a_id;
+    const auto node_b_id = edge_iter->second.node_b_id;
 
     // order (node_a_idx > node_a_idx) must be ensured by design.
     return std::pair<NodeId, NodeId>{ node_a_id, node_b_id };
@@ -487,17 +437,17 @@ class Graph {
    */
   bool remove_cluster(ClusterId cluster_id)
   {
-    for (auto& [entity_id, item] : entities_map_) {
-      if (item.is_node() && item.as_node().cluster_id)
-        item.as_node().cluster_id = std::nullopt;
-    }
-
-    auto cluster_iter = entities_map_.find(cluster_id);
-    if (cluster_iter == entities_map_.end() || !cluster_iter->second.is_cluster())
+    auto cluster_iter = cluster_map_.find(cluster_id);
+    if (cluster_iter == cluster_map_.end())
       return false;
 
+    for (auto& [entity_id, node] : node_map_) {
+      if (node.cluster_id)
+        node.cluster_id = std::nullopt;
+    }
+
     registry_.destroy(cluster_id);
-    entities_map_.erase(cluster_id);
+    cluster_map_.erase(cluster_id);
 
     --clusters_count_;
 
@@ -511,29 +461,24 @@ class Graph {
    */
   bool remove_node(NodeId node_id)
   {
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       return false;
 
-    const auto node_item = node_iter->second.as_node();
+    const auto node_item = node_iter->second;
 
     matrix_.pop_rowcol(node_item.idx);
 
-    for (auto iter = entities_map_.begin(); iter != entities_map_.end(); ) {
-      auto& [entity_id, item] = *iter;
+    for (auto& [entity_id, node] : node_map_)
+      if (node.idx > node_item.idx)
+        --node.idx;
 
-      if (item.is_node() && item.as_node().idx > node_item.idx)
-        --item.as_node().idx;
+    for (auto iter = edge_map_.begin(); iter != edge_map_.end(); ) {
+      auto& [entity_id, edge] = *iter;
 
-      if (item.is_edge() && item.as_edge().contains(node_id)) {
-        iter = entities_map_.erase(iter);
-
-        auto edge_item = item.as_edge();
-        auto& opt_edge_id = matrix_.at(edge_item.n, edge_item.m);
-
-        opt_edge_id.reset();
+      if (edge.contains(node_id)) {
+        iter = edge_map_.erase(iter);
         --edges_count_;
-
         continue;
       }
 
@@ -541,7 +486,7 @@ class Graph {
     }
 
     registry_.destroy(node_id);
-    entities_map_.erase(node_iter);
+    node_map_.erase(node_iter);
 
     --nodes_count_;
 
@@ -555,14 +500,14 @@ class Graph {
    */
   bool detach_clustered_node(NodeId node_id)
   {
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       return false;
 
-    if (!node_iter->second.as_node().cluster_id.has_value())
+    if (!node_iter->second.cluster_id.has_value())
       return false;
 
-    node_iter->second.as_node().cluster_id.reset();
+    node_iter->second.cluster_id.reset();
 
     return true;
   }
@@ -582,12 +527,12 @@ class Graph {
     if (!opt_edge_id)
       return false;
 
-    auto edge_item = entities_map_[*opt_edge_id];
+    auto edge_item = edge_map_[*opt_edge_id];
 
     matrix_.at(edge_item.n, edge_item.m).reset();
 
     registry_.destroy(*opt_edge_id);
-    entities_map_.erase(*opt_edge_id);
+    edge_map_.erase(*opt_edge_id);
 
     --edges_count_;
 
@@ -601,16 +546,16 @@ class Graph {
    */
   bool remove_edge(EdgeId edge_id)
   {
-    auto edge_iter = entities_map_.find(edge_id);
-    if (edge_iter == entities_map_.end() || !edge_iter->second.is_edge())
+    auto edge_iter = edge_map_.find(edge_id);
+    if (edge_iter == edge_map_.end())
       return false;
 
-    const auto edge_item = edge_iter->second.as_edge();
+    const auto edge_item = edge_iter->second;
 
     matrix_.at(edge_item.n, edge_item.m).reset();
 
     registry_.destroy(edge_id);
-    entities_map_.erase(edge_iter);
+    edge_map_.erase(edge_iter);
 
     --edges_count_;
 
@@ -628,11 +573,11 @@ class Graph {
   auto get_degree(NodeId node_id, EdgeDir dir = EdgeDir::inout) const
     -> std::optional<std::size_t>
   {
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       return std::nullopt;
 
-    std::size_t node_idx = node_iter->second.as_node().idx;
+    std::size_t node_idx = node_iter->second.idx;
 
     // undirected graph (all dir values are same here)
     if constexpr (is_undirected()) {
@@ -675,11 +620,11 @@ class Graph {
   {
     auto matrix_size = matrix_.size();
 
-    auto node_iter = entities_map_.find(node_id);
-    if (node_iter == entities_map_.end() || !node_iter->second.is_node())
+    auto node_iter = node_map_.find(node_id);
+    if (node_iter == node_map_.end())
       matrix_size = 0; // iota will be an empty range.
 
-    auto node_idx = node_iter->second.as_node().idx;
+    auto node_idx = node_iter->second.idx;
 
     return ranges::views::iota(0)
       | ranges::views::take(matrix_size)
@@ -721,13 +666,9 @@ class Graph {
    */
   auto nodes_view() const
   {
-    return entities_map_
-      | ranges::views::filter(
-          [](const auto& kvpair) { return kvpair.second.is_node(); }
-        )
-      | ranges::views::transform(
-          [](const auto& kvpair) { return kvpair.first; }
-        );
+    return node_map_ | ranges::views::transform(
+      [](const auto& kvpair) { return kvpair.first; }
+    );
   }
 
   /** view of all edges in graph.
@@ -736,13 +677,9 @@ class Graph {
    */
   auto edges_view() const
   {
-    return entities_map_
-      | ranges::views::filter(
-          [](const auto& kvpair) { return kvpair.second.is_edge(); }
-        )
-      | ranges::views::transform(
-          [](const auto& kvpair) { return kvpair.first; }
-        );
+    return edge_map_ | ranges::views::transform(
+      [](const auto& kvpair) { return kvpair.first; }
+    );
   }
 
   /** view of all clusters in graph.
@@ -751,13 +688,9 @@ class Graph {
    */
   auto clusters_view() const
   {
-    return entities_map_
-      | ranges::views::filter(
-          [](const auto& kvpair) { return kvpair.second.is_cluster(); }
-        )
-      | ranges::views::transform(
-          [](const auto& kvpair) { return kvpair.first; }
-        );
+    return cluster_map_ | ranges::views::transform(
+      [](const auto& kvpair) { return kvpair.first; }
+    );
   }
 
   std::size_t node_count()    const noexcept { return nodes_count_;    }
