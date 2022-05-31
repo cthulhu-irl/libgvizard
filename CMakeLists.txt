@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.8)
 
 project(libgvizard CXX)
 
-set(CMAKE_CXX_STANDARD, 17)
+set(CMAKE_CXX_STANDARD 17)
 
 include("cmake/setup_vcpkg.cmake")
 
-option(LIBGVIZARD_OPT_GENERATE_DOCS "Generate documentation"  FALSE)
+option(LIBGVIZARD_OPT_GENERATE_DOCS "Generate documentation" FALSE)
 option(LIBGVIZARD_OPT_BUILD_TEST "Build and perform tests" TRUE)
 option(LIBGVIZARD_OPT_INSTALL "Generate and install libgvizard target" TRUE)
 
@@ -17,6 +17,8 @@ set(LIBGVIZARD_PUBLIC_HEADER_DIR "${PROJECT_SOURCE_DIR}/include/")
 
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} INTERFACE
