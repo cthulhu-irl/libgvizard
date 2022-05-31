@@ -1,11 +1,15 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <gvizard/attrtypes/addible.hpp>
 #include <gvizard/attrtypes/escstring.hpp>
+#include <gvizard/attrtypes/packmode.hpp>
 
 using gviz::attrtypes::AddDouble;
 using gviz::attrtypes::EscNameSetRef;
 using gviz::attrtypes::EscString;
+using gviz::attrtypes::PackMode;
+using gviz::attrtypes::PackModeEnum;
+using gviz::attrtypes::PackModeArrayFlag;
 
 TEST_CASE("[attrtypes::AddDouble]")
 {
@@ -65,5 +69,18 @@ TEST_CASE("[attrtypes::EscString]")
 
 TEST_CASE("[attrtypes::PackMode]")
 {
-  //
+  [[maybe_unused]] PackMode a{};
+  [[maybe_unused]] PackMode b = {};
+  [[maybe_unused]] PackMode c =
+    { PackModeEnum::array, PackModeArrayFlag::bottom, 42 };
+
+  PackMode p = PackModeEnum::graph;
+
+  p.number = 12;
+
+  REQUIRE(p.normalized().number == 0);
+  REQUIRE(p.number == 12);
+
+  REQUIRE(p.normalize().number == 0);
+  REQUIRE(p.number == 0);
 }
