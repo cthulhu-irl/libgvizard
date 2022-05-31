@@ -1,11 +1,12 @@
+#include <string_view>
+
+#include <catch2/catch_all.hpp>
+
+#include "gvizard/colors/color.hpp"
+#include "gvizard/colors/converter.hpp"
+#include "gvizard/utils.hpp"
 #include "gvizard/colors/rgb.hpp"
 #include "gvizard/colors/x11.hpp"
-#include <string_view>
-#include <catch2/catch.hpp>
-
-#include <gvizard/colors/color.hpp>
-#include <gvizard/colors/converter.hpp>
-#include <gvizard/utils.hpp>
 
 namespace c = gviz::colors;
 using gviz::utils::Converter;

@@ -1,7 +1,7 @@
 #include <memory>
 #include <optional>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <gvizard/utils.hpp>
 

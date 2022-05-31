@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <gvizard/graph/dynamic_square_matrix.hpp>
 #include <gvizard/graph/dynamic_half_square_matrix.hpp>
