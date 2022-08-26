@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.8)
 
+include("cmake/setup_vcpkg.cmake")
+
 project(libgvizard CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-
-include("cmake/setup_vcpkg.cmake")
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(LIBGVIZARD_OPT_GENERATE_DOCS "Generate documentation" FALSE)
 option(LIBGVIZARD_OPT_BUILD_TEST "Build and perform tests" TRUE)

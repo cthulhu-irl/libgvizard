@@ -29,7 +29,7 @@ enum class EntityTypeEnum : unsigned int { unknown = 0, node, edge, cluster };
 enum class GraphDir : unsigned int { undirected = 0, directed = 1 };
 enum class EdgeDir  : unsigned int { in = 1, out = 2, inout = 3 };
 
-/** an adjancency-matrix implementation of graph using registry for
+/** an adjacency-matrix implementation of graph using registry for
  * id generation and attribute management, with support of clustering nodes.
  *
  * node, edge, and cluster are called entity.
@@ -43,7 +43,7 @@ enum class EdgeDir  : unsigned int { in = 1, out = 2, inout = 3 };
  */
 template <typename Registry,
           GraphDir DirV = GraphDir::undirected,
-          template <typename, typename> typename MapT = std::unordered_map>
+          template <typename ...> typename MapT = std::unordered_map>
 class Graph {
  public:
   using entity_type = typename Registry::entity_type;

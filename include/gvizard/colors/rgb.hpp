@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <optional>
 
+#undef RGB  // windows-specific
+
 namespace gviz::colors {
 
 struct RGB {
