@@ -51,7 +51,7 @@ TEST_CASE("[registry::EnTTRegistry]")
 
   REQUIRE_FALSE(registry.get<float>(a));
   REQUIRE_FALSE(registry.get<Name>(b));
-  REQUIRE_FALSE(registry.update<Name>(b, [](auto&) { return ""; }));
+  REQUIRE_FALSE(registry.update<Name>(b, [](const auto&) { return ""; }));
   REQUIRE_FALSE(registry.remove<Name>(b));
 
   registry.destroy(b);
@@ -67,7 +67,7 @@ TEST_CASE("[registry::RegistryEntityProxy]")
   RegistryEntityProxy<EnTTRegistry> entity(registry, entity_id);
 
   auto e_name = entity.set<Name>("entity");
-  auto e_num  = entity.set<std::size_t>(42);
+  auto e_num  = entity.set<std::size_t>(std::size_t(42));
 
   REQUIRE(e_name);
   REQUIRE_FALSE(entity.get<float>());
@@ -84,7 +84,7 @@ TEST_CASE("[registry::RegistryEntityProxy]")
   REQUIRE(entity.remove<Name>());
 
   REQUIRE_FALSE(entity.get<Name>());
-  REQUIRE_FALSE(entity.update<Name>([](auto&) {}));
+  REQUIRE_FALSE(entity.update<Name>([](const auto&) {}));
   REQUIRE_FALSE(entity.remove<Name>());
 }
 
