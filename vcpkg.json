@@ -1,0 +1,10 @@
+{
+    "name": "libgvizard",
+    "version-string": "0.1.0",
+    "dependencies": [
+        "entt",
+        "range-v3",
+        "magic-enum",
+        "catch2"
+    ]
+}
